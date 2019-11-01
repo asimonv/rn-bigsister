@@ -62,6 +62,14 @@ PODS:
     - React-jsi (= 0.61.3)
     - React-jsiexecutor (= 0.61.3)
     - Yoga
+  - React-Core/CoreModulesHeaders (0.61.3):
+    - Folly (= 2018.10.22.00)
+    - glog
+    - React-Core/Default
+    - React-cxxreact (= 0.61.3)
+    - React-jsi (= 0.61.3)
+    - React-jsiexecutor (= 0.61.3)
+    - Yoga
   - React-Core/Default (0.61.3):
     - Folly (= 2018.10.22.00)
     - glog
@@ -159,6 +167,13 @@ PODS:
     - React-jsi (= 0.61.3)
     - React-jsiexecutor (= 0.61.3)
     - Yoga
+  - React-CoreModules (0.61.3):
+    - FBReactNativeSpec (= 0.61.3)
+    - Folly (= 2018.10.22.00)
+    - RCTTypeSafety (= 0.61.3)
+    - React-Core/CoreModulesHeaders (= 0.61.3)
+    - React-RCTImage (= 0.61.3)
+    - ReactCommon/turbomodule/core (= 0.61.3)
   - React-cxxreact (0.61.3):
     - boost-for-react-native (= 1.63.0)
     - DoubleConversion
@@ -255,6 +270,7 @@ DEPENDENCIES:
   - React-Core (from `../node_modules/react-native/`)
   - React-Core/DevSupport (from `../node_modules/react-native/`)
   - React-Core/RCTWebSocket (from `../node_modules/react-native/`)
+  - React-CoreModules (from `../node_modules/react-native/React/CoreModules`)
   - React-cxxreact (from `../node_modules/react-native/ReactCommon/cxxreact`)
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
@@ -308,6 +324,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/"
   React-Core:
     :path: "../node_modules/react-native/"
+  React-CoreModules:
+    :path: "../node_modules/react-native/React/CoreModules"
   React-cxxreact:
     :path: "../node_modules/react-native/ReactCommon/cxxreact"
   React-jsi:
@@ -364,6 +382,7 @@ SPEC CHECKSUMS:
   RCTTypeSafety: e3cc0537400222250f0be37bd69f4b339d3c0a0f
   React: 3dc877fc32548b0c7108ca7f301466f4956cbff8
   React-Core: ca94e2e7d22cdcc266a405c4d2ad5e5675145776
+  React-CoreModules: aa415458b5d7dacd10ac1b324d679f6e17cd8685
   React-cxxreact: bac5da3d62ee98abd3c1bf7338a7cc6205da7f69
   React-jsi: 8bcf5836caa8a759c135ab9ef97f3e023a7b94af
   React-jsiexecutor: ae078e9df9c65bcdcf68f9a17656657932d95528
@@ -384,6 +403,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: 02036f6383c0008edb7ef0773a0e6beb6ce82bd1
 
-PODFILE CHECKSUM: 0e9af5cf62a758b2cd9699b3f00ea4aff692fb2d
+PODFILE CHECKSUM: 50b67e31157b21b9d509898b3c61b165fd724091
 
 COCOAPODS: 1.7.5
