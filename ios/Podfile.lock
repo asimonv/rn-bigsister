@@ -293,7 +293,7 @@ DEPENDENCIES:
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - boost-for-react-native
     - FBSDKCoreKit
     - FBSDKLoginKit
@@ -405,4 +405,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 50b67e31157b21b9d509898b3c61b165fd724091
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.8.4

@@ -4,19 +4,21 @@ import { encode as btoa } from 'base-64';
 import SpotifyWebAPI from 'spotify-web-api-js';
 import jsonRequest from './jsonRequest';
 
-const ROOT_URL = 'http://localhost:3000';
+const ROOT_URL = 'https://little-sister.herokuapp.com';
 
 const getValidSPObj = async () => {
   const tokenExpirationTime = await AsyncStorage.getItem(
     '@LittleStore:expirationTime',
   );
-  if (new Date().getTime() > tokenExpirationTime) {
-    // access token has expired, so we need to use the refresh token
+  if (!tokenExpirationTime || new Date().getTime() > tokenExpirationTime) {
+    console.log(
+      'access token has expired, so we need to use the refresh token',
+    );
     await getAuthorizationCode();
     await refreshTokens();
   }
   const accessToken = await AsyncStorage.getItem('@LittleStore:accessToken');
-  var sp = new SpotifyWebAPI();
+  const sp = new SpotifyWebAPI();
   await sp.setAccessToken(accessToken);
   return sp;
 };
@@ -109,7 +111,10 @@ const getTokens = async () => {
     const expirationTime = new Date().getTime() + expiresIn * 1000;
     await AsyncStorage.setItem('@LittleStore:accessToken', accessToken);
     await AsyncStorage.setItem('@LittleStore:freshToken', refreshToken);
-    await AsyncStorage.setItem('@LittleStore:expirationTime', expirationTime);
+    await AsyncStorage.setItem(
+      '@LittleStore:expirationTime',
+      expirationTime.toString(),
+    );
   } catch (err) {
     console.error(err);
   }
