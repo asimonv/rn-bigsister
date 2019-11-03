@@ -1,4 +1,4 @@
-package com.rnbigsister;
+package com.andre.rnbigsister;
 
 import android.app.Application;
 import android.util.Log;

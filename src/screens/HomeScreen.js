@@ -159,6 +159,8 @@ class HomeScreen extends Component {
 
     if (!(await isSpotifyTokenExpired())) {
       options.push("Spotify");
+    } else {
+      console.log("not expired yet");
     }
 
     options.push("Cancel");
