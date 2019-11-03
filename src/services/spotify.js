@@ -14,9 +14,9 @@ export const isSpotifyTokenExpired = async () => {
 };
 
 export const clearSpotifyToken = async () => {
-  await AsyncStorage.setItem("@LittleStore:expirationTime", "");
-  await AsyncStorage.setItem("@LittleStore:accessToken", "");
-  await AsyncStorage.setItem("@LittleStore:freshToken", "");
+  await AsyncStorage.removeItem("@LittleStore:expirationTime");
+  await AsyncStorage.removeItem("@LittleStore:accessToken");
+  await AsyncStorage.removeItem("@LittleStore:freshToken");
 };
 
 const getValidSPObj = async () => {
