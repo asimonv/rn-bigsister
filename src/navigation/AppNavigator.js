@@ -1,14 +1,14 @@
-import React from 'react';
-import { createAppContainer, createSwitchNavigator } from 'react-navigation';
-import { FluidNavigator } from 'react-navigation-fluid-transitions';
+import React from "react";
+import { createAppContainer, createSwitchNavigator } from "react-navigation";
+import { FluidNavigator } from "react-navigation-fluid-transitions";
 
-import AuthLoadingScreen from '../screens/AuthLoadingScreen';
-import MainTabNavigator from './MainTabNavigator';
-import LandingScreen from '../screens/LandingScreen';
+import AuthLoadingScreen from "../screens/AuthLoadingScreen";
+import MainTabNavigator from "./MainTabNavigator";
+import LandingScreen from "../screens/LandingScreen";
 
 const LandingStack = FluidNavigator({ LandingScreen });
 
-const prefix = 'bigsister://';
+const prefix = "littlesister://";
 
 const AppContainer = createAppContainer(
   createSwitchNavigator(
@@ -20,7 +20,7 @@ const AppContainer = createAppContainer(
       Landing: LandingStack,
     },
     {
-      initialRouteName: 'AuthLoading',
+      initialRouteName: "AuthLoading",
     },
   ),
 );

@@ -128,10 +128,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.rnbigsister"
+        applicationId "com.andre.rnbigsister"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
+        versionCode 6
         versionName "1.0"
     }
     splits {

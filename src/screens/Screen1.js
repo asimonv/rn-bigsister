@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Alert,
   FlatList,
@@ -8,17 +8,17 @@ import {
   StyleSheet,
   Text,
   View,
-} from 'react-native';
-import { Transition } from 'react-navigation-fluid-transitions';
-import { createPlaylist, addTracksToPlaylist } from '../services/spotify';
-import NavBar from '../components/NavBar';
-import NavButton from '../components/NavButton';
-import ListItem from '../components/ListItem';
-import ListSeparator from '../components/ListSeparator';
+} from "react-native";
+import { Transition } from "react-navigation-fluid-transitions";
+import { createPlaylist, addTracksToPlaylist } from "../services/spotify";
+import NavBar from "../components/NavBar";
+import NavButton from "../components/NavButton";
+import ListItem from "../components/ListItem";
+import ListSeparator from "../components/ListSeparator";
 
 const handleRecommendationOnPress = item => {
   const { uri } = item;
-  const splittedURI = uri.split(':');
+  const splittedURI = uri.split(":");
   const correctedURI = `https://open.spotify.com/${splittedURI[1]}/${
     splittedURI[2]
   }`;
@@ -27,14 +27,14 @@ const handleRecommendationOnPress = item => {
     .then(supported => {
       if (!supported) {
         Alert.alert(
-          'Oops',
+          "Oops",
           `Can't handle url: ${correctedURI}. Please install Spotify.`,
         );
       } else {
         return Linking.openURL(correctedURI);
       }
     })
-    .catch(err => console.error('An error occurred', err));
+    .catch(err => console.error("An error occurred", err));
 };
 
 const renderItem = item => (
@@ -43,10 +43,10 @@ const renderItem = item => (
 
 const Screen1 = props => {
   const { navigation } = props;
-  const filters = navigation.getParam('filters');
-  const title = navigation.getParam('title');
-  const subtitle = navigation.getParam('subtitle');
-  const data = navigation.getParam('recommendations');
+  const filters = navigation.getParam("filters");
+  const title = navigation.getParam("title");
+  const subtitle = navigation.getParam("subtitle");
+  const data = navigation.getParam("recommendations");
   const recommendations = data.tracks.map(recommendation => ({
     key: recommendation.id,
     title: recommendation.name,
@@ -65,7 +65,7 @@ const Screen1 = props => {
       const res = await createPlaylist(params);
       const uris = data.tracks.map(recommendation => recommendation.uri);
       await addTracksToPlaylist({ playlistId: res.id, uris, params });
-      Alert.alert('Playlist created! Go to Spotify to check it.');
+      Alert.alert("Playlist created! Go to Spotify to check it.");
     } catch (e) {
       Alert.alert(e);
     }
@@ -73,22 +73,22 @@ const Screen1 = props => {
 
   return (
     <View style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 0, backgroundColor: '#1db954' }} />
+      <SafeAreaView style={{ flex: 0, backgroundColor: "#1db954" }} />
       <SafeAreaView style={styles.container}>
         <ScrollView
           bounces={false}
-          style={{ flex: 1, backgroundColor: '#1db954' }}
+          style={{ flex: 1, backgroundColor: "#1db954" }}
           contentContainerStyle={{ flex: 1 }}
         >
           <View style={styles.headerWrapper}>
             <NavBar style={{ marginVertical: 10, marginHorizontal: 20 }}>
               <NavButton
-                style={{ color: '#1db954' }}
+                style={{ color: "#1db954" }}
                 name="arrow-round-back"
                 onPress={() => navigation.goBack()}
               />
               <NavButton
-                style={{ color: '#1db954' }}
+                style={{ color: "#1db954" }}
                 name="add-circle-outline"
                 onPress={() => _handleCreatePlaylist()}
               />
@@ -113,15 +113,15 @@ const Screen1 = props => {
 
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    overflow: 'hidden',
+    overflow: "hidden",
     flex: 1,
     paddingTop: 10,
     shadowOpacity: 0.55,
     shadowRadius: 5,
-    shadowColor: '#2e3131',
+    shadowColor: "#2e3131",
     shadowOffset: { height: 0, width: 0 },
   },
   scrollContainer: {
@@ -129,27 +129,27 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   headerWrapper: {
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
-    position: 'absolute',
-    textAlign: 'center',
-    color: 'white',
+    position: "absolute",
+    textAlign: "center",
+    color: "white",
     left: 0,
     right: 0,
     zIndex: -1,
   },
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: 'white',
+    justifyContent: "flex-start",
+    backgroundColor: "white",
   },
 });
 

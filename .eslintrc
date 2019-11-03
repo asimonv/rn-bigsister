@@ -8,14 +8,6 @@
     "no-use-before-define": ["error", { "variables": false }],
     "no-underscore-dangle": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "es5",
-        "singleQuote": true,
-        "printWidth": 100
-      }
-    ],
     "jsx-a11y/accessible-emoji": "off"
   },
   "plugins": ["prettier"]

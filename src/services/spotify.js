@@ -6,11 +6,21 @@ import jsonRequest from "./jsonRequest";
 
 const ROOT_URL = "https://little-sister.herokuapp.com";
 
-const getValidSPObj = async () => {
+export const isSpotifyTokenExpired = async () => {
   const tokenExpirationTime = await AsyncStorage.getItem(
     "@LittleStore:expirationTime",
   );
-  if (!tokenExpirationTime || new Date().getTime() > tokenExpirationTime) {
+  return !tokenExpirationTime || new Date().getTime() > tokenExpirationTime;
+};
+
+export const clearSpotifyToken = async () => {
+  await AsyncStorage.setItem("@LittleStore:expirationTime", "");
+  await AsyncStorage.setItem("@LittleStore:accessToken", "");
+  await AsyncStorage.setItem("@LittleStore:freshToken", "");
+};
+
+const getValidSPObj = async () => {
+  if (await isSpotifyTokenExpired()) {
     console.log(
       "access token has expired, so we need to use the refresh token",
     );
@@ -66,15 +76,12 @@ const scopes = scopesArr.join(" ");
 
 export const getAuthorizationCode = async () => {
   try {
-    const credentials = await getSpotifyCredentials(); //we wrote this function above
+    const credentials = await getSpotifyCredentials();
+    const { clientId, redirectURI } = credentials;
     Linking.openURL(
-      "https://accounts.spotify.com/authorize" +
-        "?response_type=code" +
-        "&client_id=" +
-        credentials.clientId +
-        (scopes ? "&scope=" + encodeURIComponent(scopes) : "") +
-        "&redirect_uri=" +
-        encodeURIComponent(credentials.redirectURI),
+      `https://accounts.spotify.com/authorize?response_type=code&client_id=${clientId}${
+        scopes ? `&scope=${encodeURIComponent(scopes)}` : ""
+      }&redirect_uri=${encodeURIComponent(redirectURI)}`,
     );
   } catch (err) {
     console.error(err);

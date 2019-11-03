@@ -18,6 +18,7 @@ import {
   handleFacebookLogin,
   logoutUser,
 } from "../services/facebook";
+import { isSpotifyTokenExpired, clearSpotifyToken } from "../services/spotify";
 import MessageBubble from "../components/MessageBubble";
 import NavButton from "../components/NavButton";
 import NavBar from "../components/NavBar";
@@ -53,6 +54,7 @@ class HomeScreen extends Component {
 
   componentWillUnmount() {
     // Remove event listener
+    console.log("componentWillUnmount");
     Linking.removeEventListener("url", this.handleOpenURL);
   }
 
@@ -112,7 +114,6 @@ class HomeScreen extends Component {
           navigate("TextScreen");
         } else if (buttonIndex === 1) {
           if (await isUserLoggedIn()) {
-            console.log("fb logged in");
             navigate("TextScreen", { context: "fb" });
           } else {
             try {
@@ -156,9 +157,9 @@ class HomeScreen extends Component {
       options.push("Twitter");
     }
 
-    /* if (spotifyLoggedIn) {
-      options.push('Spotify');
-    } */
+    if (!(await isSpotifyTokenExpired())) {
+      options.push("Spotify");
+    }
 
     options.push("Cancel");
 
@@ -188,7 +189,7 @@ class HomeScreen extends Component {
             await AsyncStorage.removeItem("@LittleStore:twitterId");
             break;
           case "Spotify":
-            //  await Spotify.logout();
+            await clearSpotifyToken();
             break;
           default:
             break;
