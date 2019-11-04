@@ -6,6 +6,7 @@
   "scripts": {
     "ios": "react-native run-ios --simulator='iPhone 11'",
     "android": "react-native run-android --deviceId ZY2243VVVR",
+    "android-emulator": "react-native run-android --deviceId emulator-5554",
     "test": "jest"
   },
   "license": "MIT",
