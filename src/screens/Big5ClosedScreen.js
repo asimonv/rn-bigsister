@@ -170,7 +170,7 @@ const Big5ClosedScreen = ({ navigation }) => {
                 style={{ color: "blue" }}
                 onPress={() =>
                   Linking.openURL(
-                    "https://miro.medium.com/max/2136/0*mhfDJ1CrrNcZhghH.png"
+                    "https://developer.spotify.com/documentation/general/guides/authorization-guide/"
                   )
                 }
               >
