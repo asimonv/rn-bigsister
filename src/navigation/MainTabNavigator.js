@@ -10,14 +10,17 @@ import AnalyzedDataScreen from "../screens/AnalyzedDataScreen";
 import CompareStatsScreen from "../screens/CompareStatsScreen";
 
 const HomeStack = FluidNavigator({
-  Home: { screen: HomeScreen, path: "home/:user" },
-  screen1: { screen: Screen1, path: "results/:spotify_auth_code" },
+  Home: { screen: HomeScreen, path: "home" },
+  screen1: { screen: Screen1 },
   InfoScreen: { screen: InfoScreen },
   TextScreen: { screen: TextScreen },
-  Big5ClosedScreen: { screen: Big5ClosedScreen },
+  Big5ClosedScreen: {
+    screen: Big5ClosedScreen,
+    path: "results"
+  },
   HistoryScreen: { screen: HistoryScreen },
   AnalyzedDataScreen: { screen: AnalyzedDataScreen },
-  CompareStatsScreen: { screen: CompareStatsScreen },
+  CompareStatsScreen: { screen: CompareStatsScreen }
 });
 
 export default HomeStack;

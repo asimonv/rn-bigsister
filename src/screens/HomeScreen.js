@@ -5,7 +5,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
+  TouchableOpacity
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -16,7 +16,7 @@ import LottieView from "lottie-react-native";
 import {
   isUserLoggedIn,
   handleFacebookLogin,
-  logoutUser,
+  logoutUser
 } from "../services/facebook";
 import { isSpotifyTokenExpired, clearSpotifyToken } from "../services/spotify";
 import MessageBubble from "../components/MessageBubble";
@@ -30,7 +30,7 @@ const serverURL = "https://little-sister.herokuapp.com";
 class HomeScreen extends Component {
   static navigationOptions = {
     headerTransparent: true,
-    title: "Discover",
+    title: "Discover"
   };
 
   constructor(props) {
@@ -67,7 +67,7 @@ class HomeScreen extends Component {
         const [, user] = checkTwitter;
         await AsyncStorage.setItem("@LittleStore:twitterId", user);
         const {
-          navigation: { navigate },
+          navigation: { navigate }
         } = this.props;
         navigate("TextScreen", { context: "tw" });
       }
@@ -76,7 +76,7 @@ class HomeScreen extends Component {
         const [, spotify_auth_code] = checkSpotify;
         await AsyncStorage.setItem(
           "@LittleStore:spotify_auth_code",
-          spotify_auth_code,
+          spotify_auth_code
         );
       }
     }
@@ -93,12 +93,12 @@ class HomeScreen extends Component {
       "My opinion on a subject",
       "My Facebook",
       "My Twitter",
-      "Cancel",
+      "Cancel"
     ];
     const cancelButtonIndex = 3;
     const {
       showActionSheetWithOptions,
-      navigation: { navigate },
+      navigation: { navigate }
     } = this.props;
 
     showActionSheetWithOptions(
@@ -106,7 +106,7 @@ class HomeScreen extends Component {
         options,
         cancelButtonIndex,
         title:
-          "Please give me a source of information to analyze and describe your identity",
+          "Please give me a source of information to analyze and describe your identity"
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
@@ -130,13 +130,13 @@ class HomeScreen extends Component {
             navigate("TextScreen", { context: "tw" });
           }
         }
-      },
+      }
     );
   };
 
   _showHistory = () => {
     const {
-      navigation: { navigate },
+      navigation: { navigate }
     } = this.props;
     navigate("HistoryScreen");
   };
@@ -144,7 +144,7 @@ class HomeScreen extends Component {
   _handleLogout = async () => {
     const facebookLoggedIn = await isUserLoggedIn();
     const twitterLoggedIn = await AsyncStorage.getItem(
-      "@LittleStore:twitterId",
+      "@LittleStore:twitterId"
     );
     //  const spotifyLoggedIn = await Spotify.isLoggedInAsync();
     const options = [];
@@ -169,7 +169,7 @@ class HomeScreen extends Component {
     const cancelButtonIndex = options.length - 1;
     const {
       showActionSheetWithOptions,
-      navigation: { navigate },
+      navigation: { navigate }
     } = this.props;
 
     showActionSheetWithOptions(
@@ -178,7 +178,7 @@ class HomeScreen extends Component {
         cancelButtonIndex,
         title:
           "These are the accounts that you have given your permission for them to acceess your personal data",
-        message: "Please choose one to log it out",
+        message: "Please choose one to log it out"
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
@@ -196,7 +196,7 @@ class HomeScreen extends Component {
           default:
             break;
         }
-      },
+      }
     );
   };
 
@@ -259,15 +259,15 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     alignItems: "center",
     justifyContent: "center",
-    zIndex: -1,
+    zIndex: -1
   },
   tapEyeText: {
     fontSize: 18,
     fontWeight: "600",
     color: viewTint,
     textAlign: "center",
-    padding: 5,
-  },
+    padding: 5
+  }
 });
 
 export default connectActionSheet(HomeScreen);

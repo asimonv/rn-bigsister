@@ -1,60 +1,67 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
-  View,
-} from 'react-native';
-import PropTypes from 'prop-types';
-import { getUserRecommendations } from '../services/spotify';
-import NavButton from '../components/NavButton';
-import NavBar from '../components/NavBar';
-import Bar from '../components/Bar';
-import Button from '../components/Button';
-import ButtonText from '../components/ButtonText';
-import BubbleText from '../components/BubbleText';
-import GetSpotifyRecommendations from '../components/GetSpotifyRecommendations';
-import personalityInfo from '../data/personality';
+  View
+} from "react-native";
+import PropTypes from "prop-types";
+import { getUserRecommendations } from "../services/spotify";
+import NavButton from "../components/NavButton";
+import NavBar from "../components/NavBar";
+import Bar from "../components/Bar";
+import Button from "../components/Button";
+import ButtonText from "../components/ButtonText";
+import BubbleText from "../components/BubbleText";
+import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
+import personalityInfo from "../data/personality";
 
 const consumptionPreferencesText =
-  'I filtered items from the next categories with score > 0.5 and < 0.5, which means that you were likely or unlikely to prefer it';
+  "I filtered items from the next categories with score > 0.5 and < 0.5, which means that you were likely or unlikely to prefer it";
 
 const Big5ClosedScreen = ({ navigation }) => {
+  const { getParam } = navigation;
   const [status, setStatus] = useState(false); // ñaaaau first hook
-  const info = navigation.getParam('info');
-  const content = navigation.getParam('content');
-  const filters = navigation.getParam('filters');
-  const title = navigation.getParam('title');
-  const subtitle = navigation.getParam('subtitle');
+  const info = getParam("info");
+  const content = getParam("content");
+  const filters = getParam("filters");
+  const title = getParam("title");
+  const subtitle = getParam("subtitle");
+  const context = getParam("source");
+  const text = getParam("text");
   const { personality, consumption_preferences } = info;
-  const context = navigation.getParam('source');
-  const text = navigation.getParam('text');
   const sortedPersonalities = personality.sort(
-    (a, b) => a.percentile > b.percentile,
+    (a, b) => a.percentile > b.percentile
   );
   const _toggleInfo = () => {
     setStatus(!status);
   };
-
   useEffect(() => {
-    StatusBar.setBarStyle('dark-content', true);
+    StatusBar.setBarStyle("dark-content", true);
     return () => {
-      StatusBar.setBarStyle('light-content', true);
+      StatusBar.setBarStyle("light-content", true);
     };
   }, []);
 
   const _goToData = () => {
     const { navigate } = navigation;
-    navigate('AnalyzedDataScreen', { content: [...content.data], context });
+    navigate("AnalyzedDataScreen", { content: [...content.data], context });
+  };
+
+  const _onPressHome = () => {
+    const { navigate } = navigation;
+    navigate("Home");
   };
 
   const _onPressSpotify = async () => {
     const { navigate } = navigation;
     const limit = 50;
     const recommendations = await getUserRecommendations({ ...filters, limit });
-    navigate('screen1', { recommendations, info, filters, title, subtitle });
+    if (recommendations) {
+      navigate("screen1", { recommendations, info, filters, title, subtitle });
+    }
   };
 
   return (
@@ -66,7 +73,7 @@ const Big5ClosedScreen = ({ navigation }) => {
         />
         <Text style={styles.title}>Results</Text>
         <NavButton
-          name={status ? 'information-circle' : 'information-circle-outline'}
+          name={status ? "information-circle" : "information-circle-outline"}
           onPress={_toggleInfo}
         />
       </NavBar>
@@ -78,7 +85,7 @@ const Big5ClosedScreen = ({ navigation }) => {
         )}
 
         <BubbleText title="Personality" />
-        {status && context === 'text' && (
+        {status && context === "text" && (
           <View>
             <Text style={styles.additionalInfo}>
               Your Personality was analyzed based on this text that you entered:
@@ -91,28 +98,28 @@ const Big5ClosedScreen = ({ navigation }) => {
             <View style={{ flex: 1, marginVertical: 15 }} key={p.trait_id}>
               <View
                 style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between"
                 }}
               >
-                <Text style={{ maxWidth: '30%' }}>
+                <Text style={{ maxWidth: "30%" }}>
                   {personalityInfo[p.trait_id].leftIntervalText}
                 </Text>
-                <Text style={{ maxWidth: '30%' }}>
+                <Text style={{ maxWidth: "30%" }}>
                   {personalityInfo[p.trait_id].rightIntervalText}
                 </Text>
               </View>
               <Bar
                 style={{
                   marginVertical: 10,
-                  backgroundColor: personalityInfo[p.trait_id].color,
+                  backgroundColor: personalityInfo[p.trait_id].color
                 }}
                 key={p.name}
                 title={p.name}
                 percentage={p.percentile}
               >
-                <Text style={{ padding: 5, color: 'white' }}>
+                <Text style={{ padding: 5, color: "white" }}>
                   {`${p.name} (${parseInt(p.percentile * 100, 10)}%)`}
                 </Text>
               </Bar>
@@ -135,7 +142,7 @@ const Big5ClosedScreen = ({ navigation }) => {
           )}
           {consumption_preferences.map(cp => {
             const filteredConsumptions = cp.consumption_preferences.filter(
-              pref => pref.score !== 0.5,
+              pref => pref.score !== 0.5
             );
             return filteredConsumptions.length ? (
               <View key={cp.consumption_preference_category_id}>
@@ -152,7 +159,13 @@ const Big5ClosedScreen = ({ navigation }) => {
             ) : null;
           })}
         </View>
-        <GetSpotifyRecommendations onPress={_onPressSpotify} />
+        <View>
+          <BubbleText title="Spotify" />
+          <GetSpotifyRecommendations onPress={_onPressSpotify} />
+        </View>
+        <Button onPress={_onPressHome} style={{ marginVertical: 20 }}>
+          <ButtonText>Go Home</ButtonText>
+        </Button>
       </ScrollView>
     </SafeAreaView>
   );
@@ -160,40 +173,40 @@ const Big5ClosedScreen = ({ navigation }) => {
 
 Big5ClosedScreen.propTypes = {
   navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
+    navigate: PropTypes.func.isRequired
+  }).isRequired
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white"
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
-    position: 'absolute',
-    textAlign: 'center',
+    position: "absolute",
+    textAlign: "center",
     left: 0,
     right: 0,
-    zIndex: -1,
+    zIndex: -1
   },
   goBackButton: {
     fontSize: 18,
-    fontWeight: '600',
-    color: 'rebeccapurple',
-    textAlign: 'center',
-    padding: 5,
+    fontWeight: "600",
+    color: "rebeccapurple",
+    textAlign: "center",
+    padding: 5
   },
   additionalInfo: {
-    backgroundColor: 'yellow',
+    backgroundColor: "yellow",
     marginVertical: 5,
     padding: 10,
     borderRadius: 5,
-    overflow: 'hidden',
+    overflow: "hidden",
     borderWidth: 1,
-    borderColor: '#ecf0f1',
-  },
+    borderColor: "#ecf0f1"
+  }
 });
 
 export default Big5ClosedScreen;

@@ -1,12 +1,9 @@
-import React from 'react';
-import { View } from 'react-native';
-import styled from 'styled-components/native';
-import LottieView from 'lottie-react-native';
-import Button from '../components/Button';
-import ButtonText from '../components/ButtonText';
-import MessageBubble from '../components/MessageBubble';
-import BubbleText from '../components/BubbleText';
-import PropTypes from 'prop-types';
+import React from "react";
+import { Text } from "react-native";
+import styled from "styled-components/native";
+import PropTypes from "prop-types";
+import Button from "./Button";
+import ButtonText from "./ButtonText";
 
 const GetSpotifyRecommendationsContainer = styled.View`
   margin: 10px 0px;
@@ -19,17 +16,8 @@ const spotifyMessage =
 const GetSpotifyRecommendations = ({ onPress }) => {
   return (
     <GetSpotifyRecommendationsContainer>
-      <View style={{ width: '100%', height: 100 }}>
-        <LottieView
-          source={require('../assets/animations/4031-voice-recognition.json')}
-          autoPlay
-          loop
-          style={{ flex: 1 }}
-        />
-      </View>
-      <MessageBubble style={{ marginBottom: 20 }}>
-        <BubbleText title={spotifyMessage} />
-      </MessageBubble>
+      <Text style={{ marginBottom: 20 }}>{spotifyMessage}</Text>
+
       <Button success onPress={onPress}>
         <ButtonText primary>Get Spotify recommendations</ButtonText>
       </Button>
@@ -38,7 +26,7 @@ const GetSpotifyRecommendations = ({ onPress }) => {
 };
 
 GetSpotifyRecommendations.propTypes = {
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func.isRequired
 };
 
 export default GetSpotifyRecommendations;
