@@ -36,7 +36,7 @@ const getValidSPObj = async () => {
       {
         title: "No Spotify Auth Token",
         description:
-          "A new window will be open to authenticate you to Spotify. Come back again to this screen after it gets refreshed."
+          "A new window will be open to authenticate you to Spotify. Come back again to this screen after you get authenticated."
       }
     );
     return null;
@@ -51,7 +51,7 @@ const getValidSPObj = async () => {
       },
       {
         title: "Spotify Token Expired",
-        description: "Refresh Token"
+        description: "Big Sister will refresh your spotify access token."
       }
     );
   }
