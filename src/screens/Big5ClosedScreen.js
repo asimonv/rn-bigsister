@@ -16,6 +16,7 @@ import Bar from "../components/Bar";
 import Button from "../components/Button";
 import ButtonText from "../components/ButtonText";
 import BubbleText from "../components/BubbleText";
+import AditionalInfoText from "../components/AditionalInfoText";
 import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
 import personalityInfo from "../data/personality";
 
@@ -88,10 +89,10 @@ const Big5ClosedScreen = ({ navigation }) => {
         <BubbleText title="Personality" />
         {status && context === "text" && (
           <View>
-            <Text style={styles.additionalInfo}>
+            <AditionalInfoText>
               Your Personality was analyzed based on this text that you entered:
-            </Text>
-            <Text style={styles.additionalInfo}>{text}</Text>
+            </AditionalInfoText>
+            <AditionalInfoText>{text}</AditionalInfoText>
           </View>
         )}
         <View>
@@ -125,21 +126,18 @@ const Big5ClosedScreen = ({ navigation }) => {
                 </Text>
               </Bar>
               {status && (
-                <Text
+                <AditionalInfoText
                   key={personalityInfo[p.trait_id].description}
-                  style={styles.additionalInfo}
                 >
                   {personalityInfo[p.trait_id].description}
-                </Text>
+                </AditionalInfoText>
               )}
             </View>
           ))}
         </View>
         <View>
           {status && (
-            <Text style={styles.additionalInfo}>
-              {consumptionPreferencesText}
-            </Text>
+            <AditionalInfoText>{consumptionPreferencesText}</AditionalInfoText>
           )}
           {consumption_preferences.map(cp => {
             const filteredConsumptions = cp.consumption_preferences.filter(
@@ -164,7 +162,7 @@ const Big5ClosedScreen = ({ navigation }) => {
           <BubbleText title="Spotify" />
           <GetSpotifyRecommendations onPress={_onPressSpotify} />
           {status && (
-            <Text style={styles.additionalInfo}>
+            <AditionalInfoText>
               More information about the Spotify authentication flow{" "}
               <Text
                 style={{ color: "blue" }}
@@ -176,7 +174,7 @@ const Big5ClosedScreen = ({ navigation }) => {
               >
                 here
               </Text>
-            </Text>
+            </AditionalInfoText>
           )}
         </View>
         <Button onPress={_onPressHome} style={{ marginVertical: 20 }}>
@@ -215,7 +213,7 @@ const styles = StyleSheet.create({
     padding: 5
   },
   additionalInfo: {
-    backgroundColor: "yellow",
+    backgroundColor: "white",
     marginVertical: 5,
     padding: 10,
     borderRadius: 5,
