@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Linking,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -162,6 +163,21 @@ const Big5ClosedScreen = ({ navigation }) => {
         <View>
           <BubbleText title="Spotify" />
           <GetSpotifyRecommendations onPress={_onPressSpotify} />
+          {status && (
+            <Text style={styles.additionalInfo}>
+              More information about the Spotify authentication flow{" "}
+              <Text
+                style={{ color: "blue" }}
+                onPress={() =>
+                  Linking.openURL(
+                    "https://miro.medium.com/max/2136/0*mhfDJ1CrrNcZhghH.png"
+                  )
+                }
+              >
+                here
+              </Text>
+            </Text>
+          )}
         </View>
         <Button onPress={_onPressHome} style={{ marginVertical: 20 }}>
           <ButtonText>Go Home</ButtonText>
