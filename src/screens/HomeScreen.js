@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import {
   Linking,
   Platform,
@@ -12,6 +12,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import LinearGradient from "react-native-linear-gradient";
 import LottieView from "lottie-react-native";
+import { useTranslation } from "react-i18next";
 
 import {
   isUserLoggedIn,
@@ -27,38 +28,32 @@ const colors = ["#240080", "#DA21B7"];
 const viewTint = "rebeccapurple";
 const serverURL = "https://little-sister.herokuapp.com";
 
-class HomeScreen extends Component {
-  static navigationOptions = {
-    headerTransparent: true,
-    title: "Discover"
-  };
+const HomeScreen = props => {
+  const { t, i18n } = useTranslation();
+  const {
+    showActionSheetWithOptions,
+    navigation: { navigate }
+  } = props;
 
-  constructor(props) {
-    super(props);
-    this.eyeOnPress = this.eyeOnPress.bind(this);
-    this._onOpenActionSheet = this._onOpenActionSheet.bind(this);
-  }
-
-  async componentDidMount() {
+  useEffect(() => {
     StatusBar.setBarStyle("light-content", true);
 
     // Add event listener to handle OAuthLogin:// URLs
     if (Platform.OS === "android") {
       Linking.getInitialURL().then(url => {
-        this.handleOpenURL({ url });
+        handleOpenURL({ url });
       });
     } else {
-      Linking.addEventListener("url", this.handleOpenURL);
+      Linking.addEventListener("url", handleOpenURL);
     }
-  }
 
-  componentWillUnmount() {
-    // Remove event listener
-    console.log("componentWillUnmount");
-    Linking.removeEventListener("url", this.handleOpenURL);
-  }
+    return () => {
+      console.log("componentWillUnmount");
+      Linking.removeEventListener("url", handleOpenURL);
+    };
+  });
 
-  handleOpenURL = async ({ url }) => {
+  const handleOpenURL = async ({ url }) => {
     // Extract stringified user string out of the URL
     console.log("came back: ", url);
     if (url) {
@@ -66,9 +61,6 @@ class HomeScreen extends Component {
       if (checkTwitter) {
         const [, user] = checkTwitter;
         await AsyncStorage.setItem("@LittleStore:twitterId", user);
-        const {
-          navigation: { navigate }
-        } = this.props;
         navigate("TextScreen", { context: "tw" });
       }
       const checkSpotify = url.match(/spotify_auth_code=([^#]+)/);
@@ -83,11 +75,11 @@ class HomeScreen extends Component {
   };
 
   // Open URL in a browser
-  openURL = url => {
+  const openURL = url => {
     Linking.openURL(url);
   };
 
-  _onOpenActionSheet = async () => {
+  const _onOpenActionSheet = async () => {
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = [
       "My opinion on a subject",
@@ -96,10 +88,6 @@ class HomeScreen extends Component {
       "Cancel"
     ];
     const cancelButtonIndex = 3;
-    const {
-      showActionSheetWithOptions,
-      navigation: { navigate }
-    } = this.props;
 
     showActionSheetWithOptions(
       {
@@ -125,7 +113,7 @@ class HomeScreen extends Component {
           }
         } else if (buttonIndex === 2) {
           if (!(await AsyncStorage.getItem("@LittleStore:twitterId"))) {
-            this.openURL(`${serverURL}/auth/twitter`);
+            openURL(`${serverURL}/auth/twitter`);
           } else {
             navigate("TextScreen", { context: "tw" });
           }
@@ -134,14 +122,20 @@ class HomeScreen extends Component {
     );
   };
 
-  _showHistory = () => {
-    const {
-      navigation: { navigate }
-    } = this.props;
+  const _showHistory = () => {
     navigate("HistoryScreen");
   };
 
-  _handleLogout = async () => {
+  const eyeOnPress = () => {
+    // this.animation.play();
+    _onOpenActionSheet();
+  };
+
+  const _toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "en" ? "es" : "en");
+  };
+
+  const _handleLogout = async () => {
     const facebookLoggedIn = await isUserLoggedIn();
     const twitterLoggedIn = await AsyncStorage.getItem(
       "@LittleStore:twitterId"
@@ -167,10 +161,6 @@ class HomeScreen extends Component {
 
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const cancelButtonIndex = options.length - 1;
-    const {
-      showActionSheetWithOptions,
-      navigation: { navigate }
-    } = this.props;
 
     showActionSheetWithOptions(
       {
@@ -200,58 +190,55 @@ class HomeScreen extends Component {
     );
   };
 
-  eyeOnPress() {
-    // this.animation.play();
-    this._onOpenActionSheet();
-  }
+  return (
+    <LinearGradient
+      style={styles.container}
+      colors={colors}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
+    >
+      <NavBar style={{ position: "absolute", top: 50, left: 20, right: 20 }}>
+        <NavButton
+          name="clock"
+          style={{ color: viewTint }}
+          onPress={_showHistory}
+        />
+        <NavButton
+          name="globe"
+          style={{ color: viewTint }}
+          onPress={_toggleLanguage}
+        />
+        <NavButton
+          name="remove-circle-outline"
+          style={{ color: viewTint }}
+          onPress={_handleLogout}
+        />
+      </NavBar>
+      <Transition appear="top">
+        <MessageBubble style={{ margin: 10 }}>
+          <Text style={styles.tapEyeText}>{t("welcome-message")}</Text>
+        </MessageBubble>
+      </Transition>
+      <Transition shared="logo" appear="bottom">
+        <TouchableOpacity
+          onPress={eyeOnPress}
+          style={{ width: 200, height: 200 }}
+        >
+          <LottieView
+            style={{ flex: 1 }}
+            source={require("../assets/animations/eye.json")}
+            loop={false}
+          />
+        </TouchableOpacity>
+      </Transition>
+    </LinearGradient>
+  );
+};
 
-  render() {
-    const { navigation } = this.props;
-    return (
-      <LinearGradient
-        style={styles.container}
-        colors={colors}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 0, y: 1 }}
-      >
-        <NavBar style={{ position: "absolute", top: 50, left: 20, right: 20 }}>
-          <NavButton
-            name="clock"
-            style={{ color: viewTint }}
-            onPress={this._showHistory}
-          />
-          <NavButton
-            name="remove-circle-outline"
-            style={{ color: viewTint }}
-            onPress={this._handleLogout}
-          />
-        </NavBar>
-        <Transition appear="top">
-          <MessageBubble style={{ margin: 10 }}>
-            <Text style={styles.tapEyeText}>
-              {"Tap my eye to recieve knowledge about yourself"}
-            </Text>
-          </MessageBubble>
-        </Transition>
-        <Transition shared="logo" appear="bottom">
-          <TouchableOpacity
-            onPress={this.eyeOnPress}
-            style={{ width: 200, height: 200 }}
-          >
-            <LottieView
-              style={{ flex: 1 }}
-              source={require("../assets/animations/eye.json")}
-              ref={animation => {
-                this.animation = animation;
-              }}
-              loop={false}
-            />
-          </TouchableOpacity>
-        </Transition>
-      </LinearGradient>
-    );
-  }
-}
+HomeScreen.navigationOptions = {
+  headerTransparent: true,
+  title: "Discover"
+};
 
 const styles = StyleSheet.create({
   container: {

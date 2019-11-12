@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, StyleSheet, Text, View } from 'react-native';
-import { Transition } from 'react-navigation-fluid-transitions';
-import AsyncStorage from '@react-native-community/async-storage';
-import { connectActionSheet } from '@expo/react-native-action-sheet';
-import { SafeAreaView } from 'react-navigation';
-import moment from 'moment';
-import ListItem from '../components/ListItem';
-import NavBar from '../components/NavBar';
-import NavButton from '../components/NavButton';
+import React, { useEffect, useState } from "react";
+import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
+import { Transition } from "react-navigation-fluid-transitions";
+import AsyncStorage from "@react-native-community/async-storage";
+import { connectActionSheet } from "@expo/react-native-action-sheet";
+import { SafeAreaView } from "react-navigation";
+import moment from "moment";
+import { useTranslation } from "react-i18next";
+import ListItem from "../components/ListItem";
+import NavBar from "../components/NavBar";
+import NavButton from "../components/NavButton";
 
-const viewTint = '#5352ed';
+const viewTint = "#5352ed";
 
 const sourcesNames = {
-  tw: 'Twitter',
-  fb: 'Facebook',
-  text: 'Text',
+  tw: "Twitter",
+  fb: "Facebook",
+  text: "Text"
 };
 
 const noTestsMessage =
@@ -22,10 +23,15 @@ const noTestsMessage =
 
 const HistoryScreen = props => {
   const [history, setHistory] = useState([]);
+  const {
+    showActionSheetWithOptions,
+    navigation: { navigate }
+  } = props;
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getHistory = async () => {
-      const storageHistory = await AsyncStorage.getItem('@LittleStore:history');
+      const storageHistory = await AsyncStorage.getItem("@LittleStore:history");
       const parsedHistory = JSON.parse(storageHistory).reverse();
       setHistory(parsedHistory);
     };
@@ -36,84 +42,77 @@ const HistoryScreen = props => {
     <View
       style={{
         height: 1,
-        backgroundColor: '#ecf0f1',
+        backgroundColor: "#ecf0f1"
       }}
     />
   );
 
   const _handlePress = item => {
-    const {
-      navigation: { navigate },
-    } = props;
     const { title, subtitle, data } = item;
-    navigate('Big5ClosedScreen', { ...data, title, subtitle });
+    navigate("Big5ClosedScreen", { ...data, title, subtitle });
   };
 
   const _keyExtractor = item => item.date;
 
   const renderItem = item => {
     const adaptedItem = {
-      title: moment(item.date).format('MMMM Do YYYY, h:mm:ssA'),
+      title: moment(item.date).format("MMMM Do YYYY, h:mm:ssA"),
       subtitle: sourcesNames[item.source],
-      data: item,
+      data: item
     };
     return <ListItem onPress={_handlePress} item={adaptedItem} />;
   };
 
   const _onOpenActionSheet = async () => {
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
-    const options = ['Clean history', 'Compare sources', 'Cancel'];
+    const options = ["Clean history", "Compare sources", "Cancel"];
     const cancelButtonIndex = 2;
-    const {
-      showActionSheetWithOptions,
-      navigation: { navigate },
-    } = props;
 
     showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
-        title: 'What do you want to do with your tests?',
+        title: "What do you want to do with your tests?"
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           _onPressClear();
         } else if (buttonIndex === 1) {
-          navigate('CompareStatsScreen', { history });
+          navigate("CompareStatsScreen", { history });
         }
-      },
+      }
     );
   };
 
   const _onPressClear = () => {
     Alert.alert(
-      'Clear history',
-      'Do you really want to clear your history?',
+      "Clear history",
+      "Do you really want to clear your history?",
       [
         {
-          text: 'Cancel',
-          onPress: () => console.log('Cancel Pressed'),
-          style: 'cancel',
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
         },
         {
-          text: 'OK',
+          text: "OK",
           onPress: async () => {
             const storageHistory = await AsyncStorage.setItem(
-              '@LittleStore:history',
-              JSON.stringify([]),
+              "@LittleStore:history",
+              JSON.stringify([])
             );
             setHistory(storageHistory);
-          },
-        },
+          }
+        }
       ],
-      { cancelable: false },
+      { cancelable: false }
     );
   };
 
   const _renderListEmptyComponent = () => (
     <View style={styles.centeredContent}>
-      <Text style={{ textAlign: 'center' }}>{noTestsMessage}</Text>
+      <Text style={{ textAlign: "center" }}>{noTestsMessage}</Text>
     </View>
   );
 
@@ -128,7 +127,7 @@ const HistoryScreen = props => {
                 name="arrow-round-back"
                 onPress={() => props.navigation.goBack()}
               />
-              <Text style={styles.title}>Your History</Text>
+              <Text style={styles.title}>{t("history-title")}</Text>
               <NavButton
                 name="more"
                 style={{ color: viewTint }}
@@ -149,7 +148,7 @@ const HistoryScreen = props => {
           </Transition>
         </View>
       </SafeAreaView>
-      <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+      <SafeAreaView style={{ flex: 0, backgroundColor: "white" }} />
     </>
   );
 };
@@ -157,36 +156,36 @@ const HistoryScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: viewTint,
+    backgroundColor: viewTint
   },
   centeredContent: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 20
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
-    position: 'absolute',
-    textAlign: 'center',
-    color: 'white',
+    position: "absolute",
+    textAlign: "center",
+    color: "white",
     left: 0,
     right: 0,
-    zIndex: -1,
+    zIndex: -1
   },
   list: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    overflow: 'hidden',
+    overflow: "hidden",
     flex: 1,
     paddingTop: 10,
     shadowOpacity: 0.55,
     shadowRadius: 5,
-    shadowColor: '#2e3131',
-    shadowOffset: { height: 0, width: 0 },
-  },
+    shadowColor: "#2e3131",
+    shadowOffset: { height: 0, width: 0 }
+  }
 });
 
 export default connectActionSheet(HistoryScreen);
