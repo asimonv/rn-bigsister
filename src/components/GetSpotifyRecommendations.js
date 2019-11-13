@@ -1,6 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
 import styled from "styled-components/native";
+import { useTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import Button from "./Button";
 import ButtonText from "./ButtonText";
@@ -10,16 +11,15 @@ const GetSpotifyRecommendationsContainer = styled.View`
   display: flex;
 `;
 
-const spotifyMessage =
-  "Now that I have analyzed your identity, it's time to show you the songs that I think you might like according to the information you provided";
-
 const GetSpotifyRecommendations = ({ onPress }) => {
+  const { t } = useTranslation();
+  const spotifyMessage = t("spotify.message");
   return (
     <GetSpotifyRecommendationsContainer>
       <Text style={{ marginBottom: 20 }}>{spotifyMessage}</Text>
 
       <Button success onPress={onPress}>
-        <ButtonText primary>Get Spotify recommendations</ButtonText>
+        <ButtonText primary>{t("spotify.button")}</ButtonText>
       </Button>
     </GetSpotifyRecommendationsContainer>
   );

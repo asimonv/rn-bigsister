@@ -18,9 +18,6 @@ const sourcesNames = {
   text: "Text"
 };
 
-const noTestsMessage =
-  "You don't have any test yet. They will appear here when you take one.";
-
 const HistoryScreen = props => {
   const [history, setHistory] = useState([]);
   const {
@@ -28,6 +25,7 @@ const HistoryScreen = props => {
     navigation: { navigate }
   } = props;
   const { t } = useTranslation();
+  const noTestsMessage = t("no-tests-message");
 
   useEffect(() => {
     const getHistory = async () => {
@@ -65,14 +63,14 @@ const HistoryScreen = props => {
 
   const _onOpenActionSheet = async () => {
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
-    const options = ["Clean history", "Compare sources", "Cancel"];
+    const options = [t("clear-history"), t("compare-sources"), t("cancel")];
     const cancelButtonIndex = 2;
 
     showActionSheetWithOptions(
       {
         options,
         cancelButtonIndex,
-        title: "What do you want to do with your tests?"
+        title: t("tests-option-title")
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
@@ -87,12 +85,11 @@ const HistoryScreen = props => {
 
   const _onPressClear = () => {
     Alert.alert(
-      "Clear history",
-      "Do you really want to clear your history?",
+      t("clear-history"),
+      t("confirmation-clear-history"),
       [
         {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
+          text: t("cancel"),
           style: "cancel"
         },
         {

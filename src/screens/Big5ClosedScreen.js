@@ -9,6 +9,7 @@ import {
   View
 } from "react-native";
 import PropTypes from "prop-types";
+import { useTranslation } from "react-i18next";
 import { getUserRecommendations } from "../services/spotify";
 import NavButton from "../components/NavButton";
 import NavBar from "../components/NavBar";
@@ -25,6 +26,7 @@ const consumptionPreferencesText =
 
 const Big5ClosedScreen = ({ navigation }) => {
   const { getParam } = navigation;
+  const { t } = useTranslation();
   const [status, setStatus] = useState(false); // ñaaaau first hook
   const info = getParam("info");
   const content = getParam("content");
@@ -82,16 +84,14 @@ const Big5ClosedScreen = ({ navigation }) => {
       <ScrollView style={{ ...styles.container, paddingHorizontal: 20 }}>
         {content && (
           <Button onPress={_goToData}>
-            <ButtonText>Check what Watson used to analyze you</ButtonText>
+            <ButtonText>{t("check-data-message")}</ButtonText>
           </Button>
         )}
 
-        <BubbleText title="Personality" />
+        <BubbleText title={t("personality")} />
         {status && context === "text" && (
           <View>
-            <AditionalInfoText>
-              Your Personality was analyzed based on this text that you entered:
-            </AditionalInfoText>
+            <AditionalInfoText>{`${t("test-text-based")}:`}</AditionalInfoText>
             <AditionalInfoText>{text}</AditionalInfoText>
           </View>
         )}
@@ -106,30 +106,33 @@ const Big5ClosedScreen = ({ navigation }) => {
                 }}
               >
                 <Text style={{ maxWidth: "30%" }}>
-                  {personalityInfo[p.trait_id].leftIntervalText}
+                  {personalityInfo(t)[p.trait_id].leftIntervalText}
                 </Text>
                 <Text style={{ maxWidth: "30%" }}>
-                  {personalityInfo[p.trait_id].rightIntervalText}
+                  {personalityInfo(t)[p.trait_id].rightIntervalText}
                 </Text>
               </View>
               <Bar
                 style={{
                   marginVertical: 10,
-                  backgroundColor: personalityInfo[p.trait_id].color
+                  backgroundColor: personalityInfo(t)[p.trait_id].color
                 }}
                 key={p.name}
                 title={p.name}
                 percentage={p.percentile}
               >
                 <Text style={{ padding: 5, color: "white" }}>
-                  {`${p.name} (${parseInt(p.percentile * 100, 10)}%)`}
+                  {`${personalityInfo(t)[p.trait_id].title} (${parseInt(
+                    p.percentile * 100,
+                    10
+                  )}%)`}
                 </Text>
               </Bar>
               {status && (
                 <AditionalInfoText
-                  key={personalityInfo[p.trait_id].description}
+                  key={personalityInfo(t)[p.trait_id].description}
                 >
-                  {personalityInfo[p.trait_id].description}
+                  {personalityInfo(t)[p.trait_id].description}
                 </AditionalInfoText>
               )}
             </View>
@@ -163,7 +166,7 @@ const Big5ClosedScreen = ({ navigation }) => {
           <GetSpotifyRecommendations onPress={_onPressSpotify} />
           {status && (
             <AditionalInfoText>
-              More information about the Spotify authentication flow{" "}
+              {`${t("spotify.more")} `}
               <Text
                 style={{ color: "blue" }}
                 onPress={() =>
@@ -172,13 +175,13 @@ const Big5ClosedScreen = ({ navigation }) => {
                   )
                 }
               >
-                here
+                {`${t("here")}`}
               </Text>
             </AditionalInfoText>
           )}
         </View>
         <Button onPress={_onPressHome} style={{ marginVertical: 20 }}>
-          <ButtonText>Go Home</ButtonText>
+          <ButtonText>{t("go-home")}</ButtonText>
         </Button>
       </ScrollView>
     </SafeAreaView>

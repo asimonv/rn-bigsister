@@ -82,10 +82,10 @@ const HomeScreen = props => {
   const _onOpenActionSheet = async () => {
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = [
-      "My opinion on a subject",
-      "My Facebook",
-      "My Twitter",
-      "Cancel"
+      `${t("my")} ${t("subject-opinion")}`,
+      `${t("my")} Facebook`,
+      `${t("my")} Twitter`,
+      `${t("cancel")}`
     ];
     const cancelButtonIndex = 3;
 
@@ -93,8 +93,7 @@ const HomeScreen = props => {
       {
         options,
         cancelButtonIndex,
-        title:
-          "Please give me a source of information to analyze and describe your identity"
+        title: t("choose-source-message")
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
@@ -166,9 +165,8 @@ const HomeScreen = props => {
       {
         options,
         cancelButtonIndex,
-        title:
-          "These are the accounts that you have given your permission for them to acceess your personal data",
-        message: "Please choose one to log it out"
+        title: t("accounts-info"),
+        message: t("accounts-logout-message")
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
