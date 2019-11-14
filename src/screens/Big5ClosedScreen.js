@@ -21,9 +21,6 @@ import AditionalInfoText from "../components/AditionalInfoText";
 import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
 import personalityInfo from "../data/personality";
 
-const consumptionPreferencesText =
-  "I filtered items from the next categories with score > 0.5 and < 0.5, which means that you were likely or unlikely to prefer it";
-
 const Big5ClosedScreen = ({ navigation }) => {
   const { getParam } = navigation;
   const { t } = useTranslation();
@@ -39,11 +36,13 @@ const Big5ClosedScreen = ({ navigation }) => {
   const sortedPersonalities = personality.sort(
     (a, b) => a.percentile > b.percentile
   );
+  const consumptionPreferencesText = t("consumption-preferences-text");
   const _toggleInfo = () => {
     setStatus(!status);
   };
   useEffect(() => {
     StatusBar.setBarStyle("dark-content", true);
+    console.log(info);
     return () => {
       StatusBar.setBarStyle("light-content", true);
     };
@@ -75,7 +74,7 @@ const Big5ClosedScreen = ({ navigation }) => {
           name="arrow-round-back"
           onPress={() => navigation.goBack()}
         />
-        <Text style={styles.title}>Results</Text>
+        <Text style={styles.title}>{t("results")}</Text>
         <NavButton
           name={status ? "information-circle" : "information-circle-outline"}
           onPress={_toggleInfo}

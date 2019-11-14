@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Alert,
   FlatList,
@@ -7,20 +7,21 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
-} from 'react-native';
-import { Transition } from 'react-navigation-fluid-transitions';
-import NavBar from '../components/NavBar';
-import NavButton from '../components/NavButton';
-import ListItem from '../components/ListItem';
+  View
+} from "react-native";
+import { Transition } from "react-navigation-fluid-transitions";
+import { useTranslation } from "react-i18next";
+import NavBar from "../components/NavBar";
+import NavButton from "../components/NavButton";
+import ListItem from "../components/ListItem";
 
-const viewTint = '#5352ed';
+const viewTint = "#5352ed";
 
 const renderSeparator = () => (
   <View
     style={{
       height: 1,
-      backgroundColor: '#ecf0f1',
+      backgroundColor: "#ecf0f1"
     }}
   />
 );
@@ -30,12 +31,12 @@ const _handleOnPress = item => {
   Linking.canOpenURL(uri)
     .then(supported => {
       if (!supported) {
-        Alert.alert('Oops', `Can't handle url: ${uri}.`);
+        Alert.alert("Oops", `Can't handle url: ${uri}.`);
         return null;
       }
       return Linking.openURL(uri);
     })
-    .catch(err => console.error('An error occurred', err));
+    .catch(err => console.error("An error occurred", err));
 };
 
 const _keyExtractor = item => item.id;
@@ -43,28 +44,31 @@ const _keyExtractor = item => item.id;
 const renderItem = (item, context) => {
   let listItem;
   switch (context) {
-    case 'fb':
+    case "fb":
       listItem = {
         title: item.message,
-        subtitle: item.created_time,
+        subtitle: item.created_time
       };
       break;
-    case 'tw':
+    case "tw":
       listItem = {
         title: item.text,
-        subtitle: item.created_at,
+        subtitle: item.created_at
       };
       break;
     default:
       break;
   }
-  return <ListItem key={listItem.subtitle} onPress={() => {}} item={listItem} />;
+  return (
+    <ListItem key={listItem.subtitle} onPress={() => {}} item={listItem} />
+  );
 };
 
 const AnalyzedDataScreen = props => {
   const { navigation } = props;
-  const content = navigation.getParam('content');
-  const context = navigation.getParam('context');
+  const { t } = useTranslation();
+  const content = navigation.getParam("content");
+  const context = navigation.getParam("context");
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaView style={{ flex: 0, backgroundColor: viewTint }} />
@@ -81,7 +85,7 @@ const AnalyzedDataScreen = props => {
                 name="arrow-round-back"
                 onPress={() => navigation.goBack()}
               />
-              <Text style={styles.title}>Data</Text>
+              <Text style={styles.title}>{t("used-data")}</Text>
             </NavBar>
           </View>
           <View style={{ flex: 1 }}>
@@ -103,44 +107,44 @@ const AnalyzedDataScreen = props => {
 
 const styles = StyleSheet.create({
   list: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
-    overflow: 'hidden',
+    overflow: "hidden",
     flex: 1,
     paddingTop: 10,
     shadowOpacity: 0.55,
     shadowRadius: 5,
-    shadowColor: '#2e3131',
-    shadowOffset: { height: 0, width: 0 },
+    shadowColor: "#2e3131",
+    shadowOffset: { height: 0, width: 0 }
   },
   scrollContainer: {
-    flex: 1,
+    flex: 1
   },
   header: {
     fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold"
   },
   headerWrapper: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 5
   },
   title: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 18,
-    position: 'absolute',
-    textAlign: 'center',
-    color: 'white',
+    position: "absolute",
+    textAlign: "center",
+    color: "white",
     left: 0,
     right: 0,
-    zIndex: -1,
+    zIndex: -1
   },
   container: {
     flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: 'white',
-  },
+    justifyContent: "flex-start",
+    backgroundColor: "white"
+  }
 });
 
 export default AnalyzedDataScreen;

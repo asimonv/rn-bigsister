@@ -1,5 +1,7 @@
 export default {
   translation: {
+    "consumption-preferences-text":
+      "He filtrado los resultados de las siguientes categorías con una puntuación > 0,5 y < 0,5, lo que significa que es probable o poco probable que lo prefieras.",
     "welcome-message": "Toca mi ojo para recibir conocimiento sobre tí",
     "test-text-based":
       "Tu personalidad fue analizada en base a este texto que ingresaste",
@@ -19,7 +21,10 @@ export default {
     "subject-opinion": "opinión sobre un tema",
     my: "Mi",
     results: "Resultados",
+    "used-data": "Datos",
     here: "aquí",
+    "date-range": "Selecciona un rango de fechas",
+    "compare-sources-title": "Comparar Fuentes",
     "go-home": "Ir al inicio",
     personality: "Personalidad",
     spotify: {
@@ -29,6 +34,23 @@ export default {
         "Ahora que he analizado tu identidad, es hora de mostrarte las canciones que creo que te pueden gustar de acuerdo con la información que proporcionaste"
     },
     "check-data-message": "Mira lo que Watson utilizó para analizarte",
+    "greetings-text": "¡Gracias por participar! ☺️",
+    fetching: {
+      fb: "Obteniendo tus posteos en Facebook",
+      watson: "Obteniendo datos de Watson Personality Insights",
+      tw: "Obteniendo tus tweets en Twitter",
+      categories: "Obteniendo categorías de temas",
+      error: "Lo siento, pero no hay suficiente información para analizar.",
+      moreInfo: {
+        fb:
+          "Big Sister solicita tus posteos a Facebook a través de su Graph API. Luego procesa esa información con Watson Personality Insights API para obtener tu perfil de personalidad y preferencias de consumo.",
+        tw:
+          "Big Sister solicita tus tweets a través de su API. Luego procesa esa información con Watson Personality Insights API para obtener tu perfil de personalidad y preferencias de consumo.",
+        text:
+          "Big Sister procesa el texto que has ingresado para obtener tu perfil de personalidad y preferencias de consumo usando la API de Watson Personality Insights."
+      }
+    },
+    "see-results": "Mirar mis resultados",
     big5_openness: {
       title: "Apertura al cambio",
       leftIntervalText: "Conservador o tradicional",

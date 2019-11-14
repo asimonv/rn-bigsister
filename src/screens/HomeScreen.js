@@ -82,9 +82,9 @@ const HomeScreen = props => {
   const _onOpenActionSheet = async () => {
     // Same interface as https://facebook.github.io/react-native/docs/actionsheetios.html
     const options = [
-      `${t("my")} ${t("subject-opinion")}`,
       `${t("my")} Facebook`,
       `${t("my")} Twitter`,
+      `${t("my")} ${t("subject-opinion")}`,
       `${t("cancel")}`
     ];
     const cancelButtonIndex = 3;
@@ -98,8 +98,6 @@ const HomeScreen = props => {
       async buttonIndex => {
         // Do something here depending on the button index selected
         if (buttonIndex === 0) {
-          navigate("TextScreen");
-        } else if (buttonIndex === 1) {
           if (await isUserLoggedIn()) {
             navigate("TextScreen", { context: "fb" });
           } else {
@@ -110,12 +108,14 @@ const HomeScreen = props => {
               console.log(e);
             }
           }
-        } else if (buttonIndex === 2) {
+        } else if (buttonIndex === 1) {
           if (!(await AsyncStorage.getItem("@LittleStore:twitterId"))) {
             openURL(`${serverURL}/auth/twitter`);
           } else {
             navigate("TextScreen", { context: "tw" });
           }
+        } else if (buttonIndex === 2) {
+          navigate("TextScreen");
         }
       }
     );

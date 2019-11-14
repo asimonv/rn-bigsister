@@ -4,8 +4,8 @@ import { SafeAreaView } from "react-navigation";
 import { Transition } from "react-navigation-fluid-transitions";
 import AsyncStorage from "@react-native-community/async-storage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-//  import LottieView from 'lottie-react-native';
 import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 import TextComposer from "../components/TextComposer";
 import MessageBubble from "../components/MessageBubble";
@@ -68,13 +68,13 @@ class TextScreen extends React.Component {
   }
 
   async componentDidMount() {
-    const { navigation } = this.props;
+    const { navigation, t } = this.props;
     const context = navigation.getParam("context");
     switch (context) {
       case "fb":
         this.setState({
           gettingResults: true,
-          testStatus: "Getting your Facebook posts"
+          testStatus: `${t("fetching.fb")}`
         });
         try {
           const posts = await fetchLikes();
@@ -86,7 +86,7 @@ class TextScreen extends React.Component {
           }));
           if (content.length) {
             this.setState({
-              testStatus: "Getting Watson data",
+              testStatus: `${t("fetching.watson")}`,
               content: posts
             });
             const res = await pInsights({ contentItems: content });
@@ -129,7 +129,7 @@ class TextScreen extends React.Component {
             this.setState(prev => ({
               finished: !prev.finished,
               error: true,
-              testStatus: "I'm sorry, but there's not enough data to analyse."
+              testStatus: `${t("fetching.error")}`
             }));
           }
         } catch (e) {
@@ -139,7 +139,7 @@ class TextScreen extends React.Component {
       case "tw":
         this.setState({
           gettingResults: true,
-          testStatus: "Getting your tweets"
+          testStatus: `${t("fetching.tw")}`
         });
         try {
           const userId = await AsyncStorage.getItem("@LittleStore:twitterId");
@@ -153,7 +153,7 @@ class TextScreen extends React.Component {
           console.log(tweets);
           if (content.length) {
             this.setState({
-              testStatus: "Getting Watson data",
+              testStatus: `${t("fetching.watson")}`,
               content: tweets
             });
             const res = await pInsights({ contentItems: content });
@@ -197,7 +197,7 @@ class TextScreen extends React.Component {
             this.setState(prev => ({
               finished: !prev.finished,
               error: true,
-              testStatus: "I'm sorry, but there's not enough data to analyse."
+              testStatus: `${t("fetching.error")}`
             }));
           }
         } catch (e) {
@@ -208,7 +208,7 @@ class TextScreen extends React.Component {
         try {
           this.setState({
             gettingResults: true,
-            testStatus: "Getting categories"
+            testStatus: `${t("fetching.categories")}`
           });
           const categories = await textCategories();
           const { data } = categories;
@@ -239,7 +239,7 @@ class TextScreen extends React.Component {
     this.setState(
       prev => ({
         gettingResults: !prev.gettingResults,
-        testStatus: "Getting Watson data"
+        testStatus: `${t("fetching.watson")}`
       }),
       async () => {
         try {
@@ -290,15 +290,15 @@ class TextScreen extends React.Component {
   }
 
   _getInfoMessage() {
-    const { navigation } = this.props;
+    const { navigation, t } = this.props;
     const context = navigation.getParam("context");
     switch (context) {
       case "fb":
-        return "Little Sister uses the Facebook Graph API + the Watson Personality Traits API to show you information about yourself";
+        return t("fetching.moreInfo.fb");
       case "tw":
-        return "Little Sister uses the Twitter API + the Watson Personality Traits API to show you information about yourself";
+        return t("fetching.moreInfo.tw");
       default:
-        return "Little Sister will give your information about yourself using the Watson Personality Traits API based on the text you entered";
+        return t("fetching.moreInfo.text");
     }
   }
 
@@ -338,7 +338,7 @@ class TextScreen extends React.Component {
       error,
       randomCategory
     } = this.state;
-    const { navigation } = this.props;
+    const { navigation, t } = this.props;
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView>
@@ -380,7 +380,7 @@ class TextScreen extends React.Component {
               <TextComposer
                 style={styles.textComposer}
                 onPressCancel={this._onPressCancel}
-                onChangeText={t => this.setState({ text: t })}
+                onChangeText={x => this.setState({ text: x })}
                 onPressSend={this._onPressSend}
                 finished={finished}
                 randomCategory={randomCategory}
@@ -393,7 +393,7 @@ class TextScreen extends React.Component {
                 style={{ marginVertical: 10 }}
                 onPress={this._onPressInfo}
               >
-                <ButtonText>See your results!</ButtonText>
+                <ButtonText>{t("see-results")}</ButtonText>
               </Button>
             </Transition>
           )}
@@ -442,4 +442,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TextScreen;
+export default withTranslation()(TextScreen);
