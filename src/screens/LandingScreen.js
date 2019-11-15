@@ -4,14 +4,16 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import LottieView from "lottie-react-native";
+import { useTranslation } from "react-i18next";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
 const LandingScreen = ({ navigation }) => {
+  const { t } = useTranslation();
   const _onPress = async () => {
     const { navigate } = navigation;
     await AsyncStorage.setItem("@LittleStore:entered", ":-)");
@@ -22,10 +24,7 @@ const LandingScreen = ({ navigation }) => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <View style={styles.container}>
         <Transition appear="top" disappear="top">
-          <Text style={styles.description}>
-            Hello! I'm Big Sister and I can profile and recommend you songs
-            based on what you think or post on social networks
-          </Text>
+          <Text style={styles.description}>{t("landing-message")}</Text>
         </Transition>
         <Transition shared="logo" appear="bottom" disappear="bottom">
           <View style={{ width: 200, height: 200 }}>
@@ -48,7 +47,7 @@ const LandingScreen = ({ navigation }) => {
                 ...styles.description,
                 margin: 0,
                 paddingHorizontal: 20,
-                paddingVertical: 10,
+                paddingVertical: 10
               }}
             >
               Try Me
@@ -66,23 +65,23 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "center"
   },
   description: {
     color: "white",
     margin: 20,
     fontSize: 18,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   ai: {
-    height: 400,
+    height: 400
   },
   button: {
     borderWidth: 1,
     borderColor: "white",
     marginTop: 20,
-    borderRadius: 5,
-  },
+    borderRadius: 5
+  }
 });
 
 export default LandingScreen;

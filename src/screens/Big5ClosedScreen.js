@@ -21,6 +21,9 @@ import AditionalInfoText from "../components/AditionalInfoText";
 import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
 import personalityInfo from "../data/personality";
 
+const lowercaseFirstLetter = string =>
+  string[0].toLowerCase() + string.slice(1);
+
 const Big5ClosedScreen = ({ navigation }) => {
   const { getParam } = navigation;
   const { t } = useTranslation();
@@ -147,13 +150,26 @@ const Big5ClosedScreen = ({ navigation }) => {
             );
             return filteredConsumptions.length ? (
               <View key={cp.consumption_preference_category_id}>
-                <BubbleText title={cp.name} />
+                <BubbleText
+                  title={t(
+                    `consumption_preferences.${cp.consumption_preference_category_id}.name`
+                  )}
+                />
                 {filteredConsumptions.map(item => (
                   <Text
                     key={item.consumption_preference_id}
                     style={{ marginVertical: 5 }}
                   >
-                    · {item.name}
+                    ·{" "}
+                    {item.score === 0
+                      ? `${t("no")} ${lowercaseFirstLetter(
+                          t(
+                            `consumption_preferences.${cp.consumption_preference_category_id}.${item.consumption_preference_id}`
+                          )
+                        )}`
+                      : t(
+                          `consumption_preferences.${cp.consumption_preference_category_id}.${item.consumption_preference_id}`
+                        )}
                   </Text>
                 ))}
               </View>

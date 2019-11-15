@@ -27,14 +27,128 @@ export default {
     "compare-sources-title": "Comparar Fuentes",
     "go-home": "Ir al inicio",
     personality: "Personalidad",
+    no: "No",
     spotify: {
       more: "Más información sobre el flujo de autenticación de Spotify",
-      button: "Obtener Recomendaciones de Spotify",
+      button: "Ver las recomendaciones músicales con Spotify",
       message:
-        "Ahora que he analizado tu identidad, es hora de mostrarte las canciones que creo que te pueden gustar de acuerdo con la información que proporcionaste"
+        "Ahora que he analizado tu identidad, puedo recomendarte canciones que creo que te pueden gustar en base a la información que me has brindado."
     },
     "check-data-message": "Mira lo que Watson utilizó para analizarte",
     "greetings-text": "¡Gracias por participar! ☺️",
+    "landing-message":
+      "Hola, soy Big Sister y puedo perfilarte y recomendarte canciones basándose en lo que piensas o posteas en redes sociales.",
+    "try-me": "¡Pruébame!",
+    consumption_preferences: {
+      consumption_preferences_shopping: {
+        name: "Preferencias de compra",
+        consumption_preferences_automobile_ownership_cost:
+          "Es probable que sea sensible al costo de propiedad al comprar automóviles",
+        consumption_preferences_automobile_safety:
+          "Es probable que prefiera la seguridad al comprar automóviles",
+        consumption_preferences_clothes_quality:
+          "Es probable que prefiera la calidad al comprar ropa",
+        consumption_preferences_clothes_style:
+          "Es probable que prefiera el estilo al comprar ropa",
+        consumption_preferences_clothes_comfort:
+          "Es probable que prefiera la comodidad al comprar ropa",
+        consumption_preferences_influence_brand_name:
+          "Es probable que se vea influenciado por el nombre de la marca al adquirir un producto",
+        consumption_preferences_influence_utility:
+          "Es probable que se vea influenciado por la utilidad del producto al adquirir un producto",
+        consumption_preferences_influence_online_ads:
+          "Es probable que se vea influenciado por la publicidad en línea al adquirir un producto",
+        consumption_preferences_influence_social_media:
+          "Es probable que sea influenciado por las redes sociales  al adquirir un producto",
+        consumption_preferences_influence_family_members:
+          "Es probable que sea influenciado por la familia  al adquirir un producto",
+        consumption_preferences_spur_of_moment:
+          "Es probable que se dé algún capricho en el momento de hacer compras",
+        consumption_preferences_credit_card_payment:
+          "Es probable que prefiera usar tarjetas de crédito para sus compras"
+      },
+      consumption_preferences_health_and_activity: {
+        name: "Preferencias de salud y actividad",
+        consumption_preferences_eat_out:
+          "Es probable que salga a comer afuera con frecuencia",
+        consumption_preferences_gym_membership:
+          "Es probable que tenga una membresía de gimnasio",
+        consumption_preferences_outdoor:
+          "Es probable que le gusten las actividades al aire libre"
+      },
+      consumption_preferences_environmental_concern: {
+        name: "Preferencias en materia de medio ambiente",
+        consumption_preferences_concerned_environment:
+          "Es probable que se preocupe por el medio ambiente"
+      },
+      consumption_preferences_entrepreneurship: {
+        name: "Preferencias de emprendimiento",
+        consumption_preferences_start_business:
+          "Es probable que considere iniciar un negocio en los próximos años"
+      },
+      consumption_preferences_movie: {
+        name: "Preferencias de películas",
+        consumption_preferences_movie_romance:
+          "Es probable que le gusten las películas románticas",
+        consumption_preferences_movie_adventure:
+          "Es probable que le gusten las películas de aventuras",
+        consumption_preferences_movie_horror:
+          "Es probable que le gusten las películas de terror",
+        consumption_preferences_movie_musical:
+          "Es probable que le gusten las películas musicales",
+        consumption_preferences_movie_historical:
+          "Es probable que le gusten las películas históricas",
+        consumption_preferences_movie_science_fiction:
+          "Es probable que le gusten las películas de ciencia ficción",
+        consumption_preferences_movie_war:
+          "Es probable que le gusten las películas de guerra",
+        consumption_preferences_movie_drama:
+          "Es probable que le gusten las películas dramáticas",
+        consumption_preferences_movie_action:
+          "Es probable que le gusten las películas de acción",
+        consumption_preferences_movie_documentary:
+          "Es probable que le gusten los documentales"
+      },
+      consumption_preferences_music: {
+        name: "Preferencias de música",
+        consumption_preferences_music_rap:
+          "Es probable que le guste la música rap",
+        consumption_preferences_music_country:
+          "Es probable que le guste la música country",
+        consumption_preferences_music_r_b:
+          "Es probable que le guste la música R&B",
+        consumption_preferences_music_hip_hop:
+          "Es probable que le guste la música hip hop",
+        consumption_preferences_music_live_event:
+          "Es probable que asista a eventos musicales en vivo",
+        consumption_preferences_music_playing:
+          "Es probable que tenga experiencia interpretando música",
+        consumption_preferences_music_latin:
+          "Es probable que le guste la música latina",
+        consumption_preferences_music_rock:
+          "Es probable que le guste la música rock",
+        consumption_preferences_music_classical:
+          "Es probable que le guste la música clásica"
+      },
+      consumption_preferences_reading: {
+        name: "Preferencias de lectura y aprendizaje",
+        consumption_preferences_read_frequency:
+          "Es probable que lea con frecuencia",
+        consumption_preferences_books_entertainment_magazines:
+          "Es probable que lea revistas de entretenimiento",
+        consumption_preferences_books_non_fiction:
+          "Es probable que lea libros de no ficción",
+        consumption_preferences_books_financial_investing:
+          "Es probable que lea libros de inversión financiera",
+        consumption_preferences_books_autobiographies:
+          "Es probable que lea libros autobiográficos"
+      },
+      consumption_preferences_volunteering: {
+        name: "Preferencias de voluntariado",
+        consumption_preferences_volunteer:
+          "Es probable que participe en iniciativas de voluntariado para causas sociales"
+      }
+    },
     fetching: {
       fb: "Obteniendo tus posteos en Facebook",
       watson: "Obteniendo datos de Watson Personality Insights",
