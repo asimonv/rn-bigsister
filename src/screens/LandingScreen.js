@@ -50,7 +50,7 @@ const LandingScreen = ({ navigation }) => {
                 paddingVertical: 10
               }}
             >
-              Try Me
+              {t("try-me")}
             </Text>
           </TouchableOpacity>
         </Transition>

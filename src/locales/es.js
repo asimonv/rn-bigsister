@@ -31,6 +31,9 @@ export default {
     spotify: {
       more: "Más información sobre el flujo de autenticación de Spotify",
       button: "Ver las recomendaciones músicales con Spotify",
+      playlist_created:
+        "¡Lista de reproducción creada! Entra a Spotify para verla.",
+      recommendations: "Recomendaciones",
       message:
         "Ahora que he analizado tu identidad, puedo recomendarte canciones que creo que te pueden gustar en base a la información que me has brindado."
     },

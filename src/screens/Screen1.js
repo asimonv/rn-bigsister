@@ -7,9 +7,10 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
+import { useTranslation } from "react-i18next";
 import { createPlaylist, addTracksToPlaylist } from "../services/spotify";
 import NavBar from "../components/NavBar";
 import NavButton from "../components/NavButton";
@@ -28,7 +29,7 @@ const handleRecommendationOnPress = item => {
       if (!supported) {
         Alert.alert(
           "Oops",
-          `Can't handle url: ${correctedURI}. Please install Spotify.`,
+          `Can't handle url: ${correctedURI}. Please install Spotify.`
         );
       } else {
         return Linking.openURL(correctedURI);
@@ -43,6 +44,7 @@ const renderItem = item => (
 
 const Screen1 = props => {
   const { navigation } = props;
+  const { t } = useTranslation();
   const filters = navigation.getParam("filters");
   const title = navigation.getParam("title");
   const subtitle = navigation.getParam("subtitle");
@@ -53,19 +55,19 @@ const Screen1 = props => {
     subtitle: `${recommendation.artists[0].name} · ${recommendation.album.name}`,
     artworkUrl:
       recommendation.album.images[recommendation.album.images.length - 1].url,
-    uri: recommendation.uri,
+    uri: recommendation.uri
   }));
 
   const _handleCreatePlaylist = async () => {
     const params = {
       name: `🧝‍🤖 - ${subtitle}: ${title}`,
-      description: `This playlist was created with the LittleSister app based on ${filters.seed_genres.join()}`,
+      description: `This playlist was created with the LittleSister app based on ${filters.seed_genres.join()}`
     };
     try {
       const res = await createPlaylist(params);
       const uris = data.tracks.map(recommendation => recommendation.uri);
       await addTracksToPlaylist({ playlistId: res.id, uris, params });
-      Alert.alert("Playlist created! Go to Spotify to check it.");
+      Alert.alert(t("spotify.playlist_created"));
     } catch (e) {
       Alert.alert(e);
     }
@@ -92,7 +94,7 @@ const Screen1 = props => {
                 name="add-circle-outline"
                 onPress={() => _handleCreatePlaylist()}
               />
-              <Text style={styles.title}>Recommendations</Text>
+              <Text style={styles.title}>{t("spotify.recommendations")}</Text>
             </NavBar>
           </View>
           <View style={{ flex: 1 }}>
@@ -122,19 +124,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.55,
     shadowRadius: 5,
     shadowColor: "#2e3131",
-    shadowOffset: { height: 0, width: 0 },
+    shadowOffset: { height: 0, width: 0 }
   },
   scrollContainer: {
-    flex: 1,
+    flex: 1
   },
   header: {
     fontSize: 20,
     color: "white",
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   headerWrapper: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingVertical: 5
   },
   title: {
     fontWeight: "bold",
@@ -144,13 +146,13 @@ const styles = StyleSheet.create({
     color: "white",
     left: 0,
     right: 0,
-    zIndex: -1,
+    zIndex: -1
   },
   container: {
     flex: 1,
     justifyContent: "flex-start",
-    backgroundColor: "white",
-  },
+    backgroundColor: "white"
+  }
 });
 
 export default Screen1;

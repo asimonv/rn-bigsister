@@ -145,6 +145,8 @@ export default {
     spotify: {
       more: "More information about the Spotify authentication flow",
       button: "Get Spotify recommendations",
+      playlist_created: "Playlist created! Go to Spotify to check it.",
+      recommendations: "Recommendations",
       message:
         "Now that I have analyzed your identity, it's time to show you the songs that I think you might like according to the information you provided"
     },
