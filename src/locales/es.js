@@ -197,7 +197,7 @@ export default {
         "Un número alto indica una persona más autodisciplinada, obediente, orientada a logros y con un sentido fuerte del deber. Mientras que un número bajo señala que la persona es más despreocupada y desestructurada y es probable que prefiera más lo espontáneo que lo planeado."
     },
     big5_neuroticism: {
-      title: "Estabilidad Emocional",
+      title: "Rango Emocional",
       leftIntervalText: "Relajado/a",
       rightIntervalText: "Fácilmente estresado o emocional",
       description:
