@@ -1,7 +1,7 @@
 export default {
   translation: {
     "consumption-preferences-text":
-      "I filtered items from the next categories with score > 0.5 and < 0.5, which means that you were likely or unlikely to prefer it",
+      "From my calculations about your personality, I have also estimated your consumption preferences. These variables have values between 0 and 1, being 0 unlikely and 1 very likely to prefer a certain product. The following variables exclude values equal to 0.5 because they are considered neutral.",
     "welcome-message": "Tap my eye to recieve knowledge about yourself",
     "test-text-based":
       "Your Personality was analyzed based on this text that you entered",
@@ -47,6 +47,9 @@ export default {
       "Hello! I’m the Big Sister and I can profile and recommend you songs based on what you think or post on social networks",
     "try-me": "Try me!",
     "see-results": "See your results!",
+    purchase_message: "Purchases preferences",
+    test_calculation_message:
+      "The results of personality traits are inferred from the data you provide. This app is  not designed to provide insights into mental health, and should not be interpreted as an assessment or diagnosis of specific mental conditions.",
     consumption_preferences: {
       consumption_preferences_shopping: {
         name: "Purchasing Preferences",
@@ -184,7 +187,7 @@ export default {
       leftIntervalText: "Laid back + relaxed",
       rightIntervalText: "Easily stressed + emotional",
       description:
-        "The results of personality traits are inferred from the data you provide. This app is  not designed to provide insights into mental health, and should not be interpreted as an assessment or diagnosis of specific mental conditions. Higher: More likely to have negative emotions or get upset. Perhaps having a hard time. Lower: More calm and less likely to get upset. Not necessarily an indicator of being a positive or happy person."
+        "Higher: More likely to have negative emotions or get upset. Perhaps having a hard time. Lower: More calm and less likely to get upset. Not necessarily an indicator of being a positive or happy person."
     }
   }
 };

@@ -68,7 +68,11 @@ class TextScreen extends React.Component {
   }
 
   async componentDidMount() {
-    const { navigation, t } = this.props;
+    const {
+      navigation,
+      t,
+      i18n: { language }
+    } = this.props;
     const context = navigation.getParam("context");
     switch (context) {
       case "fb":
@@ -210,7 +214,7 @@ class TextScreen extends React.Component {
             gettingResults: true,
             testStatus: `${t("fetching.categories")}`
           });
-          const categories = await textCategories();
+          const categories = await textCategories(language);
           const { data } = categories;
           const randomCategory = data[Math.floor(Math.random() * data.length)];
           this.setState({
@@ -236,6 +240,7 @@ class TextScreen extends React.Component {
   };
 
   _onPressSend() {
+    const { t } = this.props;
     this.setState(
       prev => ({
         gettingResults: !prev.gettingResults,

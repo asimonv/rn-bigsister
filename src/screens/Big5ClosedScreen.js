@@ -142,9 +142,14 @@ const Big5ClosedScreen = ({ navigation }) => {
         </View>
         <View>
           {status && (
-            <AditionalInfoText>{consumptionPreferencesText}</AditionalInfoText>
+            <>
+              <AditionalInfoText>
+                {t("test_calculation_message")}
+              </AditionalInfoText>
+            </>
           )}
           {consumption_preferences.map(cp => {
+            console.log(cp);
             const filteredConsumptions = cp.consumption_preferences.filter(
               pref => pref.score !== 0.5
             );
@@ -155,6 +160,13 @@ const Big5ClosedScreen = ({ navigation }) => {
                     `consumption_preferences.${cp.consumption_preference_category_id}.name`
                   )}
                 />
+                {status &&
+                cp.consumption_preference_category_id ===
+                  "consumption_preferences_shopping" ? (
+                  <AditionalInfoText>
+                    {t("consumption-preferences-text")}
+                  </AditionalInfoText>
+                ) : null}
                 {filteredConsumptions.map(item => (
                   <Text
                     key={item.consumption_preference_id}

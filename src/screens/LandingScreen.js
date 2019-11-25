@@ -11,18 +11,38 @@ import LottieView from "lottie-react-native";
 import { useTranslation } from "react-i18next";
 
 import AsyncStorage from "@react-native-community/async-storage";
+import NavBar from "../components/NavBar";
+import NavButton from "../components/NavButton";
 
 const LandingScreen = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const viewTint = "white";
   const _onPress = async () => {
     const { navigate } = navigation;
     await AsyncStorage.setItem("@LittleStore:entered", ":-)");
     navigate("Home");
   };
 
+  const _toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "en" ? "es" : "en");
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "black" }}>
       <View style={styles.container}>
+        <NavBar
+          style={{
+            position: "absolute",
+            top: 0,
+            justifyContent: "center"
+          }}
+        >
+          <NavButton
+            name="globe"
+            style={{ color: viewTint }}
+            onPress={_toggleLanguage}
+          />
+        </NavBar>
         <Transition appear="top" disappear="top">
           <Text style={styles.description}>{t("landing-message")}</Text>
         </Transition>

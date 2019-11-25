@@ -1,8 +1,8 @@
-import React from 'react';
-import { ActivityIndicator, StatusBar, StyleSheet, View } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import React from "react";
+import { ActivityIndicator, StatusBar, StyleSheet, View } from "react-native";
+import AsyncStorage from "@react-native-community/async-storage";
 
-const DEBUG = false;
+const DEBUG = true;
 
 const clearAsyncStorage = async () => {
   if (DEBUG) {
@@ -19,11 +19,11 @@ export default class AuthLoadingScreen extends React.Component {
   // Fetch the token from storage then navigate to our appropriate place
   async bootstrapAsync() {
     await clearAsyncStorage();
-    const user = await AsyncStorage.getItem('@LittleStore:entered');
+    const user = await AsyncStorage.getItem("@LittleStore:entered");
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
     const { navigation } = this.props;
-    navigation.navigate(user ? 'App' : 'Landing');
+    navigation.navigate(user ? "App" : "Landing");
   }
 
   // Render any loading content that you like here
@@ -40,7 +40,7 @@ export default class AuthLoadingScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+    alignItems: "center",
+    justifyContent: "center"
+  }
 });

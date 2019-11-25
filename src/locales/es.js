@@ -1,7 +1,7 @@
 export default {
   translation: {
     "consumption-preferences-text":
-      "He filtrado los resultados de las siguientes categorías con una puntuación > 0,5 y < 0,5, lo que significa que es probable o poco probable que lo prefieras.",
+      "A partir de mis cálculos sobre tu personalidad, también he estimado tus preferencias de consumo. Estas variables presentan valores entre 0 y 1, siendo 0 poco probable y 1 muy probable que prefieras determinado producto. En las siguientes variables se excluyen los valores iguales a 0,5 por considerarse como neutrales.",
     "welcome-message": "Toca mi ojo para recibir conocimiento sobre tí",
     "test-text-based":
       "Tu personalidad fue analizada en base a este texto que ingresaste",
@@ -152,6 +152,9 @@ export default {
           "Es probable que participe en iniciativas de voluntariado para causas sociales"
       }
     },
+    purchase_message: "Preferencias de consumo",
+    test_calculation_message:
+      "Los resultados de rasgos de personalidad son inferidos en base a los datos provistos. Esta app no está diseñada para proveer de información sobre la salud mental, y no debe interpretarse como una evaluación o diagnóstico sobre afecciones mentales específicas.",
     fetching: {
       fb: "Obteniendo tus posteos en Facebook",
       watson: "Obteniendo datos de Watson Personality Insights",
@@ -176,7 +179,7 @@ export default {
         "Un número alto indica una persona curiosa, imaginativa, sensible a la belleza y abierta a probar nuevas cosas. Mientras que un número bajo señala que la persona tiende a disfrutar de las rutinas, preferir los hechos concretos frente a la fantasía, lo ambiguo o abstracto."
     },
     big5_agreeableness: {
-      title: "Agradabilidad o Simpatía",
+      title: "Amabilidad",
       leftIntervalText: "Competitivo/a",
       rightIntervalText: "Colaborativo/a",
       description:
@@ -201,7 +204,7 @@ export default {
       leftIntervalText: "Relajado/a",
       rightIntervalText: "Fácilmente estresado o emocional",
       description:
-        "Los resultados de rasgos de personalidad son inferidos en base a los datos provistos. Esta app no está diseñada para proveer de información sobre la salud mental, y no debe interpretarse como una evaluación o diagnóstico sobre afecciones mentales específicas. Un número alto indica una persona ansiosa, que se enfada con facilidad o que tiende a preocuparse y estresarse en situaciones inesperadas. Mientras que un número bajo señala que la persona es más calmada y segura de sí misma."
+        "Un número alto indica una persona ansiosa, que se enfada con facilidad o que tiende a preocuparse y estresarse en situaciones inesperadas. Mientras que un número bajo señala que la persona es más calmada y segura de sí misma."
     }
   }
 };
