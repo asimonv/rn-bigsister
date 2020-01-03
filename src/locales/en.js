@@ -32,6 +32,7 @@ export default {
     fetching: {
       fb: "Getting your Facebook posts",
       watson: "Getting Watson data",
+      tw: "Getting your tweets",
       categories: "Getting categories",
       error: "I'm sorry, but there's not enough data to analyse.",
       moreInfo: {
