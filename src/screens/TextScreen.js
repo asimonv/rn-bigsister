@@ -85,15 +85,14 @@ class TextScreen extends React.Component {
           const content = posts.data.map(p => ({
             content: p.message,
             contenttype: "text/plain",
-            id: p.id,
-            language: "en"
+            id: p.id
           }));
           if (content.length) {
             this.setState({
               testStatus: `${t("fetching.watson")}`,
               content: posts
             });
-            const res = await pInsights({ contentItems: content });
+            const res = await pInsights({ contentItems: content, language });
             this.setState(prev => ({
               finished: !prev.finished,
               gettingResults: !prev.gettingResults,
@@ -151,8 +150,7 @@ class TextScreen extends React.Component {
           const content = tweets.data.map(tw => ({
             content: tw.text,
             contenttype: "text/plain",
-            id: `${tw.id}`,
-            language: "en"
+            id: `${tw.id}`
           }));
           console.log(tweets);
           if (content.length) {
@@ -160,7 +158,7 @@ class TextScreen extends React.Component {
               testStatus: `${t("fetching.watson")}`,
               content: tweets
             });
-            const res = await pInsights({ contentItems: content });
+            const res = await pInsights({ contentItems: content, language });
             this.setState(prev => ({
               finished: !prev.finished,
               gettingResults: !prev.gettingResults,
@@ -240,7 +238,11 @@ class TextScreen extends React.Component {
   };
 
   _onPressSend() {
-    const { t } = this.props;
+    const {
+      t,
+      i18n: { language },
+      navigation: { navigate }
+    } = this.props;
     this.setState(
       prev => ({
         gettingResults: !prev.gettingResults,
@@ -249,10 +251,7 @@ class TextScreen extends React.Component {
       async () => {
         try {
           const { text } = this.state;
-          const {
-            navigation: { navigate }
-          } = this.props;
-          const res = await pInsights({ text });
+          const res = await pInsights({ text, language });
           this.setState(prev => ({
             finished: !prev.finished,
             gettingResults: !prev.gettingResults,
