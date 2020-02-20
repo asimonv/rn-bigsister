@@ -11,6 +11,10 @@ export default {
     cancel: "Cancel",
     "compare-sources-title": "Compare Sources",
     "tests-option-title": "What do you want to do with your tests?",
+    "data-option-title": "What do you want to do your data?",
+    "modifying-test": "Modifying test",
+    "modify-test-helper-message":
+      "Modify your test to get different results. Try to delete multiple inputs or change their text",
     "no-tests-message":
       "You don't have any test yet. They will appear here when you take one.",
     "confirmation-clear-history": "Do you really want to clear your history?",
@@ -25,6 +29,7 @@ export default {
     results: "Results",
     "used-data": "Data",
     no: "Not",
+    done: "done",
     "date-range": "Select a range of dates",
     here: "here",
     "go-home": "Go Home",

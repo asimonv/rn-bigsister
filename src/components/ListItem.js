@@ -8,19 +8,26 @@ import {
   View
 } from "react-native";
 import NavButton from "./NavButton";
+import Colors from "../constants/Colors";
 
-const ListItem = ({ editing = false, item, onPress }) => (
+const ListItem = ({
+  selected,
+  editing = false,
+  item,
+  onPress,
+  onPressDelete
+}) => (
   <TouchableOpacity onPress={() => onPress(item)}>
     <View style={styles.itemWrapper}>
       {editing && (
         <NavButton
-          backgroundColor={"red"}
+          backgroundColor={!selected ? "red" : Colors.green}
+          wrapperStyle={{ marginRight: 10 }}
           style={{
-            marginHorizontal: 10,
             color: "white"
           }}
-          name="remove"
-          onPress={() => {}}
+          name={!selected ? "remove" : "add"}
+          onPress={() => onPressDelete(item.id)}
         />
       )}
       {item.artworkUrl && (

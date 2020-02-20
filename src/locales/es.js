@@ -10,6 +10,10 @@ export default {
     "compare-sources": "Comparar fuentes",
     cancel: "Cancelar",
     "tests-option-title": "¿Qué deseas hacer con tus tests?",
+    "modify-test-helper-message":
+      "Modifica tu test para obtener distintos resultados. Prueba eliminando varios inputs o cambiando sus textos",
+    "data-option-title": "¿Qué deseas hacer con esta información?",
+    "modifying-test": "Modificando test",
     "no-tests-message":
       "No tienes tests por ahora. Apareceran aquí cuando hagas uno",
     "confirmation-clear-history": "¿Realmente deseas borrar tu historial?",
@@ -31,6 +35,7 @@ export default {
     personality: "Personalidad",
     "write-something-about": "Escribe (o copia) algo sobre",
     no: "No",
+    done: "terminar",
     accounts: {
       approved: "¡Tu cuenta ha sido enlazada con éxito!"
     },

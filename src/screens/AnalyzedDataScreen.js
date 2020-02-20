@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Alert,
   FlatList,
@@ -18,6 +18,7 @@ import NavButton from "../components/NavButton";
 import ListItem from "../components/ListItem";
 import Button from "../components/Button";
 import ButtonText from "../components/ButtonText";
+import MessageBubble from "../components/MessageBubble";
 
 const viewTint = "#5352ed";
 
@@ -46,10 +47,13 @@ const _handleOnPress = item => {
 const _keyExtractor = item => item.id;
 
 const AnalyzedDataScreen = props => {
+  // eslint-disable-next-line react/prop-types
   const { navigation, showActionSheetWithOptions } = props;
   const { t } = useTranslation();
-  const [edit, setEdit] = useState();
-  const content = navigation.getParam("content");
+  const editing = navigation.getParam("editing");
+  const [edit, setEdit] = useState(editing);
+  const [content, setContent] = useState(navigation.getParam("content"));
+  const [selected, setSelected] = useState(new Map());
   const context = navigation.getParam("context");
 
   useEffect(() => {
@@ -57,19 +61,31 @@ const AnalyzedDataScreen = props => {
     return () => StatusBar.setBarStyle("dark-content", true);
   }, []);
 
+  const onSelect = useCallback(
+    id => {
+      const newSelected = new Map(selected);
+      newSelected.set(id, !selected.get(id));
+
+      setSelected(newSelected);
+    },
+    [selected]
+  );
+
   const renderItem = item => {
     let listItem;
     switch (context) {
       case "fb":
         listItem = {
           title: item.message,
-          subtitle: item.created_time
+          subtitle: item.created_time,
+          id: item.id
         };
         break;
       case "tw":
         listItem = {
           title: item.text,
-          subtitle: item.created_at
+          subtitle: item.created_at,
+          id: item.id
         };
         break;
       default:
@@ -79,10 +95,16 @@ const AnalyzedDataScreen = props => {
       <ListItem
         editing={edit}
         key={listItem.subtitle}
+        selected={!!selected.get(item.id)}
         onPress={() => {}}
+        onPressDelete={onSelect}
         item={listItem}
       />
     );
+  };
+
+  const _handleOnPressDone = () => {
+    const newData = content.filter(x => !selected.get(x.id));
   };
 
   const _onOpenActionSheet = async () => {
@@ -94,12 +116,13 @@ const AnalyzedDataScreen = props => {
       {
         options,
         cancelButtonIndex,
-        title: t("tests-option-title")
+        title: t("data-option-title")
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
         if (buttonIndex === 0) {
           setEdit(!edit);
+          setSelected(new Map());
         }
       }
     );
@@ -121,14 +144,25 @@ const AnalyzedDataScreen = props => {
                 name="arrow-round-back"
                 onPress={() => navigation.goBack()}
               />
-              <Text style={styles.title}>{t("used-data")}</Text>
-              <NavButton
-                name="more"
-                style={{ color: viewTint }}
-                onPress={_onOpenActionSheet}
-              />
+              <Text style={styles.title}>
+                {edit ? t("modifying-test") : t("used-data")}
+              </Text>
+              {!edit && (
+                <NavButton
+                  name="more"
+                  style={{ color: viewTint }}
+                  onPress={_onOpenActionSheet}
+                />
+              )}
             </NavBar>
           </View>
+          {edit && (
+            <MessageBubble style={{ marginBottom: 10, marginHorizontal: 10 }}>
+              <Text style={styles.greetingsText}>
+                {t("modify-test-helper-message")}
+              </Text>
+            </MessageBubble>
+          )}
           <View style={{ flex: 1 }}>
             <Transition appear="bottom" disappear="bottom">
               <FlatList
@@ -137,6 +171,7 @@ const AnalyzedDataScreen = props => {
                 ItemSeparatorComponent={renderSeparator}
                 keyExtractor={_keyExtractor}
                 renderItem={({ item }) => renderItem(item, context)}
+                extraData={selected}
               />
             </Transition>
           </View>
@@ -157,10 +192,10 @@ const AnalyzedDataScreen = props => {
                 style={{ flex: 1, marginRight: 10 }}
                 onPress={() => setEdit(false)}
               >
-                <ButtonText danger>cancel</ButtonText>
+                <ButtonText danger>{t("cancel")}</ButtonText>
               </Button>
-              <Button style={{ flex: 1 }}>
-                <ButtonText>done</ButtonText>
+              <Button style={{ flex: 1 }} onPress={_handleOnPressDone}>
+                <ButtonText>{t("done")}</ButtonText>
               </Button>
             </View>
           )}
@@ -171,6 +206,13 @@ const AnalyzedDataScreen = props => {
 };
 
 const styles = StyleSheet.create({
+  greetingsText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "white",
+    textAlign: "center",
+    padding: 5
+  },
   list: {
     backgroundColor: "white",
     borderTopLeftRadius: 15,

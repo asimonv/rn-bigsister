@@ -13,8 +13,12 @@ const ButtonContainer = styled.TouchableOpacity`
   height: ${size};
 `;
 
-const NavButton = ({ onPress, style, name, ...props }) => (
-  <ButtonContainer {...props} style={{ ...style }} onPress={onPress}>
+const NavButton = ({ onPress, wrapperStyle, style, name, ...props }) => (
+  <ButtonContainer
+    {...props}
+    style={{ ...style, ...wrapperStyle }}
+    onPress={onPress}
+  >
     <Icon
       style={{ alignSelf: "center", textAlign: "center", ...style }}
       name={Platform.OS === "ios" ? `ios-${name}` : `md-${name}`}

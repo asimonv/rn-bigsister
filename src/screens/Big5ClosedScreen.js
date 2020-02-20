@@ -67,6 +67,15 @@ const Big5ClosedScreen = ({ navigation }) => {
     }
   };
 
+  const _onPressNewTest = async () => {
+    const { navigate } = navigation;
+    navigate("AnalyzedDataScreen", {
+      content: [...content.data],
+      context,
+      editing: true
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <NavBar style={{ marginVertical: 10, marginHorizontal: 20 }}>
@@ -165,7 +174,13 @@ const Big5ClosedScreen = ({ navigation }) => {
             </AditionalInfoText>
           )}
         </View>
-        <Button onPress={_onPressHome} style={{ marginVertical: 20 }}>
+        <Button
+          onPress={_onPressNewTest}
+          style={{ marginBottom: 10, marginTop: 40 }}
+        >
+          <ButtonText>{t("new-test-based")}</ButtonText>
+        </Button>
+        <Button onPress={_onPressHome} style={{ marginVertical: 10 }}>
           <ButtonText>{t("go-home")}</ButtonText>
         </Button>
       </ScrollView>
