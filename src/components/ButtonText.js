@@ -1,14 +1,14 @@
-import styled from 'styled-components/native';
+import styled from "styled-components/native";
 
 const ButtonText = styled.Text`
   text-transform: uppercase;
   text-align: center;
   font-weight: 800;
   color: ${props => {
-    if (props.primary || props.success) {
-      return 'white';
+    if (props.primary || props.success || props.danger) {
+      return "white";
     }
-    return 'black';
+    return "black";
   }};
 `;
 

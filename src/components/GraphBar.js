@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
-import moment from 'moment';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import Colors from '../constants/Colors';
+import React, { useState } from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import moment from "moment";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import Colors from "../constants/Colors";
 
 const GraphLine = styled.View`
   height: 1px;
-  background-color: black;
+  background-color: gray;
   width: 100%;
   z-index: 999;
 `;
@@ -22,20 +22,21 @@ const GraphContainer = styled.View`
 `;
 
 const GraphText = styled.Text`
-  text-align: ${props => (props.leftAligned ? 'left' : 'right')}
+  text-align: ${props => (props.leftAligned ? "left" : "right")}
   color: black;
   width: 100px;
+  font-weight: 600;
 `;
 
 const GraphPoint = styled.View`
   background-color: ${props => {
     const {
-      data: { source },
+      data: { source }
     } = props;
-    if (source === 'fb') {
+    if (source === "fb") {
       return Colors.facebook;
     }
-    if (source === 'tw') {
+    if (source === "tw") {
       return Colors.twitter;
     }
     return Colors.text;
@@ -43,7 +44,7 @@ const GraphPoint = styled.View`
   width: 10px;
   height: 10px;
   border-radius: 5px;
-  position: ${props => (props.data.percentile ? 'absolute' : 'relative')};
+  position: ${props => (props.data.percentile ? "absolute" : "relative")};
   left: ${props => (props.data.percentile ? props.data.percentile * 100 : 0)}%;
   z-index: 1000;
 `;
@@ -51,7 +52,7 @@ const GraphPoint = styled.View`
 const PointsContainer = styled.View`
   flex: 1;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 const TextContainer = styled.View`
@@ -67,7 +68,7 @@ const GraphDetailContainer = styled.View`
 
 const GraphDetailRow = styled.View`
   flex-direction: row;
-  margin: 10px 0;
+  margin: 15px 0;
   align-items: center;
 `;
 
@@ -81,9 +82,9 @@ const GraphDetail = ({ data }) => {
       {data.map(x => (
         <GraphDetailRow>
           <GraphPoint data={{ ...x, percentile: null }} />
-          <GraphDetailText>{`(${parseInt(x.percentile * 100, 10)}%) - ${moment(x.date).format(
-            'MMMM Do YYYY, h:mm:ssA'
-          )}`}</GraphDetailText>
+          <GraphDetailText>{`(${parseInt(x.percentile * 100, 10)}%) - ${moment(
+            x.date
+          ).format("MMMM Do YYYY, h:mm:ssA")}`}</GraphDetailText>
         </GraphDetailRow>
       ))}
     </GraphDetailContainer>
@@ -99,14 +100,14 @@ const GraphBar = ({ title, leftText, rightText, pointsData }) => {
   return (
     <TouchableOpacity
       style={{
-        flexDirection: 'column',
+        flexDirection: "column",
         marginVertical: 5,
-        display: 'flex',
-        flex: 1,
+        display: "flex",
+        flex: 1
       }}
       onPress={_onPress}
     >
-      <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>{title}</Text>
+      <Text style={{ textAlign: "center", fontWeight: "bold" }}>{title}</Text>
       <GraphContainer>
         <TextContainer>
           <GraphText leftAligned>{leftText}</GraphText>
@@ -118,7 +119,11 @@ const GraphBar = ({ title, leftText, rightText, pointsData }) => {
           ))}
           <GraphLine />
         </PointsContainer>
-        {active && <GraphDetail data={pointsData} />}
+        {active && (
+          <View style={{ marginTop: 20 }}>
+            <GraphDetail data={pointsData} />
+          </View>
+        )}
       </GraphContainer>
     </TouchableOpacity>
   );
@@ -131,9 +136,9 @@ GraphBar.propTypes = {
   pointsData: PropTypes.arrayOf(
     PropTypes.shape({
       source: PropTypes.string.isRequired,
-      percentile: PropTypes.number.isRequired,
+      percentile: PropTypes.number.isRequired
     })
-  ).isRequired,
+  ).isRequired
 };
 
 export default GraphBar;

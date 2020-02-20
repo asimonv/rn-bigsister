@@ -22,12 +22,18 @@ export default {
     my: "Mi",
     results: "Resultados",
     "used-data": "Datos",
+    "new-test-based": "Crear nuevo test basado en este",
     here: "aquí",
     "date-range": "Selecciona un rango de fechas",
     "compare-sources-title": "Comparar Fuentes",
     "go-home": "Ir al inicio",
+    "start-test": "Comenzar test",
     personality: "Personalidad",
+    "write-something-about": "Escribe (o copia) algo sobre",
     no: "No",
+    accounts: {
+      approved: "¡Tu cuenta ha sido enlazada con éxito!"
+    },
     spotify: {
       more: "Más información sobre el flujo de autenticación de Spotify",
       button: "Ver las recomendaciones músicales con Spotify",
@@ -37,7 +43,7 @@ export default {
       message:
         "Ahora que he analizado tu identidad, puedo recomendarte canciones que creo que te pueden gustar en base a la información que me has brindado."
     },
-    "check-data-message": "Mira lo que Watson utilizó para analizarte",
+    "check-data-message": "Datos utilizados por Watson",
     "greetings-text": "¡Gracias por participar! ☺️",
     "landing-message":
       "Hola, soy Big Sister y puedo perfilarte y recomendarte canciones basándose en lo que piensas o posteas en redes sociales.",

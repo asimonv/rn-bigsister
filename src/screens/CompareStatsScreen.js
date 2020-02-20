@@ -19,6 +19,7 @@ import Button from "../components/Button";
 import ButtonText from "../components/ButtonText";
 import ComparisonGraph from "../components/ComparisonGraph";
 import personalityInfo from "../data/personality";
+import Colors from "../constants/Colors";
 
 const viewTint = "#5352ed";
 
@@ -134,7 +135,10 @@ const CompareStatsScreen = ({ navigation }) => {
                 >
                   <View style={styles.statDetail}>
                     <View
-                      style={[styles.statColor, { backgroundColor: "blue" }]}
+                      style={[
+                        styles.statColor,
+                        { backgroundColor: Colors.facebook }
+                      ]}
                     />
                     <Text style={styles.statTitle}>Facebook</Text>
                   </View>
@@ -142,14 +146,17 @@ const CompareStatsScreen = ({ navigation }) => {
                     <View
                       style={[
                         styles.statColor,
-                        { backgroundColor: "lightblue" }
+                        { backgroundColor: Colors.twitter }
                       ]}
                     />
                     <Text style={styles.statTitle}>Twitter</Text>
                   </View>
                   <View style={styles.statDetail}>
                     <View
-                      style={[styles.statColor, { backgroundColor: "gray" }]}
+                      style={[
+                        styles.statColor,
+                        { backgroundColor: Colors.text }
+                      ]}
                     />
                     <Text style={styles.statTitle}>Text</Text>
                   </View>

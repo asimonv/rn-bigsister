@@ -49,7 +49,7 @@ class TextComposer extends Component {
               <TextInput
                 style={styles.textInput}
                 onChangeText={this._onChangeText}
-                placeholder={`Write something about ${randomCategory}`}
+                placeholder={`${t("write-something-about")} ${randomCategory}`}
                 multiline
               />
             </View>

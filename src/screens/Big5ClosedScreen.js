@@ -13,13 +13,12 @@ import { useTranslation } from "react-i18next";
 import { getUserRecommendations } from "../services/spotify";
 import NavButton from "../components/NavButton";
 import NavBar from "../components/NavBar";
-import Bar from "../components/Bar";
 import Button from "../components/Button";
 import ButtonText from "../components/ButtonText";
 import BubbleText from "../components/BubbleText";
 import AditionalInfoText from "../components/AditionalInfoText";
 import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
-import personalityInfo from "../data/personality";
+import GraphBarWrapper from "../components/GraphBarWrapper";
 
 const lowercaseFirstLetter = string =>
   string[0].toLowerCase() + string.slice(1);
@@ -39,13 +38,11 @@ const Big5ClosedScreen = ({ navigation }) => {
   const sortedPersonalities = personality.sort(
     (a, b) => a.percentile > b.percentile
   );
-  const consumptionPreferencesText = t("consumption-preferences-text");
   const _toggleInfo = () => {
     setStatus(!status);
   };
   useEffect(() => {
     StatusBar.setBarStyle("dark-content", true);
-    console.log(info);
     return () => {
       StatusBar.setBarStyle("light-content", true);
     };
@@ -99,45 +96,7 @@ const Big5ClosedScreen = ({ navigation }) => {
         )}
         <View>
           {sortedPersonalities.map(p => (
-            <View style={{ flex: 1, marginVertical: 15 }} key={p.trait_id}>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between"
-                }}
-              >
-                <Text style={{ maxWidth: "30%" }}>
-                  {personalityInfo(t)[p.trait_id].leftIntervalText}
-                </Text>
-                <Text style={{ maxWidth: "30%" }}>
-                  {personalityInfo(t)[p.trait_id].rightIntervalText}
-                </Text>
-              </View>
-              <Bar
-                style={{
-                  marginVertical: 10,
-                  backgroundColor: personalityInfo(t)[p.trait_id].color
-                }}
-                key={p.name}
-                title={p.name}
-                percentage={p.percentile}
-              >
-                <Text style={{ padding: 5, color: "white" }}>
-                  {`${personalityInfo(t)[p.trait_id].title} (${parseInt(
-                    p.percentile * 100,
-                    10
-                  )}%)`}
-                </Text>
-              </Bar>
-              {status && (
-                <AditionalInfoText
-                  key={personalityInfo(t)[p.trait_id].description}
-                >
-                  {personalityInfo(t)[p.trait_id].description}
-                </AditionalInfoText>
-              )}
-            </View>
+            <GraphBarWrapper key={p.trait_id} data={p} status={status} />
           ))}
         </View>
         <View>
@@ -149,7 +108,6 @@ const Big5ClosedScreen = ({ navigation }) => {
             </>
           )}
           {consumption_preferences.map(cp => {
-            console.log(cp);
             const filteredConsumptions = cp.consumption_preferences.filter(
               pref => pref.score !== 0.5
             );

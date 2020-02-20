@@ -28,7 +28,10 @@ export default {
     "date-range": "Select a range of dates",
     here: "here",
     "go-home": "Go Home",
+    "start-test": "Start test",
+    "new-test-based": "Make new test based on this one",
     "greetings-text": "Thank you for participating! ☺️",
+    "write-something-about": "Write (or copy) something about",
     fetching: {
       fb: "Getting your Facebook posts",
       watson: "Getting Watson data",
@@ -145,6 +148,9 @@ export default {
         consumption_preferences_volunteer:
           "Likely to volunteer for social causes"
       }
+    },
+    accounts: {
+      approved: "Your account has been succesfully linked!"
     },
     spotify: {
       more: "More information about the Spotify authentication flow",

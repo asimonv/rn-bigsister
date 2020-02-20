@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import {
+  Alert,
   Linking,
   Platform,
   StatusBar,
@@ -61,7 +62,13 @@ const HomeScreen = props => {
       if (checkTwitter) {
         const [, user] = checkTwitter;
         await AsyncStorage.setItem("@LittleStore:twitterId", user);
-        navigate("TextScreen", { context: "tw" });
+        Alert.alert(t("accounts.approved"), "", [
+          { text: t("cancel"), style: "cancel" },
+          {
+            text: `${t("start-test")}`,
+            onPress: () => navigate("TextScreen", { context: "tw" })
+          }
+        ]);
       }
       const checkSpotify = url.match(/spotify_auth_code=([^#]+)/);
       if (checkSpotify) {
@@ -103,7 +110,13 @@ const HomeScreen = props => {
           } else {
             try {
               await handleFacebookLogin();
-              navigate("TextScreen", { context: "fb" });
+              Alert.alert(t("accounts.approved"), "", [
+                { text: t("cancel"), style: "cancel" },
+                {
+                  text: `${t("start-test")}`,
+                  onPress: () => navigate("TextScreen", { context: "fb" })
+                }
+              ]);
             } catch (e) {
               console.log(e);
             }
