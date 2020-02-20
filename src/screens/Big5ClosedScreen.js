@@ -19,6 +19,7 @@ import BubbleText from "../components/BubbleText";
 import AditionalInfoText from "../components/AditionalInfoText";
 import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
 import GraphBarWrapper from "../components/GraphBarWrapper";
+import { Transition } from "react-navigation-fluid-transitions";
 
 const lowercaseFirstLetter = string =>
   string[0].toLowerCase() + string.slice(1);
@@ -78,17 +79,19 @@ const Big5ClosedScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <NavBar style={{ marginVertical: 10, marginHorizontal: 20 }}>
-        <NavButton
-          name="arrow-round-back"
-          onPress={() => navigation.goBack()}
-        />
-        <Text style={styles.title}>{t("results")}</Text>
-        <NavButton
-          name={status ? "information-circle" : "information-circle-outline"}
-          onPress={_toggleInfo}
-        />
-      </NavBar>
+      <Transition appear="top">
+        <NavBar style={{ marginVertical: 10, marginHorizontal: 20 }}>
+          <NavButton
+            name="arrow-round-back"
+            onPress={() => navigation.goBack()}
+          />
+          <Text style={styles.title}>{t("results")}</Text>
+          <NavButton
+            name={status ? "information-circle" : "information-circle-outline"}
+            onPress={_toggleInfo}
+          />
+        </NavBar>
+      </Transition>
       <ScrollView style={{ ...styles.container, paddingHorizontal: 20 }}>
         {content && (
           <Button onPress={_goToData}>

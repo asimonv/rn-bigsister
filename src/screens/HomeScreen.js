@@ -208,23 +208,25 @@ const HomeScreen = props => {
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
     >
-      <NavBar style={{ position: "absolute", top: 50, left: 20, right: 20 }}>
-        <NavButton
-          name="clock"
-          style={{ color: viewTint }}
-          onPress={_showHistory}
-        />
-        <NavButton
-          name="globe"
-          style={{ color: viewTint }}
-          onPress={_toggleLanguage}
-        />
-        <NavButton
-          name="remove-circle-outline"
-          style={{ color: viewTint }}
-          onPress={_handleLogout}
-        />
-      </NavBar>
+      <Transition appear="top">
+        <NavBar style={{ position: "absolute", top: 50, left: 20, right: 20 }}>
+          <NavButton
+            name="clock"
+            style={{ color: viewTint }}
+            onPress={_showHistory}
+          />
+          <NavButton
+            name="globe"
+            style={{ color: viewTint }}
+            onPress={_toggleLanguage}
+          />
+          <NavButton
+            name="remove-circle-outline"
+            style={{ color: viewTint }}
+            onPress={_handleLogout}
+          />
+        </NavBar>
+      </Transition>
       <Transition appear="top">
         <MessageBubble style={{ margin: 10 }}>
           <Text style={styles.tapEyeText}>{t("welcome-message")}</Text>
