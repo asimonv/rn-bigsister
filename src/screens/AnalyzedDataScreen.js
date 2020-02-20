@@ -105,6 +105,7 @@ const AnalyzedDataScreen = props => {
 
   const _handleOnPressDone = () => {
     const newData = content.filter(x => !selected.get(x.id));
+    navigation.navigate("NewTestScreen", { data: newData, context });
   };
 
   const _onOpenActionSheet = async () => {
@@ -137,7 +138,7 @@ const AnalyzedDataScreen = props => {
           style={{ flex: 1, backgroundColor: viewTint }}
           contentContainerStyle={{ flex: 1 }}
         >
-          <View style={styles.headerWrapper}>
+          <Transition appear="top" style={styles.headerWrapper}>
             <NavBar style={{ marginVertical: 10, marginHorizontal: 20 }}>
               <NavButton
                 style={{ color: viewTint }}
@@ -155,7 +156,7 @@ const AnalyzedDataScreen = props => {
                 />
               )}
             </NavBar>
-          </View>
+          </Transition>
           {edit && (
             <MessageBubble style={{ marginBottom: 10, marginHorizontal: 10 }}>
               <Text style={styles.greetingsText}>

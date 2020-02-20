@@ -8,6 +8,7 @@ import Big5ClosedScreen from "../screens/Big5ClosedScreen";
 import HistoryScreen from "../screens/HistoryScreen";
 import AnalyzedDataScreen from "../screens/AnalyzedDataScreen";
 import CompareStatsScreen from "../screens/CompareStatsScreen";
+import NewTestScreen from "../screens/NewTestScreen";
 
 const HomeStack = FluidNavigator({
   Home: { screen: HomeScreen, path: "home" },
@@ -20,7 +21,8 @@ const HomeStack = FluidNavigator({
   },
   HistoryScreen: { screen: HistoryScreen },
   AnalyzedDataScreen: { screen: AnalyzedDataScreen },
-  CompareStatsScreen: { screen: CompareStatsScreen }
+  CompareStatsScreen: { screen: CompareStatsScreen },
+  NewTestScreen: { screen: NewTestScreen }
 });
 
 export default HomeStack;

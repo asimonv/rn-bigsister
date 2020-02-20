@@ -21,18 +21,10 @@ import fetchTweets from "../services/twitter";
 import textCategories from "../services/options";
 import genres from "../data/genre-seeds";
 
+import saveTest from "../utils/saving";
+
 const RECOMMENDED_CHARS = 280;
 const viewTint = "#c0392b";
-
-const saveTest = async (test, source) => {
-  const history =
-    JSON.parse(await AsyncStorage.getItem("@LittleStore:history")) || [];
-  const newHistory = [...history, { ...test, date: new Date(), source }];
-  await AsyncStorage.setItem(
-    "@LittleStore:history",
-    JSON.stringify(newHistory)
-  );
-};
 
 const sourcesNames = {
   tw: "Twitter",
