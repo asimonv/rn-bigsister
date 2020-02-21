@@ -165,7 +165,7 @@ export default {
       message:
         "Now that I have analyzed your identity, it's time to show you the songs that I think you might like according to the information you provided"
     },
-    "check-data-message": "Check what Watson used to analyze you",
+    "check-data-message": "What Watson used",
     big5_openness: {
       title: "Openness",
       leftIntervalText: "Conservative + traditional",

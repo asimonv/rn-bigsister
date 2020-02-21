@@ -31,6 +31,8 @@ const HistoryScreen = props => {
     const getHistory = async () => {
       const storageHistory = await AsyncStorage.getItem("@LittleStore:history");
       const parsedHistory = JSON.parse(storageHistory).reverse();
+      console.log(parsedHistory);
+
       setHistory(parsedHistory);
     };
     getHistory();
@@ -55,7 +57,9 @@ const HistoryScreen = props => {
   const renderItem = item => {
     const adaptedItem = {
       title: moment(item.date).format("MMMM Do YYYY, h:mm:ssA"),
-      subtitle: sourcesNames[item.source],
+      subtitle: `${sourcesNames[item.source]} ${
+        item.modified ? "(Modified)" : ""
+      }`,
       data: item
     };
     return <ListItem onPress={_handlePress} item={adaptedItem} />;

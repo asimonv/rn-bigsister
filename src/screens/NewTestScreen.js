@@ -66,27 +66,37 @@ const NewTestScreen = props => {
           {
             modified: true,
             info: res,
-            content,
-            filters
+            content: { data },
+            filters: { seed_genres: reqGenres }
           },
           context
         );
       }
     };
+    let content;
     switch (context) {
       case "tw": {
-        const content = data.map(tw => ({
+        content = data.map(tw => ({
           content: tw.text,
           contenttype: "text/plain",
           id: `${tw.id}`
         }));
-        getInsights(content);
         break;
       }
 
+      case "fb": {
+        content = data.map(p => ({
+          content: p.message,
+          contenttype: "text/plain",
+          id: p.id
+        }));
+        break;
+      }
       default:
         break;
     }
+
+    getInsights(content);
 
     return () => {
       abortController.abort();
@@ -108,7 +118,7 @@ const NewTestScreen = props => {
     const now = moment().format("MMMM Do YYYY, h:mm:ssA");
     navigate("Big5ClosedScreen", {
       info: insights,
-      content: data,
+      content: { data },
       filters,
       title: sourcesNames[context],
       subtitle: now,
