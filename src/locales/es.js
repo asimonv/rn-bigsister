@@ -53,6 +53,18 @@ export default {
     "landing-message":
       "Hola, soy Big Sister y puedo perfilarte y recomendarte canciones basándose en lo que piensas o posteas en redes sociales.",
     "try-me": "¡Pruébame!",
+    helpers: {
+      home: {
+        buttons: {
+          remove:
+            "Al hacer click en este icono veras las cuentas de Facebook, Twitter o Spotify en que les has brindado el permiso a Big Sister para acceder a tus datos. Puedes seleccionar una de ellas para desloguearte o cerrar sesión, cancelando el permiso para acceder a tu información para futuros tests dentro de la app.",
+          language:
+            "Puedes cambiar el lenguaje de la app (🇪🇸/🇬🇧) haciendo click en el icono del globo.",
+          history:
+            "Te aparecerá la pantalla “Tu Historial” en donde podrás ver todos los tests realizados ordenados por fecha. Al clickear en alguno de ellos, podrás ver nuevamente los resultados de personalidad y preferencias de consumo."
+        }
+      }
+    },
     consumption_preferences: {
       consumption_preferences_shopping: {
         name: "Preferencias de compra",

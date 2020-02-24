@@ -92,101 +92,105 @@ const Big5ClosedScreen = ({ navigation }) => {
           />
         </NavBar>
       </Transition>
-      <ScrollView style={{ ...styles.container, paddingHorizontal: 20 }}>
-        {content && (
-          <Button onPress={_goToData}>
-            <ButtonText>{t("check-data-message")}</ButtonText>
-          </Button>
-        )}
+      <Transition appear="bottom">
+        <ScrollView style={{ ...styles.container, paddingHorizontal: 20 }}>
+          {content && (
+            <Button onPress={_goToData}>
+              <ButtonText>{t("check-data-message")}</ButtonText>
+            </Button>
+          )}
 
-        <BubbleText title={t("personality")} />
-        {status && context === "text" && (
+          <BubbleText title={t("personality")} />
+          {status && context === "text" && (
+            <View>
+              <AditionalInfoText>{`${t(
+                "test-text-based"
+              )}:`}</AditionalInfoText>
+              <AditionalInfoText>{text}</AditionalInfoText>
+            </View>
+          )}
           <View>
-            <AditionalInfoText>{`${t("test-text-based")}:`}</AditionalInfoText>
-            <AditionalInfoText>{text}</AditionalInfoText>
+            {sortedPersonalities.map(p => (
+              <GraphBarWrapper key={p.trait_id} data={p} status={status} />
+            ))}
           </View>
-        )}
-        <View>
-          {sortedPersonalities.map(p => (
-            <GraphBarWrapper key={p.trait_id} data={p} status={status} />
-          ))}
-        </View>
-        <View>
-          {status && (
-            <>
-              <AditionalInfoText>
-                {t("test_calculation_message")}
-              </AditionalInfoText>
-            </>
-          )}
-          {consumption_preferences.map(cp => {
-            const filteredConsumptions = cp.consumption_preferences.filter(
-              pref => pref.score !== 0.5
-            );
-            return filteredConsumptions.length ? (
-              <View key={cp.consumption_preference_category_id}>
-                <BubbleText
-                  title={t(
-                    `consumption_preferences.${cp.consumption_preference_category_id}.name`
-                  )}
-                />
-                {status &&
-                cp.consumption_preference_category_id ===
-                  "consumption_preferences_shopping" ? (
-                  <AditionalInfoText>
-                    {t("consumption-preferences-text")}
-                  </AditionalInfoText>
-                ) : null}
-                {filteredConsumptions.map(item => (
-                  <Text
-                    key={item.consumption_preference_id}
-                    style={{ marginVertical: 5 }}
-                  >
-                    ·{" "}
-                    {item.score === 0
-                      ? `${t("no")} ${lowercaseFirstLetter(
-                          t(
+          <View>
+            {status && (
+              <>
+                <AditionalInfoText>
+                  {t("test_calculation_message")}
+                </AditionalInfoText>
+              </>
+            )}
+            {consumption_preferences.map(cp => {
+              const filteredConsumptions = cp.consumption_preferences.filter(
+                pref => pref.score !== 0.5
+              );
+              return filteredConsumptions.length ? (
+                <View key={cp.consumption_preference_category_id}>
+                  <BubbleText
+                    title={t(
+                      `consumption_preferences.${cp.consumption_preference_category_id}.name`
+                    )}
+                  />
+                  {status &&
+                  cp.consumption_preference_category_id ===
+                    "consumption_preferences_shopping" ? (
+                    <AditionalInfoText>
+                      {t("consumption-preferences-text")}
+                    </AditionalInfoText>
+                  ) : null}
+                  {filteredConsumptions.map(item => (
+                    <Text
+                      key={item.consumption_preference_id}
+                      style={{ marginVertical: 5 }}
+                    >
+                      ·{" "}
+                      {item.score === 0
+                        ? `${t("no")} ${lowercaseFirstLetter(
+                            t(
+                              `consumption_preferences.${cp.consumption_preference_category_id}.${item.consumption_preference_id}`
+                            )
+                          )}`
+                        : t(
                             `consumption_preferences.${cp.consumption_preference_category_id}.${item.consumption_preference_id}`
-                          )
-                        )}`
-                      : t(
-                          `consumption_preferences.${cp.consumption_preference_category_id}.${item.consumption_preference_id}`
-                        )}
-                  </Text>
-                ))}
-              </View>
-            ) : null;
-          })}
-        </View>
-        <View>
-          <BubbleText title="Spotify" />
-          <GetSpotifyRecommendations onPress={_onPressSpotify} />
-          {status && (
-            <AditionalInfoText>
-              {`${t("spotify.more")} `}
-              <Text
-                style={{ color: "blue" }}
-                onPress={() =>
-                  Linking.openURL(
-                    "https://developer.spotify.com/documentation/general/guides/authorization-guide/"
-                  )
-                }
-              >
-                {`${t("here")}`}
-              </Text>
-            </AditionalInfoText>
-          )}
-        </View>
-        <Button
-          onPress={_onPressNewTest}
-          style={{ marginBottom: 10, marginTop: 40 }}
-        >
-          <ButtonText>{t("new-test-based")}</ButtonText>
-        </Button>
-        <Button onPress={_onPressHome} style={{ marginVertical: 10 }}>
-          <ButtonText>{t("go-home")}</ButtonText>
-        </Button>
-      </ScrollView>
+                          )}
+                    </Text>
+                  ))}
+                </View>
+              ) : null;
+            })}
+          </View>
+          <View>
+            <BubbleText title="Spotify" />
+            <GetSpotifyRecommendations onPress={_onPressSpotify} />
+            {status && (
+              <AditionalInfoText>
+                {`${t("spotify.more")} `}
+                <Text
+                  style={{ color: "blue" }}
+                  onPress={() =>
+                    Linking.openURL(
+                      "https://developer.spotify.com/documentation/general/guides/authorization-guide/"
+                    )
+                  }
+                >
+                  {`${t("here")}`}
+                </Text>
+              </AditionalInfoText>
+            )}
+          </View>
+          <Button
+            onPress={_onPressNewTest}
+            style={{ marginBottom: 10, marginTop: 40 }}
+          >
+            <ButtonText>{t("new-test-based")}</ButtonText>
+          </Button>
+          <Button onPress={_onPressHome} style={{ marginVertical: 10 }}>
+            <ButtonText>{t("go-home")}</ButtonText>
+          </Button>
+        </ScrollView>
+      </Transition>
     </SafeAreaView>
   );
 };

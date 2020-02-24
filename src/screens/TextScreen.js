@@ -338,25 +338,27 @@ class TextScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView>
-          <NavBar style={{ marginVertical: 10 }}>
-            <NavButton
-              style={{ color: viewTint }}
-              name="arrow-round-back"
-              onPress={() => navigation.goBack()}
-            />
-            {!gettingCategories && (
+          <Transition appear="top">
+            <NavBar style={{ marginVertical: 10 }}>
               <NavButton
-                name="repeat"
                 style={{ color: viewTint }}
-                onPress={this._changeRandomCategory}
+                name="arrow-round-back"
+                onPress={() => navigation.goBack()}
               />
-            )}
-            <NavButton
-              name={status ? "information-circle" : "information"}
-              style={{ color: viewTint }}
-              onPress={this._toggleInfo}
-            />
-          </NavBar>
+              {!gettingCategories && (
+                <NavButton
+                  name="repeat"
+                  style={{ color: viewTint }}
+                  onPress={this._changeRandomCategory}
+                />
+              )}
+              <NavButton
+                name={status ? "information-circle" : "information"}
+                style={{ color: viewTint }}
+                onPress={this._toggleInfo}
+              />
+            </NavBar>
+          </Transition>
           {!finished && (
             <Transition appear="top">
               <MessageBubble style={{ marginBottom: 10 }}>

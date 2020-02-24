@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Linking,
@@ -24,6 +24,7 @@ import { isSpotifyTokenExpired, clearSpotifyToken } from "../services/spotify";
 import MessageBubble from "../components/MessageBubble";
 import NavButton from "../components/NavButton";
 import NavBar from "../components/NavBar";
+import TooltipHelper from "../components/TooltipHelper";
 
 const colors = ["#240080", "#DA21B7"];
 const viewTint = "rebeccapurple";
@@ -35,6 +36,7 @@ const HomeScreen = props => {
     showActionSheetWithOptions,
     navigation: { navigate }
   } = props;
+  const [visible, setVisible] = useState([true, false, false]);
 
   useEffect(() => {
     StatusBar.setBarStyle("light-content", true);
@@ -201,6 +203,19 @@ const HomeScreen = props => {
     );
   };
 
+  const _handleTooltipOnPress = index => {
+    console.log(index);
+
+    setVisible(
+      visible.map((x, i) => {
+        if (i === index || i === index + 1) {
+          return !x;
+        }
+        return x;
+      })
+    );
+  };
+
   return (
     <LinearGradient
       style={styles.container}
@@ -210,21 +225,42 @@ const HomeScreen = props => {
     >
       <Transition appear="top">
         <NavBar style={{ position: "absolute", top: 50, left: 20, right: 20 }}>
-          <NavButton
-            name="clock"
-            style={{ color: viewTint }}
-            onPress={_showHistory}
-          />
-          <NavButton
-            name="globe"
-            style={{ color: viewTint }}
-            onPress={_toggleLanguage}
-          />
-          <NavButton
-            name="remove-circle-outline"
-            style={{ color: viewTint }}
-            onPress={_handleLogout}
-          />
+          <TooltipHelper
+            isVisible={visible[0]}
+            index={0}
+            setVisible={_handleTooltipOnPress}
+            text={t("helpers.home.buttons.history")}
+          >
+            <NavButton
+              name="clock"
+              style={{ color: viewTint }}
+              onPress={_showHistory}
+            />
+          </TooltipHelper>
+          <TooltipHelper
+            isVisible={visible[1]}
+            index={1}
+            setVisible={_handleTooltipOnPress}
+            text={t("helpers.home.buttons.language")}
+          >
+            <NavButton
+              name="globe"
+              style={{ color: viewTint }}
+              onPress={_toggleLanguage}
+            />
+          </TooltipHelper>
+          <TooltipHelper
+            isVisible={visible[2]}
+            index={2}
+            setVisible={_handleTooltipOnPress}
+            text={t("helpers.home.buttons.remove")}
+          >
+            <NavButton
+              name="remove-circle-outline"
+              style={{ color: viewTint }}
+              onPress={_handleLogout}
+            />
+          </TooltipHelper>
         </NavBar>
       </Transition>
       <Transition appear="top">

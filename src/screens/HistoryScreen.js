@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import ListItem from "../components/ListItem";
 import NavBar from "../components/NavBar";
 import NavButton from "../components/NavButton";
+import MessageBubble from "../components/MessageBubble";
 
 const viewTint = "#5352ed";
 
@@ -113,7 +114,21 @@ const HistoryScreen = props => {
 
   const _renderListEmptyComponent = () => (
     <View style={styles.centeredContent}>
-      <Text style={{ textAlign: "center" }}>{noTestsMessage}</Text>
+      <MessageBubble
+        style={{ backgroundColor: "rgba(255, 242, 0,1.0)", borderWidth: 2 }}
+      >
+        <Text
+          style={{
+            fontSize: 18,
+            fontWeight: "600",
+            color: "black",
+            textAlign: "center",
+            padding: 5
+          }}
+        >
+          {noTestsMessage}
+        </Text>
+      </MessageBubble>
     </View>
   );
 
