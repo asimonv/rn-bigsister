@@ -63,7 +63,22 @@ export default {
           history:
             "Te aparecerá la pantalla “Tu Historial” en donde podrás ver todos los tests realizados ordenados por fecha. Al clickear en alguno de ellos, podrás ver nuevamente los resultados de personalidad y preferencias de consumo."
         }
+      },
+      history: {
+        buttons: {
+          options:
+            "Este es el botón de opciones. Aquí podrás interactuar con el historial de tus tests"
+        }
+      },
+      "new-test": {
+        placeholder: "Describe este nuevo test (ej: lo que modificaste)"
       }
+    },
+    compare: {
+      title: "Compárate con una figura pública",
+      click: "Toca una caracteristica para obtener más información sobre ella",
+      subtitle:
+        "Además de conocer distintos atributos de personalidad, puedes compararte con una figura pública y ver en qué se diferencian"
     },
     consumption_preferences: {
       consumption_preferences_shopping: {

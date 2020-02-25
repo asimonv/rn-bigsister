@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Alert, FlatList, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  Dimensions
+} from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import AsyncStorage from "@react-native-community/async-storage";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
@@ -10,6 +17,7 @@ import ListItem from "../components/ListItem";
 import NavBar from "../components/NavBar";
 import NavButton from "../components/NavButton";
 import MessageBubble from "../components/MessageBubble";
+import TooltipHelper from "../components/TooltipHelper";
 
 const viewTint = "#5352ed";
 
@@ -21,6 +29,7 @@ const sourcesNames = {
 
 const HistoryScreen = props => {
   const [history, setHistory] = useState([]);
+  const [visible, setVisible] = useState([false]);
   const {
     showActionSheetWithOptions,
     navigation: { navigate }
@@ -29,6 +38,13 @@ const HistoryScreen = props => {
   const noTestsMessage = t("no-tests-message");
 
   useEffect(() => {
+    const checkTour = async () => {
+      const completedTour = await AsyncStorage.getItem(
+        "@LittleStore.tour.History"
+      );
+      setVisible([!JSON.parse(completedTour), false, false]);
+    };
+
     const getHistory = async () => {
       const storageHistory = await AsyncStorage.getItem("@LittleStore:history");
       const parsedHistory = JSON.parse(storageHistory).reverse();
@@ -37,6 +53,7 @@ const HistoryScreen = props => {
       setHistory(parsedHistory);
     };
     getHistory();
+    checkTour();
   }, []);
 
   const renderSeparator = () => (
@@ -60,7 +77,7 @@ const HistoryScreen = props => {
       title: moment(item.date).format("MMMM Do YYYY, h:mm:ssA"),
       subtitle: `${sourcesNames[item.source]} ${
         item.modified ? "(Modified)" : ""
-      }`,
+      } ${item.description ? ` - ${item.description}` : ""}`,
       data: item
     };
     return <ListItem onPress={_handlePress} item={adaptedItem} />;
@@ -132,6 +149,23 @@ const HistoryScreen = props => {
     </View>
   );
 
+  const _handleTooltipOnPress = async index => {
+    setVisible(
+      visible.map((x, i) => {
+        if (i === index || i === index + 1) {
+          return !x;
+        }
+        return x;
+      })
+    );
+
+    if (index === visible.length - 1) {
+      await AsyncStorage.setItem(
+        "@LittleStore.tour.History",
+        JSON.stringify(true)
+      );
+    }
+  };
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -144,11 +178,21 @@ const HistoryScreen = props => {
                 onPress={() => props.navigation.goBack()}
               />
               <Text style={styles.title}>{t("history-title")}</Text>
-              <NavButton
-                name="more"
-                style={{ color: viewTint }}
-                onPress={_onOpenActionSheet}
-              />
+              <TooltipHelper
+                isVisible={visible[0]}
+                index={0}
+                setVisible={_handleTooltipOnPress}
+                text={t("helpers.history.buttons.options")}
+                contentStyle={{
+                  right: -36
+                }}
+              >
+                <NavButton
+                  name="more"
+                  style={{ color: viewTint }}
+                  onPress={_onOpenActionSheet}
+                />
+              </TooltipHelper>
             </NavBar>
           </Transition>
           <Transition appear="bottom" disappear="bottom">

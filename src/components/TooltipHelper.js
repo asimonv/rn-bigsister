@@ -8,12 +8,20 @@ const NextButton = styled.TouchableOpacity`
   margin-top: 10px;
 `;
 
-const TooltipHelper = ({ children, isVisible, index, setVisible, text }) => {
+const TooltipHelper = ({
+  children,
+  isVisible,
+  index,
+  setVisible,
+  text,
+  contentStyle
+}) => {
   return (
     <Tooltip
       isVisible={isVisible}
       allowChildInteraction={false}
       contentStyle={{
+        ...contentStyle,
         maxWidth: Dimensions.get("window").width - 48
       }}
       content={

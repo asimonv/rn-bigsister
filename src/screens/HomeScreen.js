@@ -36,7 +36,17 @@ const HomeScreen = props => {
     showActionSheetWithOptions,
     navigation: { navigate }
   } = props;
-  const [visible, setVisible] = useState([true, false, false]);
+  const [visible, setVisible] = useState([false, false, false]);
+
+  useEffect(() => {
+    const checkTour = async () => {
+      const completedTour = await AsyncStorage.getItem(
+        "@LittleStore.tour.Home"
+      );
+      setVisible([!JSON.parse(completedTour), false, false]);
+    };
+    checkTour();
+  }, []);
 
   useEffect(() => {
     StatusBar.setBarStyle("light-content", true);
@@ -203,9 +213,7 @@ const HomeScreen = props => {
     );
   };
 
-  const _handleTooltipOnPress = index => {
-    console.log(index);
-
+  const _handleTooltipOnPress = async index => {
     setVisible(
       visible.map((x, i) => {
         if (i === index || i === index + 1) {
@@ -214,6 +222,13 @@ const HomeScreen = props => {
         return x;
       })
     );
+
+    if (index === visible.length - 1) {
+      await AsyncStorage.setItem(
+        "@LittleStore.tour.Home",
+        JSON.stringify(true)
+      );
+    }
   };
 
   return (

@@ -19,7 +19,10 @@ import Button from "../components/Button";
 import ButtonText from "../components/ButtonText";
 import ComparisonGraph from "../components/ComparisonGraph";
 import personalityInfo from "../data/personality";
-import Colors from "../constants/Colors";
+import dataSources from "../data/data-sources";
+import GraphLegends from "../components/GraphLegends";
+import BubbleText from "../components/BubbleText";
+import StyledPicker from "../components/StyledPicker";
 
 const viewTint = "#5352ed";
 
@@ -35,6 +38,10 @@ const CompareStatsScreen = ({ navigation }) => {
 
   useEffect(() => {
     setHistory(originalHistory);
+    StatusBar.setBarStyle("dark-content", true);
+    return () => {
+      StatusBar.setBarStyle("light-content", true);
+    };
   }, []);
 
   useEffect(() => {
@@ -53,12 +60,17 @@ const CompareStatsScreen = ({ navigation }) => {
       );
     });
 
+    console.log(filteredData);
+
     const data = _.chain(filteredData)
       .map(x => [
         ...x.info.personality.map(y => ({
           ...y,
           source: x.source,
-          date: x.date
+          date: x.date,
+          detailText: `(${parseInt(y.percentile * 100, 10)}%) - ${moment(
+            x.date
+          ).format("MMMM Do YYYY, h:mm:ssA")}`
         }))
       ])
       .value();
@@ -126,41 +138,19 @@ const CompareStatsScreen = ({ navigation }) => {
             )}
             {isLoaded && (
               <View style={{ marginTop: 10 }}>
+                <BubbleText title={t("compare.title")} />
+                <Text style={{ marginBottom: 20 }}>
+                  {t("compare.subtitle")}
+                </Text>
+                <StyledPicker
+                  onValueChange={value => console.log(value)}
+                  placeholder={"Selecciona una figura pública".toUpperCase()}
+                  data={[{ label: "Roberto Bolaños", value: "bolanos" }]}
+                />
+                <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
+
                 <ComparisonGraph data={history} />
-                <View
-                  style={[
-                    styles.container,
-                    { flexDirection: "row", justifyContent: "center" }
-                  ]}
-                >
-                  <View style={styles.statDetail}>
-                    <View
-                      style={[
-                        styles.statColor,
-                        { backgroundColor: Colors.facebook }
-                      ]}
-                    />
-                    <Text style={styles.statTitle}>Facebook</Text>
-                  </View>
-                  <View style={styles.statDetail}>
-                    <View
-                      style={[
-                        styles.statColor,
-                        { backgroundColor: Colors.twitter }
-                      ]}
-                    />
-                    <Text style={styles.statTitle}>Twitter</Text>
-                  </View>
-                  <View style={styles.statDetail}>
-                    <View
-                      style={[
-                        styles.statColor,
-                        { backgroundColor: Colors.text }
-                      ]}
-                    />
-                    <Text style={styles.statTitle}>Text</Text>
-                  </View>
-                </View>
+                <GraphLegends data={dataSources} />
               </View>
             )}
           </ScrollView>
@@ -177,19 +167,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingHorizontal: 20
-  },
-  statTitle: {
-    marginLeft: 5
-  },
-  statDetail: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginHorizontal: 10
-  },
-  statColor: {
-    width: 10,
-    height: 10,
-    borderRadius: 5
   },
   title: {
     fontWeight: "bold",

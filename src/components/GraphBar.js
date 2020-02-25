@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import moment from "moment";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import Colors from "../constants/Colors";
@@ -33,6 +32,7 @@ const GraphPoint = styled.View`
     const {
       data: { source }
     } = props;
+
     if (source === "fb") {
       return Colors.facebook;
     }
@@ -82,9 +82,7 @@ const GraphDetail = ({ data }) => {
       {data.map(x => (
         <GraphDetailRow>
           <GraphPoint data={{ ...x, percentile: null }} />
-          <GraphDetailText>{`(${parseInt(x.percentile * 100, 10)}%) - ${moment(
-            x.date
-          ).format("MMMM Do YYYY, h:mm:ssA")}`}</GraphDetailText>
+          <GraphDetailText>{x.detailText}</GraphDetailText>
         </GraphDetailRow>
       ))}
     </GraphDetailContainer>

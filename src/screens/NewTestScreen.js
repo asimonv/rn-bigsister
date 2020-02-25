@@ -13,6 +13,7 @@ import AditionalInfoText from "../components/AditionalInfoText";
 import pInsights from "../services/watson";
 import genres from "../data/genre-seeds";
 import saveTest from "../utils/saving";
+import TextComposerSkeleton from "../components/TextComposerSkeleton";
 
 const viewTint = "#c0392b";
 const sourcesNames = {
@@ -30,6 +31,8 @@ const NewTestScreen = props => {
   const [finished, setFinished] = useState();
   const [insights, setInsights] = useState();
   const [filters, setFilters] = useState();
+  const [started, setStarted] = useState(false);
+  const [description, setDescription] = useState("");
   const context = getParam("context");
   const data = getParam("data");
   const { t, language } = useTranslation();
@@ -67,7 +70,8 @@ const NewTestScreen = props => {
             modified: true,
             info: res,
             content: { data },
-            filters: { seed_genres: reqGenres }
+            filters: { seed_genres: reqGenres },
+            description
           },
           context
         );
@@ -96,12 +100,14 @@ const NewTestScreen = props => {
         break;
     }
 
-    getInsights(content);
+    if (started) {
+      getInsights(content);
+    }
 
     return () => {
       abortController.abort();
     };
-  }, []);
+  }, [started]);
 
   const _getInfoMessage = () => {
     switch (context) {
@@ -144,10 +150,20 @@ const NewTestScreen = props => {
       </Transition>
       <Transition appear="bottom">
         <View>
-          {!finished && (
+          {!finished && started && (
             <MessageBubble style={{ marginVertical: 10 }}>
               <ActivityIndicator size="large" color={viewTint} />
             </MessageBubble>
+          )}
+          {!started && (
+            <TextComposerSkeleton
+              placeholder={t("helpers.new-test.placeholder")}
+              leftButtonText="Atras"
+              rightButtonText="Guardar"
+              onPressCancel={() => goBack()}
+              onPressSend={() => setStarted(true)}
+              onChangeText={text => setDescription(text)}
+            />
           )}
           {testStatus && (
             <MessageBubble style={{ marginVertical: 10 }}>

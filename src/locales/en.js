@@ -37,6 +37,12 @@ export default {
     "new-test-based": "Make new test based on this one",
     "greetings-text": "Thank you for participating! ☺️",
     "write-something-about": "Write (or copy) something about",
+    compare: {
+      title: "Compare yourself with a public figure",
+      click: "Tap a feature to get more details about it",
+      subtitle:
+        "In addition to knowing different personality insights, you can also compare yourselft with a public figure and check the differences between"
+    },
     helpers: {
       home: {
         buttons: {
@@ -47,6 +53,15 @@ export default {
           remove:
             "By clicking on this button you can see your Facebook, Twitter or Spotify accounts that you have given your permission to access your data. There you can choose one to log it out, cancelling the permission to access your information for future tests."
         }
+      },
+      history: {
+        buttons: {
+          options:
+            "This is the option button. Tapping on it you will see options to interact with your tests"
+        }
+      },
+      "new-test": {
+        placeholder: "Describe this new test (ex: what you modified)"
       }
     },
     fetching: {
