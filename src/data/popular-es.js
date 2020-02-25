@@ -1,4 +1,5 @@
-export default {
+export const labels = [{ label: "Roberto Bolaños", value: "bolanos" }];
+export const personalitiesData = {
   bolanos: [
     {
       trait_id: "big5_openness",

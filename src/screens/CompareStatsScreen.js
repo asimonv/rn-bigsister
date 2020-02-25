@@ -18,11 +18,13 @@ import NavButton from "../components/NavButton";
 import Button from "../components/Button";
 import ButtonText from "../components/ButtonText";
 import ComparisonGraph from "../components/ComparisonGraph";
-import personalityInfo from "../data/personality";
-import dataSources from "../data/data-sources";
 import GraphLegends from "../components/GraphLegends";
 import BubbleText from "../components/BubbleText";
 import StyledPicker from "../components/StyledPicker";
+
+import personalityInfo from "../data/personality";
+import { labels, personalitiesData } from "../data/popular-es";
+import dataSources from "../data/data-sources";
 
 const viewTint = "#5352ed";
 
@@ -51,7 +53,7 @@ const CompareStatsScreen = ({ navigation }) => {
     }
   }, [endDate]);
 
-  const filterHistory = userHistory => {
+  const joinTests = userHistory => {
     const filteredData = userHistory.filter(x => {
       const formatedDate = moment(x.date);
       return (
@@ -60,9 +62,7 @@ const CompareStatsScreen = ({ navigation }) => {
       );
     });
 
-    console.log(filteredData);
-
-    const data = _.chain(filteredData)
+    const formatedData = _.chain(filteredData)
       .map(x => [
         ...x.info.personality.map(y => ({
           ...y,
@@ -75,8 +75,15 @@ const CompareStatsScreen = ({ navigation }) => {
       ])
       .value();
 
-    const joinedTests = Array.prototype.concat(...data);
+    const joinedTests = Array.prototype.concat(...formatedData);
+
+    return joinedTests;
+  };
+
+  const filterHistory = userHistory => {
+    const joinedTests = joinTests(userHistory);
     const groupedData = _.groupBy(joinedTests, x => x.trait_id);
+
     const points = Object.keys(groupedData).map(k => ({
       title: k,
       leftText: personalityInfo(t)[k].leftIntervalText,
@@ -101,6 +108,26 @@ const CompareStatsScreen = ({ navigation }) => {
 
   const _onPressButtonDatePicker = () => {
     setHidden(!hidden);
+  };
+
+  const _handlePickerOnChange = value => {
+    if (value) {
+      const joinedTests = joinTests(originalHistory);
+      const injectedPersonalityTests = Array.prototype.concat(
+        personalitiesData[value],
+        joinedTests
+      );
+      const groupedData = _.groupBy(injectedPersonalityTests, x => x.trait_id);
+      const points = Object.keys(groupedData).map(k => ({
+        title: k,
+        leftText: personalityInfo(t)[k].leftIntervalText,
+        rightText: personalityInfo(t)[k].rightIntervalText,
+        points: groupedData[k]
+      }));
+      setHistory(points);
+    } else {
+      filterHistory(originalHistory);
+    }
   };
 
   return (
@@ -143,9 +170,9 @@ const CompareStatsScreen = ({ navigation }) => {
                   {t("compare.subtitle")}
                 </Text>
                 <StyledPicker
-                  onValueChange={value => console.log(value)}
+                  onValueChange={value => _handlePickerOnChange(value)}
                   placeholder={"Selecciona una figura pública".toUpperCase()}
-                  data={[{ label: "Roberto Bolaños", value: "bolanos" }]}
+                  data={labels}
                 />
                 <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
 

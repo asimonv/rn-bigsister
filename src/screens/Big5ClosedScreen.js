@@ -11,7 +11,6 @@ import {
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
 import { Transition } from "react-navigation-fluid-transitions";
-import RNPickerSelect from "react-native-picker-select";
 import _ from "lodash";
 import moment from "moment";
 
@@ -26,8 +25,9 @@ import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
 import GraphBarWrapper from "../components/GraphBarWrapper";
 
 import personalityInfo from "../data/personality";
-import data from "../data/popular-es";
+import { labels, personalitiesData } from "../data/popular-es";
 import ComparisonGraph from "../components/ComparisonGraph";
+import StyledPicker from "../components/StyledPicker";
 
 const lowercaseFirstLetter = string =>
   string[0].toLowerCase() + string.slice(1);
@@ -95,7 +95,10 @@ const Big5ClosedScreen = ({ navigation }) => {
           x.date
         ).format("MMMM Do YYYY, h:mm:ssA")}`
       }));
-      const joinedTests = Array.prototype.concat(data[value], injectedContext);
+      const joinedTests = Array.prototype.concat(
+        personalitiesData[value],
+        injectedContext
+      );
       const groupedData = _.groupBy(joinedTests, x => x.trait_id);
       const comparisonPoints = Object.keys(groupedData).map(k => ({
         title: k,
@@ -197,20 +200,10 @@ const Big5ClosedScreen = ({ navigation }) => {
           <View>
             <BubbleText title={t("compare.title")} />
             <Text style={{ marginBottom: 20 }}>{t("compare.subtitle")}</Text>
-            <RNPickerSelect
-              placeholder={{
-                label: "Selecciona una figura pública".toUpperCase(),
-                value: null
-              }}
-              style={{
-                placeholder: {
-                  color: "black"
-                },
-                inputIOS: styles.inputIOS,
-                inputAndroid: styles.inputAndroid
-              }}
+            <StyledPicker
+              data={labels}
               onValueChange={value => _handleOnChangePicker(value)}
-              items={[{ label: "Roberto Bolaños", value: "bolanos" }]}
+              placeholder={"Selecciona una figura pública".toUpperCase()}
             />
             {points && (
               <>
@@ -288,27 +281,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 1,
     borderColor: "#ecf0f1"
-  },
-  inputIOS: {
-    fontWeight: "800",
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 2,
-    borderColor: "black",
-    borderRadius: 5,
-    textAlign: "center",
-    color: "black",
-    paddingRight: 30 // to ensure the text is never behind the icon
-  },
-  inputAndroid: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: "purple",
-    borderRadius: 8,
-    textAlign: "center",
-    color: "black",
-    paddingRight: 30 // to ensure the text is never behind the icon
   }
 });
 
