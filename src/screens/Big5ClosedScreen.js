@@ -23,11 +23,13 @@ import BubbleText from "../components/BubbleText";
 import AditionalInfoText from "../components/AditionalInfoText";
 import GetSpotifyRecommendations from "../components/GetSpotifyRecommendations";
 import GraphBarWrapper from "../components/GraphBarWrapper";
-
-import personalityInfo from "../data/personality";
-import { labels, personalitiesData } from "../data/popular-es";
 import ComparisonGraph from "../components/ComparisonGraph";
 import StyledPicker from "../components/StyledPicker";
+import GraphLegends from "../components/GraphLegends";
+
+import personalityInfo from "../data/personality";
+import dataSources from "../data/data-sources";
+import { labels, personalitiesData } from "../data/popular-es";
 
 const lowercaseFirstLetter = string =>
   string[0].toLowerCase() + string.slice(1);
@@ -37,6 +39,7 @@ const Big5ClosedScreen = ({ navigation }) => {
   const { t } = useTranslation();
   const [points, setPoints] = useState();
   const [status, setStatus] = useState(false); // ñaaaau first hook
+  const [graphLegends, setGraphLegends] = useState(dataSources);
   const info = getParam("info");
   const content = getParam("content");
   const filters = getParam("filters");
@@ -88,6 +91,7 @@ const Big5ClosedScreen = ({ navigation }) => {
 
   const _handleOnChangePicker = value => {
     if (value) {
+      const newLegend = labels.find(x => x.value === value);
       const injectedContext = personality.map(x => ({
         ...x,
         source: context,
@@ -96,7 +100,7 @@ const Big5ClosedScreen = ({ navigation }) => {
         ).format("MMMM Do YYYY, h:mm:ssA")}`
       }));
       const joinedTests = Array.prototype.concat(
-        personalitiesData[value],
+        personalitiesData[value].map(x => ({ ...x, source: "manual" })),
         injectedContext
       );
       const groupedData = _.groupBy(joinedTests, x => x.trait_id);
@@ -107,6 +111,13 @@ const Big5ClosedScreen = ({ navigation }) => {
         points: groupedData[k]
       }));
       setPoints(comparisonPoints);
+      setGraphLegends([
+        ...dataSources,
+        { title: newLegend.label, color: newLegend.legendColor }
+      ]);
+    } else {
+      setPoints();
+      setGraphLegends(dataSources);
     }
   };
 
@@ -209,6 +220,7 @@ const Big5ClosedScreen = ({ navigation }) => {
               <>
                 <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
                 <ComparisonGraph data={points} />
+                <GraphLegends data={graphLegends} />
               </>
             )}
           </View>

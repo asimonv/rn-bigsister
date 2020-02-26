@@ -39,6 +39,10 @@ const GraphPoint = styled.View`
     if (source === "tw") {
       return Colors.twitter;
     }
+
+    if (source === "manual") {
+      return "orange";
+    }
     return Colors.text;
   }};
   width: 10px;

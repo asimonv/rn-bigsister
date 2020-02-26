@@ -116,7 +116,7 @@ const CompareStatsScreen = ({ navigation }) => {
       const newLegend = labels.find(x => x.value === value);
       const joinedTests = joinTests(originalHistory);
       const injectedPersonalityTests = Array.prototype.concat(
-        personalitiesData[value],
+        personalitiesData[value].map(x => ({ ...x, source: "manual" })),
         joinedTests
       );
       const groupedData = _.groupBy(injectedPersonalityTests, x => x.trait_id);
