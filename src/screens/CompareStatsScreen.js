@@ -34,6 +34,7 @@ const CompareStatsScreen = ({ navigation }) => {
   const [endDate, setEndDate] = useState();
   const [hidden, setHidden] = useState(true);
   const [history, setHistory] = useState();
+  const [graphLegends, setGraphLegends] = useState(dataSources);
   const { t } = useTranslation();
   const { width } = Dimensions.get("window");
   const originalHistory = navigation.getParam("history");
@@ -112,6 +113,7 @@ const CompareStatsScreen = ({ navigation }) => {
 
   const _handlePickerOnChange = value => {
     if (value) {
+      const newLegend = labels.find(x => x.value === value);
       const joinedTests = joinTests(originalHistory);
       const injectedPersonalityTests = Array.prototype.concat(
         personalitiesData[value],
@@ -125,8 +127,13 @@ const CompareStatsScreen = ({ navigation }) => {
         points: groupedData[k]
       }));
       setHistory(points);
+      setGraphLegends([
+        ...dataSources,
+        { title: newLegend.label, color: newLegend.legendColor }
+      ]);
     } else {
       filterHistory(originalHistory);
+      setGraphLegends(dataSources);
     }
   };
 
@@ -177,7 +184,7 @@ const CompareStatsScreen = ({ navigation }) => {
                 <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
 
                 <ComparisonGraph data={history} />
-                <GraphLegends data={dataSources} />
+                <GraphLegends data={graphLegends} />
               </View>
             )}
           </ScrollView>

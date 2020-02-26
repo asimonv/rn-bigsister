@@ -42,7 +42,7 @@ const HistoryScreen = props => {
       const completedTour = await AsyncStorage.getItem(
         "@LittleStore.tour.History"
       );
-      setVisible([!JSON.parse(completedTour), false, false]);
+      setVisible([!JSON.parse(completedTour)]);
     };
 
     const getHistory = async () => {

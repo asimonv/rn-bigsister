@@ -1,4 +1,6 @@
-export const labels = [{ label: "Roberto Bolaños", value: "bolanos" }];
+export const labels = [
+  { label: "Roberto Bolaños", value: "bolanos", legendColor: "orange" }
+];
 export const personalitiesData = {
   bolanos: [
     {
