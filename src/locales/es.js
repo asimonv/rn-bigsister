@@ -77,6 +77,8 @@ export default {
     compare: {
       title: "Compárate con una figura pública",
       click: "Toca una caracteristica para obtener más información sobre ella",
+      helper:
+        "Presiona el boton de arriba para elegir un rango de fechas y comparar los resultados de los tests que hiciste dentro de esas fechas",
       subtitle:
         "Además de conocer distintos atributos de personalidad, puedes compararte con una figura pública y ver en qué se diferencian"
     },

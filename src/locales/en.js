@@ -40,6 +40,8 @@ export default {
     compare: {
       title: "Compare yourself with a public figure",
       click: "Tap a feature to get more details about it",
+      helper:
+        "Press the button above to select a range of dates so you can compare tests results that you did between those dates",
       subtitle:
         "In addition to knowing different personality insights, you can also compare yourselft with a public figure and check the differences between"
     },

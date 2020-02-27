@@ -170,6 +170,9 @@ const CompareStatsScreen = ({ navigation }) => {
                 onDateChange={_onDateChange}
               />
             )}
+            {hidden && (
+              <Text style={{ marginTop: 20 }}>{t("compare.helper")}</Text>
+            )}
             {isLoaded && (
               <View style={{ marginTop: 10 }}>
                 <BubbleText title={t("compare.title")} />
