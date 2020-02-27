@@ -31,6 +31,7 @@ const NewTestScreen = props => {
   const [finished, setFinished] = useState();
   const [insights, setInsights] = useState();
   const [filters, setFilters] = useState();
+  const [error, setError] = useState();
   const [started, setStarted] = useState(false);
   const [description, setDescription] = useState("");
   const context = getParam("context");
@@ -43,11 +44,11 @@ const NewTestScreen = props => {
     const getInsights = async content => {
       setTestStatus(`${t("fetching.watson")}`);
       const res = await pInsights({ contentItems: content, language }, signal);
+      setFinished(true);
+
       if (!res.code) {
         setInsights(res);
         setTestStatus(t("greetings-text"));
-        setFinished(true);
-
         const musicPreferences = res.consumption_preferences.find(
           cp =>
             cp.consumption_preference_category_id ===
@@ -75,6 +76,9 @@ const NewTestScreen = props => {
           },
           context
         );
+      } else {
+        setError(true);
+        setTestStatus(res.message);
       }
     };
     let content;
@@ -170,7 +174,7 @@ const NewTestScreen = props => {
               <Text style={styles.charNumText}>{testStatus}</Text>
             </MessageBubble>
           )}
-          {finished && (
+          {finished && !error && (
             <Button
               style={{ marginVertical: 10 }}
               onPress={_handleCheckResults}

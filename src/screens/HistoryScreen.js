@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import {
   Alert,
   FlatList,
+  RefreshControl,
   StyleSheet,
   Text,
-  View,
-  Dimensions
+  View
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -27,9 +27,16 @@ const sourcesNames = {
   text: "Text"
 };
 
+function wait(timeout) {
+  return new Promise(resolve => {
+    setTimeout(resolve, timeout);
+  });
+}
+
 const HistoryScreen = props => {
   const [history, setHistory] = useState([]);
   const [visible, setVisible] = useState([false]);
+  const [refreshing, setRefreshing] = useState(false);
   const {
     showActionSheetWithOptions,
     navigation: { navigate }
@@ -37,20 +44,20 @@ const HistoryScreen = props => {
   const { t } = useTranslation();
   const noTestsMessage = t("no-tests-message");
 
+  const getHistory = async () => {
+    const storageHistory = await AsyncStorage.getItem("@LittleStore:history");
+    const parsedHistory = JSON.parse(storageHistory).reverse();
+    console.log(parsedHistory);
+
+    setHistory(parsedHistory);
+  };
+
   useEffect(() => {
     const checkTour = async () => {
       const completedTour = await AsyncStorage.getItem(
         "@LittleStore.tour.History"
       );
       setVisible([!JSON.parse(completedTour)]);
-    };
-
-    const getHistory = async () => {
-      const storageHistory = await AsyncStorage.getItem("@LittleStore:history");
-      const parsedHistory = JSON.parse(storageHistory).reverse();
-      console.log(parsedHistory);
-
-      setHistory(parsedHistory);
     };
     getHistory();
     checkTour();
@@ -166,6 +173,13 @@ const HistoryScreen = props => {
       );
     }
   };
+
+  const onRefresh = React.useCallback(async () => {
+    setRefreshing(true);
+    await getHistory();
+    setRefreshing(false);
+  }, [refreshing]);
+
   return (
     <>
       <SafeAreaView style={styles.container}>
@@ -204,6 +218,9 @@ const HistoryScreen = props => {
               ItemSeparatorComponent={renderSeparator}
               keyExtractor={_keyExtractor}
               renderItem={({ item }) => renderItem(item)}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
             />
           </Transition>
         </View>
