@@ -243,12 +243,14 @@ const Big5ClosedScreen = ({ navigation }) => {
               </AditionalInfoText>
             )}
           </View>
-          <Button
-            onPress={_onPressNewTest}
-            style={{ marginBottom: 10, marginTop: 40 }}
-          >
-            <ButtonText>{t("new-test-based")}</ButtonText>
-          </Button>
+          {context !== "text" && (
+            <Button
+              onPress={_onPressNewTest}
+              style={{ marginBottom: 10, marginTop: 40 }}
+            >
+              <ButtonText>{t("new-test-based")}</ButtonText>
+            </Button>
+          )}
           <Button onPress={_onPressHome} style={{ marginVertical: 10 }}>
             <ButtonText>{t("go-home")}</ButtonText>
           </Button>

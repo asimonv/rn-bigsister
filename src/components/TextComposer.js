@@ -34,7 +34,14 @@ class TextComposer extends Component {
   }
 
   render() {
-    const { onPressCancel, finished, style, randomCategory, t } = this.props;
+    const {
+      onPressCancel,
+      finished,
+      style,
+      randomCategory,
+      t,
+      placeholder
+    } = this.props;
     return (
       <View
         style={[
@@ -49,7 +56,7 @@ class TextComposer extends Component {
               <TextInput
                 style={styles.textInput}
                 onChangeText={this._onChangeText}
-                placeholder={`${t("write-something-about")} ${randomCategory}`}
+                placeholder={placeholder}
                 multiline
               />
             </View>

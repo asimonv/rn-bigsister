@@ -82,6 +82,17 @@ export default {
       subtitle:
         "Además de conocer distintos atributos de personalidad, puedes compararte con una figura pública y ver en qué se diferencian"
     },
+    "text-sources": {
+      picker: "Selecciona una fuente de texto",
+      copy: {
+        title: "Copiar/pegar un texto",
+        placeholder: "Pega un texto"
+      },
+      publicFigure: {
+        title: "Usar el texto de una figura pública",
+        placeholder: "Pega un texto de una figura pública"
+      }
+    },
     consumption_preferences: {
       consumption_preferences_shopping: {
         name: "Preferencias de compra",

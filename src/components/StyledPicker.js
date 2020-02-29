@@ -24,6 +24,7 @@ const StyledPicker = ({ placeholder, onValueChange, data }) => {
 
 const styles = StyleSheet.create({
   inputIOS: {
+    backgroundColor: "white",
     fontWeight: "800",
     paddingVertical: 12,
     paddingHorizontal: 10,
@@ -35,6 +36,7 @@ const styles = StyleSheet.create({
     paddingRight: 30 // to ensure the text is never behind the icon
   },
   inputAndroid: {
+    backgroundColor: "white",
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderWidth: 0.5,

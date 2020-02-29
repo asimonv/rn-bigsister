@@ -37,6 +37,17 @@ export default {
     "new-test-based": "Make new test based on this one",
     "greetings-text": "Thank you for participating! ☺️",
     "write-something-about": "Write (or copy) something about",
+    "text-sources": {
+      picker: "Select a text source",
+      copy: {
+        title: "Copy/paste a text",
+        placeholder: "Paste something"
+      },
+      publicFigure: {
+        title: "Use a text from a public figure",
+        placeholder: "Paste something from a public figure"
+      }
+    },
     compare: {
       title: "Compare yourself with a public figure",
       click: "Tap a feature to get more details about it",
