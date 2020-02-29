@@ -37,13 +37,14 @@ const styles = StyleSheet.create({
   },
   inputAndroid: {
     backgroundColor: "white",
+    paddingVertical: 12,
     paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: "purple",
-    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: "black",
+    borderRadius: 5,
     textAlign: "center",
     color: "black",
+    fontWeight: "800",
     paddingRight: 30 // to ensure the text is never behind the icon
   }
 });

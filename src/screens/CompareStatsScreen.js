@@ -181,7 +181,7 @@ const CompareStatsScreen = ({ navigation }) => {
                 </Text>
                 <StyledPicker
                   onValueChange={value => _handlePickerOnChange(value)}
-                  placeholder={"Selecciona una figura pública".toUpperCase()}
+                  placeholder={t("compare.select").toUpperCase()}
                   data={labels}
                 />
                 <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>

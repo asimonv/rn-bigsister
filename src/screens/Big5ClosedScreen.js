@@ -214,7 +214,7 @@ const Big5ClosedScreen = ({ navigation }) => {
             <StyledPicker
               data={labels}
               onValueChange={value => _handleOnChangePicker(value)}
-              placeholder={"Selecciona una figura pública".toUpperCase()}
+              placeholder={t("compare.select").toUpperCase()}
             />
             {points && (
               <>

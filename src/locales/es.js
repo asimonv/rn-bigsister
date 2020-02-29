@@ -25,6 +25,7 @@ export default {
     "subject-opinion": "opinión sobre un tema",
     my: "Mi",
     results: "Resultados",
+    text: "Texto",
     "used-data": "Datos",
     "new-test-based": "Crear nuevo test basado en este",
     here: "aquí",
@@ -75,6 +76,7 @@ export default {
       }
     },
     compare: {
+      select: "Selecciona una figura pública",
       title: "Compárate con una figura pública",
       click: "Toca una caracteristica para obtener más información sobre ella",
       helper:

@@ -69,7 +69,164 @@ class TextScreen extends React.Component {
     this._getInfoMessage = this._getInfoMessage.bind(this);
   }
 
+  async componentDidMount() {
+    const {
+      navigation,
+      t,
+      i18n: { language }
+    } = this.props;
+    const context = navigation.getParam("context");
+    switch (context) {
+      case "fb":
+        this.setState({
+          gettingResults: true,
+          started: true,
+          testStatus: `${t("fetching.fb")}`
+        });
+        try {
+          const posts = await fetchLikes();
+          const content = posts.data.map(p => ({
+            content: p.message,
+            contenttype: "text/plain",
+            id: p.id
+          }));
+          if (content.length) {
+            this.setState({
+              testStatus: `${t("fetching.watson")}`,
+              content: posts
+            });
+            const res = await pInsights({
+              contentItems: content,
+              language
+            });
+            this.setState(prev => ({
+              finished: !prev.finished,
+              gettingResults: !prev.gettingResults,
+              error: res.code && res.code !== 200,
+              testStatus: res.code && res.code !== 200 ? res.message : undefined
+            }));
+
+            if (!res.code) {
+              const musicPreferences = res.consumption_preferences.find(
+                cp =>
+                  cp.consumption_preference_category_id ===
+                  "consumption_preferences_music"
+              );
+              const preferredGenres = musicPreferences.consumption_preferences.filter(
+                c => c.score > 0
+              );
+              const reqGenres = preferredGenres
+                .map(pg => {
+                  const splittedPref = pg.consumption_preference_id.split("_");
+                  return splittedPref[splittedPref.length - 1];
+                })
+                .filter(g => genres.includes(g));
+              this.setState(
+                {
+                  filters: { seed_genres: reqGenres },
+                  info: res,
+                  testStatus: undefined
+                },
+                async () => {
+                  //  save test
+                  await saveTest(this.state, context);
+                  console.log("now must fetch songs");
+                }
+              );
+            }
+          } else {
+            this.setState(prev => ({
+              finished: !prev.finished,
+              error: true,
+              testStatus: `${t("fetching.error")}`
+            }));
+          }
+        } catch (e) {
+          console.log(e);
+        }
+        break;
+      case "tw":
+        this.setState({
+          gettingResults: true,
+          started: true,
+          testStatus: `${t("fetching.tw")}`
+        });
+        try {
+          const userId = await AsyncStorage.getItem("@LittleStore:twitterId");
+          const tweets = await fetchTweets(userId);
+          const content = tweets.data.map(tw => ({
+            content: tw.text,
+            contenttype: "text/plain",
+            id: `${tw.id}`
+          }));
+          console.log(tweets);
+          if (content.length) {
+            this.setState({
+              testStatus: `${t("fetching.watson")}`,
+              content: tweets
+            });
+            const res = await pInsights({
+              contentItems: content,
+              language
+            });
+            this.setState(prev => ({
+              finished: !prev.finished,
+              gettingResults: !prev.gettingResults,
+              error: res.code && res.code !== 200,
+              testStatus: res.code && res.code !== 200 ? res.message : undefined
+            }));
+
+            if (!res.code) {
+              const musicPreferences = res.consumption_preferences.find(
+                cp =>
+                  cp.consumption_preference_category_id ===
+                  "consumption_preferences_music"
+              );
+              const preferredGenres = musicPreferences.consumption_preferences.filter(
+                c => c.score > 0
+              );
+              const reqGenres = preferredGenres
+                .map(pg => {
+                  const splittedPref = pg.consumption_preference_id.split("_");
+                  return splittedPref[splittedPref.length - 1];
+                })
+                .filter(g => genres.includes(g));
+              this.setState(
+                {
+                  filters: { seed_genres: reqGenres },
+                  info: res,
+                  testStatus: undefined
+                },
+                async () => {
+                  //  this.animation.play();
+                  console.log("now must fetch songs");
+                  //  save test
+                  await saveTest(this.state, context);
+                }
+              );
+            }
+          } else {
+            this.setState(prev => ({
+              finished: !prev.finished,
+              error: true,
+              testStatus: `${t("fetching.error")}`
+            }));
+          }
+        } catch (e) {
+          console.log(e);
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   _handlePickerChange = async value => {
+    const {
+      navigation,
+      t,
+      i18n: { language }
+    } = this.props;
     if (value !== null) {
       this.setState({
         started: true,
@@ -77,180 +234,25 @@ class TextScreen extends React.Component {
       });
       switch (value) {
         case 0: {
-          const {
-            navigation,
-            t,
-            i18n: { language }
-          } = this.props;
-          const context = navigation.getParam("context");
-          switch (context) {
-            case "fb":
-              this.setState({
-                gettingResults: true,
-                testStatus: `${t("fetching.fb")}`
-              });
-              try {
-                const posts = await fetchLikes();
-                const content = posts.data.map(p => ({
-                  content: p.message,
-                  contenttype: "text/plain",
-                  id: p.id
-                }));
-                if (content.length) {
-                  this.setState({
-                    testStatus: `${t("fetching.watson")}`,
-                    content: posts
-                  });
-                  const res = await pInsights({
-                    contentItems: content,
-                    language
-                  });
-                  this.setState(prev => ({
-                    finished: !prev.finished,
-                    gettingResults: !prev.gettingResults,
-                    error: res.code && res.code !== 200,
-                    testStatus:
-                      res.code && res.code !== 200 ? res.message : undefined
-                  }));
-
-                  if (!res.code) {
-                    const musicPreferences = res.consumption_preferences.find(
-                      cp =>
-                        cp.consumption_preference_category_id ===
-                        "consumption_preferences_music"
-                    );
-                    const preferredGenres = musicPreferences.consumption_preferences.filter(
-                      c => c.score > 0
-                    );
-                    const reqGenres = preferredGenres
-                      .map(pg => {
-                        const splittedPref = pg.consumption_preference_id.split(
-                          "_"
-                        );
-                        return splittedPref[splittedPref.length - 1];
-                      })
-                      .filter(g => genres.includes(g));
-                    this.setState(
-                      {
-                        filters: { seed_genres: reqGenres },
-                        info: res,
-                        testStatus: undefined
-                      },
-                      async () => {
-                        //  save test
-                        await saveTest(this.state, context);
-                        console.log("now must fetch songs");
-                      }
-                    );
-                  }
-                } else {
-                  this.setState(prev => ({
-                    finished: !prev.finished,
-                    error: true,
-                    testStatus: `${t("fetching.error")}`
-                  }));
-                }
-              } catch (e) {
-                console.log(e);
-              }
-              break;
-            case "tw":
-              this.setState({
-                gettingResults: true,
-                testStatus: `${t("fetching.tw")}`
-              });
-              try {
-                const userId = await AsyncStorage.getItem(
-                  "@LittleStore:twitterId"
-                );
-                const tweets = await fetchTweets(userId);
-                const content = tweets.data.map(tw => ({
-                  content: tw.text,
-                  contenttype: "text/plain",
-                  id: `${tw.id}`
-                }));
-                console.log(tweets);
-                if (content.length) {
-                  this.setState({
-                    testStatus: `${t("fetching.watson")}`,
-                    content: tweets
-                  });
-                  const res = await pInsights({
-                    contentItems: content,
-                    language
-                  });
-                  this.setState(prev => ({
-                    finished: !prev.finished,
-                    gettingResults: !prev.gettingResults,
-                    error: res.code && res.code !== 200,
-                    testStatus:
-                      res.code && res.code !== 200 ? res.message : undefined
-                  }));
-
-                  if (!res.code) {
-                    const musicPreferences = res.consumption_preferences.find(
-                      cp =>
-                        cp.consumption_preference_category_id ===
-                        "consumption_preferences_music"
-                    );
-                    const preferredGenres = musicPreferences.consumption_preferences.filter(
-                      c => c.score > 0
-                    );
-                    const reqGenres = preferredGenres
-                      .map(pg => {
-                        const splittedPref = pg.consumption_preference_id.split(
-                          "_"
-                        );
-                        return splittedPref[splittedPref.length - 1];
-                      })
-                      .filter(g => genres.includes(g));
-                    this.setState(
-                      {
-                        filters: { seed_genres: reqGenres },
-                        info: res,
-                        testStatus: undefined
-                      },
-                      async () => {
-                        //  this.animation.play();
-                        console.log("now must fetch songs");
-                        //  save test
-                        await saveTest(this.state, context);
-                      }
-                    );
-                  }
-                } else {
-                  this.setState(prev => ({
-                    finished: !prev.finished,
-                    error: true,
-                    testStatus: `${t("fetching.error")}`
-                  }));
-                }
-              } catch (e) {
-                console.log(e);
-              }
-              break;
-            default:
-              try {
-                this.setState({
-                  gettingResults: true,
-                  testStatus: `${t("fetching.categories")}`,
-                  showRandom: true
-                });
-                const categories = await textCategories(language);
-                const { data } = categories;
-                const randomCategory =
-                  data[Math.floor(Math.random() * data.length)];
-                this.setState({
-                  categories,
-                  gettingResults: false,
-                  gettingCategories: false,
-                  testStatus: undefined,
-                  randomCategory
-                });
-              } catch (e) {
-                console.log(e);
-              }
-              break;
+          try {
+            this.setState({
+              gettingResults: true,
+              testStatus: `${t("fetching.categories")}`,
+              showRandom: true
+            });
+            const categories = await textCategories(language);
+            const { data } = categories;
+            const randomCategory =
+              data[Math.floor(Math.random() * data.length)];
+            this.setState({
+              categories,
+              gettingResults: false,
+              gettingCategories: false,
+              testStatus: undefined,
+              randomCategory
+            });
+          } catch (e) {
+            console.log(e);
           }
           break;
         }
@@ -407,6 +409,7 @@ class TextScreen extends React.Component {
       showRandom
     } = this.state;
     const { navigation, t } = this.props;
+    const navigationContext = navigation.getParam("context");
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView>
@@ -431,15 +434,17 @@ class TextScreen extends React.Component {
               />
             </NavBar>
           </Transition>
-          <Transition appear="top">
-            <View style={{ marginBottom: 10 }}>
-              <StyledPicker
-                data={textSources(t)}
-                onValueChange={this._handlePickerChange}
-                placeholder={t("text-sources.picker").toUpperCase()}
-              />
-            </View>
-          </Transition>
+          {navigationContext === "text" && (
+            <Transition appear="top">
+              <View style={{ marginBottom: 10 }}>
+                <StyledPicker
+                  data={textSources(t)}
+                  onValueChange={this._handlePickerChange}
+                  placeholder={t("text-sources.picker").toUpperCase()}
+                />
+              </View>
+            </Transition>
+          )}
           {!finished && started && (
             <Transition appear="top">
               <MessageBubble style={{ marginBottom: 10 }}>

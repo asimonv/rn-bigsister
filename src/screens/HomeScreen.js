@@ -103,7 +103,7 @@ const HomeScreen = props => {
     const options = [
       `${t("my")} Facebook`,
       `${t("my")} Twitter`,
-      `${t("my")} ${t("subject-opinion")}`,
+      `${t("text")}`,
       `${t("cancel")}`
     ];
     const cancelButtonIndex = 3;
@@ -140,7 +140,7 @@ const HomeScreen = props => {
             navigate("TextScreen", { context: "tw" });
           }
         } else if (buttonIndex === 2) {
-          navigate("TextScreen");
+          navigate("TextScreen", { context: "text" });
         }
       }
     );

@@ -27,6 +27,7 @@ export default {
     my: "My",
     personality: "Personality",
     results: "Results",
+    text: "Text",
     "used-data": "Data",
     no: "Not",
     done: "done",
@@ -49,6 +50,7 @@ export default {
       }
     },
     compare: {
+      select: "Select a public figure",
       title: "Compare yourself with a public figure",
       click: "Tap a feature to get more details about it",
       helper:
