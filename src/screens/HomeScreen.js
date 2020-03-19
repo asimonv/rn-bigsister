@@ -24,7 +24,8 @@ import { isSpotifyTokenExpired, clearSpotifyToken } from "../services/spotify";
 import MessageBubble from "../components/MessageBubble";
 import NavButton from "../components/NavButton";
 import NavBar from "../components/NavBar";
-import TooltipHelper from "../components/TooltipHelper";
+import ModalHelper from "../components/ModalHelper";
+import BackgroundView from "../components/BackgroundView";
 
 const colors = ["#240080", "#DA21B7"];
 const viewTint = "rebeccapurple";
@@ -36,14 +37,30 @@ const HomeScreen = props => {
     showActionSheetWithOptions,
     navigation: { navigate }
   } = props;
-  const [visible, setVisible] = useState([false, false, false]);
+
+  const modalTexts = [
+    {
+      title: t("helpers.home.buttons.history.title"),
+      description: t("helpers.home.buttons.history.description")
+    },
+    {
+      title: t("helpers.home.buttons.language.title"),
+      description: t("helpers.home.buttons.language.description")
+    },
+    {
+      title: t("helpers.home.buttons.remove.title"),
+      description: t("helpers.home.buttons.remove.description")
+    }
+  ];
+
+  const [visible, setVisible] = useState();
 
   useEffect(() => {
     const checkTour = async () => {
       const completedTour = await AsyncStorage.getItem(
         "@LittleStore.tour.Home"
       );
-      setVisible([!JSON.parse(completedTour), false, false]);
+      setVisible(!JSON.parse(completedTour) ? 0 : null);
     };
     checkTour();
   }, []);
@@ -61,10 +78,9 @@ const HomeScreen = props => {
     }
 
     return () => {
-      console.log("componentWillUnmount");
       Linking.removeEventListener("url", handleOpenURL);
     };
-  });
+  }, []);
 
   const handleOpenURL = async ({ url }) => {
     // Extract stringified user string out of the URL
@@ -214,16 +230,8 @@ const HomeScreen = props => {
   };
 
   const _handleTooltipOnPress = async index => {
-    setVisible(
-      visible.map((x, i) => {
-        if (i === index || i === index + 1) {
-          return !x;
-        }
-        return x;
-      })
-    );
-
-    if (index === visible.length - 1) {
+    setVisible(index + 1 < modalTexts.length ? index + 1 : null);
+    if (index + 1 === modalTexts.length) {
       await AsyncStorage.setItem(
         "@LittleStore.tour.Home",
         JSON.stringify(true)
@@ -238,46 +246,46 @@ const HomeScreen = props => {
       start={{ x: 0, y: 0 }}
       end={{ x: 0, y: 1 }}
     >
+      {modalTexts[visible] && (
+        <ModalHelper
+          modalText={modalTexts[visible].description}
+          modalTitle={modalTexts[visible].title}
+          isVisible={visible !== null}
+          index={visible}
+          setVisible={_handleTooltipOnPress}
+        />
+      )}
       <Transition appear="top">
-        <NavBar style={{ position: "absolute", top: 50, left: 20, right: 20 }}>
-          <TooltipHelper
-            isVisible={visible[0]}
-            index={0}
-            setVisible={_handleTooltipOnPress}
-            text={t("helpers.home.buttons.history")}
-          >
-            <NavButton
-              name="clock"
-              style={{ color: viewTint }}
-              onPress={_showHistory}
-            />
-          </TooltipHelper>
-          <TooltipHelper
-            isVisible={visible[1]}
-            index={1}
-            setVisible={_handleTooltipOnPress}
-            text={t("helpers.home.buttons.language")}
-          >
-            <NavButton
-              name="globe"
-              style={{ color: viewTint }}
-              onPress={_toggleLanguage}
-            />
-          </TooltipHelper>
-          <TooltipHelper
-            isVisible={visible[2]}
-            index={2}
-            setVisible={_handleTooltipOnPress}
-            text={t("helpers.home.buttons.remove")}
-          >
-            <NavButton
-              name="remove-circle-outline"
-              style={{ color: viewTint }}
-              onPress={_handleLogout}
-            />
-          </TooltipHelper>
+        <NavBar
+          style={{
+            position: "absolute",
+            top: 50,
+            left: 20,
+            right: 20,
+            zIndex: 10
+          }}
+        >
+          <NavButton
+            backgroundColor={visible === 0 ? "white" : null}
+            name="clock"
+            style={{ color: viewTint }}
+            onPress={_showHistory}
+          />
+          <NavButton
+            name="globe"
+            backgroundColor={visible === 1 ? "white" : null}
+            style={{ color: viewTint }}
+            onPress={_toggleLanguage}
+          />
+          <NavButton
+            backgroundColor={visible === 2 ? "white" : null}
+            name="remove-circle-outline"
+            style={{ color: viewTint }}
+            onPress={_handleLogout}
+          />
         </NavBar>
       </Transition>
+      {visible !== null && <BackgroundView />}
       <Transition appear="top">
         <MessageBubble style={{ margin: 10 }}>
           <Text style={styles.tapEyeText}>{t("welcome-message")}</Text>
@@ -306,6 +314,7 @@ HomeScreen.navigationOptions = {
 
 const styles = StyleSheet.create({
   container: {
+    display: "flex",
     flex: 1,
     backgroundColor: "black",
     alignItems: "center",

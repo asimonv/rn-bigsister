@@ -17,7 +17,8 @@ import ListItem from "../components/ListItem";
 import NavBar from "../components/NavBar";
 import NavButton from "../components/NavButton";
 import MessageBubble from "../components/MessageBubble";
-import TooltipHelper from "../components/TooltipHelper";
+import ModalHelper from "../components/ModalHelper";
+import BackgroundView from "../components/BackgroundView";
 
 const viewTint = "#5352ed";
 
@@ -26,12 +27,6 @@ const sourcesNames = {
   fb: "Facebook",
   text: "Text"
 };
-
-function wait(timeout) {
-  return new Promise(resolve => {
-    setTimeout(resolve, timeout);
-  });
-}
 
 const HistoryScreen = props => {
   const [history, setHistory] = useState([]);
@@ -44,11 +39,16 @@ const HistoryScreen = props => {
   const { t } = useTranslation();
   const noTestsMessage = t("no-tests-message");
 
+  const modalTexts = [
+    {
+      title: t("helpers.history.buttons.options.title"),
+      description: t("helpers.history.buttons.options.description")
+    }
+  ];
+
   const getHistory = async () => {
     const storageHistory = await AsyncStorage.getItem("@LittleStore:history");
-    const parsedHistory = JSON.parse(storageHistory).reverse();
-    console.log(parsedHistory);
-
+    const parsedHistory = JSON.parse(storageHistory)?.reverse();
     setHistory(parsedHistory);
   };
 
@@ -57,7 +57,7 @@ const HistoryScreen = props => {
       const completedTour = await AsyncStorage.getItem(
         "@LittleStore.tour.History"
       );
-      setVisible([!JSON.parse(completedTour)]);
+      setVisible(!JSON.parse(completedTour) ? 0 : null);
     };
     getHistory();
     checkTour();
@@ -157,16 +157,8 @@ const HistoryScreen = props => {
   );
 
   const _handleTooltipOnPress = async index => {
-    setVisible(
-      visible.map((x, i) => {
-        if (i === index || i === index + 1) {
-          return !x;
-        }
-        return x;
-      })
-    );
-
-    if (index === visible.length - 1) {
+    setVisible(index + 1 < modalTexts.length ? index + 1 : null);
+    if (index + 1 === modalTexts.length) {
       await AsyncStorage.setItem(
         "@LittleStore.tour.History",
         JSON.stringify(true)
@@ -183,47 +175,48 @@ const HistoryScreen = props => {
   return (
     <>
       <SafeAreaView style={styles.container}>
-        <View style={{ flex: 1 }}>
-          <Transition appear="top">
-            <NavBar style={{ marginVertical: 20, marginHorizontal: 20 }}>
-              <NavButton
-                style={{ color: viewTint }}
-                name="arrow-round-back"
-                onPress={() => props.navigation.goBack()}
-              />
-              <Text style={styles.title}>{t("history-title")}</Text>
-              <TooltipHelper
-                isVisible={visible[0]}
-                index={0}
-                setVisible={_handleTooltipOnPress}
-                text={t("helpers.history.buttons.options")}
-                contentStyle={{
-                  right: -36
-                }}
-              >
-                <NavButton
-                  name="more"
-                  style={{ color: viewTint }}
-                  onPress={_onOpenActionSheet}
-                />
-              </TooltipHelper>
-            </NavBar>
-          </Transition>
-          <Transition appear="bottom" disappear="bottom">
-            <FlatList
-              style={styles.list}
-              data={history}
-              contentContainerStyle={{ flexGrow: 1 }}
-              ListEmptyComponent={_renderListEmptyComponent}
-              ItemSeparatorComponent={renderSeparator}
-              keyExtractor={_keyExtractor}
-              renderItem={({ item }) => renderItem(item)}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
+        {modalTexts[visible] && (
+          <ModalHelper
+            modalText={modalTexts[visible].description}
+            modalTitle={modalTexts[visible].title}
+            isVisible={visible !== null}
+            index={visible}
+            setVisible={_handleTooltipOnPress}
+          />
+        )}
+        <Transition appear="top">
+          <NavBar style={{ marginVertical: 20, marginHorizontal: 20 }}>
+            <NavButton
+              backgroundColor={visible === 0 ? "white" : null}
+              style={{ color: viewTint }}
+              name="arrow-round-back"
+              onPress={() => props.navigation.goBack()}
             />
-          </Transition>
-        </View>
+            <Text style={styles.title}>{t("history-title")}</Text>
+            <NavButton
+              backgroundColor={visible === 1 ? "white" : null}
+              name="more"
+              style={{ color: viewTint }}
+              onPress={_onOpenActionSheet}
+            />
+          </NavBar>
+        </Transition>
+        {visible !== null && <BackgroundView />}
+
+        <Transition appear="bottom" disappear="bottom">
+          <FlatList
+            style={styles.list}
+            data={history}
+            contentContainerStyle={{ flexGrow: 1 }}
+            ListEmptyComponent={_renderListEmptyComponent}
+            ItemSeparatorComponent={renderSeparator}
+            keyExtractor={_keyExtractor}
+            renderItem={({ item }) => renderItem(item)}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        </Transition>
       </SafeAreaView>
       <SafeAreaView style={{ flex: 0, backgroundColor: "white" }} />
     </>

@@ -33,6 +33,7 @@ export default {
     done: "done",
     "date-range": "Select a range of dates",
     here: "here",
+    next: "next",
     "go-home": "Go Home",
     "start-test": "Start test",
     "new-test-based": "Make new test based on this one",
@@ -50,7 +51,7 @@ export default {
       }
     },
     compare: {
-      select: "Select a public figure",
+      select: "Tap to select a public figure",
       title: "Compare yourself with a public figure",
       click: "Tap a feature to get more details about it",
       helper:
@@ -61,18 +62,30 @@ export default {
     helpers: {
       home: {
         buttons: {
-          language:
-            "You can change the language (🇪🇸/🇬🇧) by clicking on the globe icon.",
-          history:
-            'Once you have performed several tests using different data sources or at different times, you can go to the Eye screen and click on this icon. "Your history" screen will open with all your results, differentiated by date and information source. By clicking on one of them, you can see your results in detail again. Returning to the “Your history” screen, by clicking on the three points and then in the option “Compare Sources”, you will be asked to select a range of dates.',
-          remove:
-            "By clicking on this button you can see your Facebook, Twitter or Spotify accounts that you have given your permission to access your data. There you can choose one to log it out, cancelling the permission to access your information for future tests."
+          language: {
+            title: "Language",
+            description:
+              "You can change the language (🇪🇸/🇬🇧) by clicking on the globe icon."
+          },
+          history: {
+            title: "History",
+            description:
+              'Once you have performed several tests using different data sources or at different times, you can go to the Eye screen and click on this icon. "Your history" screen will open with all your results, differentiated by date and information source. By clicking on one of them, you can see your results in detail again. Returning to the “Your history” screen, by clicking on the three points and then in the option “Compare Sources”, you will be asked to select a range of dates.'
+          },
+          remove: {
+            title: "Remove",
+            description:
+              "By clicking on this button you can see your Facebook, Twitter or Spotify accounts that you have given your permission to access your data. There you can choose one to log it out, cancelling the permission to access your information for future tests."
+          }
         }
       },
       history: {
         buttons: {
-          options:
-            "This is the option button. Tapping on it you will see options to interact with your tests"
+          options: {
+            title: "Options",
+            description:
+              "This is the option button. Tapping on it you will see options to interact with your tests."
+          }
         }
       },
       "new-test": {

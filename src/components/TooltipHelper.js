@@ -20,6 +20,7 @@ const TooltipHelper = ({
     <Tooltip
       isVisible={isVisible}
       allowChildInteraction={false}
+      useReactNativeModal
       contentStyle={{
         ...contentStyle,
         maxWidth: Dimensions.get("window").width - 48

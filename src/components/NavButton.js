@@ -11,6 +11,7 @@ const ButtonContainer = styled.TouchableOpacity`
   border-radius: ${size / 2};
   width: ${size};
   height: ${size};
+  z-index: 1001;
 `;
 
 const NavButton = ({ onPress, wrapperStyle, style, name, ...props }) => (
