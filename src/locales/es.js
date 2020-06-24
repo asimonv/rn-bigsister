@@ -26,6 +26,7 @@ export default {
     my: "Mi",
     results: "Resultados",
     text: "Texto",
+    finish: "terminar",
     "used-data": "Datos",
     "new-test-based": "Crear nuevo test basado en este",
     here: "aquí",

@@ -29,6 +29,7 @@ const ModalHelper = ({
   modalTitle,
   modalText,
   index,
+  stepsNumber,
   setVisible
 }) => {
   const { t } = useTranslation();
@@ -53,7 +54,9 @@ const ModalHelper = ({
         {modalTitle && <ModalTitle>{modalTitle}</ModalTitle>}
         <ModalText>{modalText}</ModalText>
         <NextButton onPress={() => setVisible(index)}>
-          <ButtonText>{t("next")}</ButtonText>
+          <ButtonText>
+            {index + 1 === stepsNumber ? t("finish") : t("next")}
+          </ButtonText>
         </NextButton>
       </SafeAreaView>
     </Modal>

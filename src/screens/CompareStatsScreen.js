@@ -6,7 +6,7 @@ import {
   StatusBar,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import moment from "moment";
@@ -23,7 +23,7 @@ import BubbleText from "../components/BubbleText";
 import StyledPicker from "../components/StyledPicker";
 
 import personalityInfo from "../data/personality";
-import { labels, personalitiesData } from "../data/popular-es";
+// import { labels, personalitiesData } from "../data/popular-es";
 import dataSources from "../data/data-sources";
 
 const viewTint = "#5352ed";
@@ -35,12 +35,26 @@ const CompareStatsScreen = ({ navigation }) => {
   const [hidden, setHidden] = useState(true);
   const [history, setHistory] = useState();
   const [graphLegends, setGraphLegends] = useState(dataSources);
-  const { t } = useTranslation();
+  const [personalitiesData, setPersonalitiesData] = useState();
+  const { t, i18n } = useTranslation();
   const { width } = Dimensions.get("window");
   const originalHistory = navigation.getParam("history");
 
   useEffect(() => {
     setHistory(originalHistory);
+
+    async function loadPersonalities() {
+      let data;
+      if (i18n.language === "es") {
+        data = await import("../data/popular-es");
+      } else {
+        data = await import("../data/popular-en");
+      }
+      setPersonalitiesData(data);
+    }
+
+    loadPersonalities();
+
     StatusBar.setBarStyle("dark-content", true);
     return () => {
       StatusBar.setBarStyle("light-content", true);
@@ -71,8 +85,8 @@ const CompareStatsScreen = ({ navigation }) => {
           date: x.date,
           detailText: `(${parseInt(y.percentile * 100, 10)}%) - ${moment(
             x.date
-          ).format("MMMM Do YYYY, h:mm:ssA")}`
-        }))
+          ).format("MMMM Do YYYY, h:mm:ssA")}`,
+        })),
       ])
       .value();
 
@@ -89,7 +103,7 @@ const CompareStatsScreen = ({ navigation }) => {
       title: k,
       leftText: personalityInfo(t)[k].leftIntervalText,
       rightText: personalityInfo(t)[k].rightIntervalText,
-      points: groupedData[k]
+      points: groupedData[k],
     }));
 
     setHistory(points);
@@ -112,11 +126,13 @@ const CompareStatsScreen = ({ navigation }) => {
   };
 
   const _handlePickerOnChange = value => {
+    const { labels, data } = personalitiesData;
+
     if (value) {
       const newLegend = labels.find(x => x.value === value);
       const joinedTests = joinTests(originalHistory);
       const injectedPersonalityTests = Array.prototype.concat(
-        personalitiesData[value].map(x => ({ ...x, source: "manual" })),
+        data[value].map(x => ({ ...x, source: "manual" })),
         joinedTests
       );
       const groupedData = _.groupBy(injectedPersonalityTests, x => x.trait_id);
@@ -124,12 +140,12 @@ const CompareStatsScreen = ({ navigation }) => {
         title: k,
         leftText: personalityInfo(t)[k].leftIntervalText,
         rightText: personalityInfo(t)[k].rightIntervalText,
-        points: groupedData[k]
+        points: groupedData[k],
       }));
       setHistory(points);
       setGraphLegends([
         ...dataSources,
-        { title: newLegend.label, color: newLegend.legendColor }
+        { title: newLegend.label, color: newLegend.legendColor },
       ]);
     } else {
       filterHistory(originalHistory);
@@ -182,7 +198,7 @@ const CompareStatsScreen = ({ navigation }) => {
                 <StyledPicker
                   onValueChange={value => _handlePickerOnChange(value)}
                   placeholder={t("compare.select").toUpperCase()}
-                  data={labels}
+                  data={personalitiesData.labels}
                 />
                 <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
 
@@ -200,10 +216,10 @@ const CompareStatsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20
+    margin: 20,
   },
   contentContainer: {
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   title: {
     fontWeight: "bold",
@@ -213,8 +229,8 @@ const styles = StyleSheet.create({
     color: "black",
     left: 0,
     right: 0,
-    zIndex: -1
-  }
+    zIndex: -1,
+  },
 });
 
 export default CompareStatsScreen;

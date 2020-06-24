@@ -248,6 +248,7 @@ const HomeScreen = props => {
     >
       {modalTexts[visible] && (
         <ModalHelper
+          stepsNumber={modalTexts.length}
           modalText={modalTexts[visible].description}
           modalTitle={modalTexts[visible].title}
           isVisible={visible !== null}

@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-const ViewWrapper = styled.View`
+const ViewWrapper = styled.ScrollView`
   display: flex;
   flex-direction: row;
-  justify-content: center;
   flex: 1;
   margin: 20px;
 `;
@@ -28,7 +27,7 @@ const StatTitle = styled.Text`
 
 const GraphLegends = ({ data }) => {
   return (
-    <ViewWrapper>
+    <ViewWrapper horizontal showsHorizontalScrollIndicator={false}>
       {data.map(x => (
         <StatDetail>
           <StatView backgroundColor={x.color} />

@@ -3,10 +3,11 @@ import {
   Linking,
   SafeAreaView,
   ScrollView,
+  Spinner,
   StatusBar,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";
@@ -29,16 +30,16 @@ import GraphLegends from "../components/GraphLegends";
 
 import personalityInfo from "../data/personality";
 import dataSources from "../data/data-sources";
-import { labels, personalitiesData } from "../data/popular-es";
 
 const lowercaseFirstLetter = string =>
   string[0].toLowerCase() + string.slice(1);
 
 const Big5ClosedScreen = ({ navigation }) => {
   const { getParam } = navigation;
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [points, setPoints] = useState();
   const [status, setStatus] = useState(false); // ñaaaau first hook
+  const [personalitiesData, setPersonalitiesData] = useState();
   const [graphLegends, setGraphLegends] = useState(dataSources);
   const info = getParam("info");
   const content = getParam("content");
@@ -56,6 +57,19 @@ const Big5ClosedScreen = ({ navigation }) => {
   };
   useEffect(() => {
     StatusBar.setBarStyle("dark-content", true);
+
+    async function loadPersonalities() {
+      let data;
+      if (i18n.language === "es") {
+        data = await import("../data/popular-es");
+      } else {
+        data = await import("../data/popular-en");
+      }
+      setPersonalitiesData(data);
+    }
+
+    loadPersonalities();
+
     return () => {
       StatusBar.setBarStyle("light-content", true);
     };
@@ -85,11 +99,12 @@ const Big5ClosedScreen = ({ navigation }) => {
     navigate("AnalyzedDataScreen", {
       content: [...content.data],
       context,
-      editing: true
+      editing: true,
     });
   };
 
   const _handleOnChangePicker = value => {
+    const { labels, data } = personalitiesData;
     if (value) {
       const newLegend = labels.find(x => x.value === value);
       const injectedContext = personality.map(x => ({
@@ -97,10 +112,10 @@ const Big5ClosedScreen = ({ navigation }) => {
         source: context,
         detailText: `(${parseInt(x.percentile * 100, 10)}%) - ${moment(
           x.date
-        ).format("MMMM Do YYYY, h:mm:ssA")}`
+        ).format("MMMM Do YYYY, h:mm:ssA")}`,
       }));
       const joinedTests = Array.prototype.concat(
-        personalitiesData[value].map(x => ({ ...x, source: "manual" })),
+        data[value].map(x => ({ ...x, source: "manual" })),
         injectedContext
       );
       const groupedData = _.groupBy(joinedTests, x => x.trait_id);
@@ -108,12 +123,12 @@ const Big5ClosedScreen = ({ navigation }) => {
         title: k,
         leftText: personalityInfo(t)[k].leftIntervalText,
         rightText: personalityInfo(t)[k].rightIntervalText,
-        points: groupedData[k]
+        points: groupedData[k],
       }));
       setPoints(comparisonPoints);
       setGraphLegends([
         ...dataSources,
-        { title: newLegend.label, color: newLegend.legendColor }
+        { title: newLegend.label, color: newLegend.legendColor },
       ]);
     } else {
       setPoints();
@@ -208,22 +223,24 @@ const Big5ClosedScreen = ({ navigation }) => {
               ) : null;
             })}
           </View>
-          <View>
-            <BubbleText title={t("compare.title")} />
-            <Text style={{ marginBottom: 20 }}>{t("compare.subtitle")}</Text>
-            <StyledPicker
-              data={labels}
-              onValueChange={value => _handleOnChangePicker(value)}
-              placeholder={t("compare.select").toUpperCase()}
-            />
-            {points && (
-              <>
-                <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
-                <ComparisonGraph data={points} />
-                <GraphLegends data={graphLegends} />
-              </>
-            )}
-          </View>
+          {personalitiesData && (
+            <>
+              <BubbleText title={t("compare.title")} />
+              <Text style={{ marginBottom: 20 }}>{t("compare.subtitle")}</Text>
+              <StyledPicker
+                data={personalitiesData.labels}
+                onValueChange={value => _handleOnChangePicker(value)}
+                placeholder={t("compare.select").toUpperCase()}
+              />
+              {points && (
+                <>
+                  <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
+                  <ComparisonGraph data={points} />
+                  <GraphLegends data={graphLegends} />
+                </>
+              )}
+            </>
+          )}
           <View>
             <BubbleText title="Spotify" />
             <GetSpotifyRecommendations onPress={_onPressSpotify} />
@@ -262,14 +279,14 @@ const Big5ClosedScreen = ({ navigation }) => {
 
 Big5ClosedScreen.propTypes = {
   navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired
-  }).isRequired
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor: "white",
   },
   title: {
     fontWeight: "bold",
@@ -278,14 +295,14 @@ const styles = StyleSheet.create({
     textAlign: "center",
     left: 0,
     right: 0,
-    zIndex: -1
+    zIndex: -1,
   },
   goBackButton: {
     fontSize: 18,
     fontWeight: "600",
     color: "rebeccapurple",
     textAlign: "center",
-    padding: 5
+    padding: 5,
   },
   additionalInfo: {
     backgroundColor: "white",
@@ -294,8 +311,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#ecf0f1"
-  }
+    borderColor: "#ecf0f1",
+  },
 });
 
 export default Big5ClosedScreen;

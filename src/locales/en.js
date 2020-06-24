@@ -34,6 +34,7 @@ export default {
     "date-range": "Select a range of dates",
     here: "here",
     next: "next",
+    finish: "finish",
     "go-home": "Go Home",
     "start-test": "Start test",
     "new-test-based": "Make new test based on this one",

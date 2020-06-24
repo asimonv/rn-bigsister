@@ -57,7 +57,7 @@ const HistoryScreen = props => {
       const completedTour = await AsyncStorage.getItem(
         "@LittleStore.tour.History"
       );
-      setVisible(!JSON.parse(completedTour) ? 0 : null);
+      setVisible(completedTour ? null : 0);
     };
     getHistory();
     checkTour();
@@ -177,6 +177,7 @@ const HistoryScreen = props => {
       <SafeAreaView style={styles.container}>
         {modalTexts[visible] && (
           <ModalHelper
+            stepsNumber={modalTexts.length}
             modalText={modalTexts[visible].description}
             modalTitle={modalTexts[visible].title}
             isVisible={visible !== null}
@@ -184,25 +185,25 @@ const HistoryScreen = props => {
             setVisible={_handleTooltipOnPress}
           />
         )}
+        {visible !== null && <BackgroundView />}
         <Transition appear="top">
-          <NavBar style={{ marginVertical: 20, marginHorizontal: 20 }}>
+          <NavBar
+            style={{ marginVertical: 20, marginHorizontal: 20, zIndex: 10 }}
+          >
             <NavButton
-              backgroundColor={visible === 0 ? "white" : null}
               style={{ color: viewTint }}
               name="arrow-round-back"
               onPress={() => props.navigation.goBack()}
             />
             <Text style={styles.title}>{t("history-title")}</Text>
             <NavButton
-              backgroundColor={visible === 1 ? "white" : null}
+              backgroundColor={visible === 0 ? "white" : null}
               name="more"
               style={{ color: viewTint }}
               onPress={_onOpenActionSheet}
             />
           </NavBar>
         </Transition>
-        {visible !== null && <BackgroundView />}
-
         <Transition appear="bottom" disappear="bottom">
           <FlatList
             style={styles.list}
