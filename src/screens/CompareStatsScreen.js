@@ -23,7 +23,6 @@ import BubbleText from "../components/BubbleText";
 import StyledPicker from "../components/StyledPicker";
 
 import personalityInfo from "../data/personality";
-// import { labels, personalitiesData } from "../data/popular-es";
 import dataSources from "../data/data-sources";
 
 const viewTint = "#5352ed";
@@ -168,43 +167,49 @@ const CompareStatsScreen = ({ navigation }) => {
           </NavBar>
         </Transition>
         <Transition appear="bottom" disappear="bottom">
-          <ScrollView
-            style={{ flex: 1 }}
-            contentContainerStyle={styles.contentContainer}
-          >
-            <Button onPress={_onPressButtonDatePicker}>
-              <ButtonText>
-                {startDate && endDate
-                  ? `${startDate} - ${endDate}`
-                  : t("date-range")}
-              </ButtonText>
-            </Button>
-            {!hidden && (
-              <CalendarPicker
-                allowRangeSelection
-                width={width - 20 * 2}
-                onDateChange={_onDateChange}
-              />
-            )}
-            {hidden && (
-              <Text style={{ marginTop: 20 }}>{t("compare.helper")}</Text>
-            )}
-            {isLoaded && (
-              <View style={{ marginTop: 10 }}>
-                <BubbleText title={t("compare.title")} />
-                <Text style={{ marginBottom: 20 }}>
-                  {t("compare.subtitle")}
-                </Text>
-                <StyledPicker
-                  onValueChange={value => _handlePickerOnChange(value)}
-                  placeholder={t("compare.select").toUpperCase()}
-                  data={personalitiesData.labels}
+          <ScrollView style={{ flex: 1 }}>
+            <View style={styles.contentContainer}>
+              <Button onPress={_onPressButtonDatePicker}>
+                <ButtonText>
+                  {startDate && endDate
+                    ? `${startDate} - ${endDate}`
+                    : t("date-range")}
+                </ButtonText>
+              </Button>
+              {!hidden && (
+                <CalendarPicker
+                  allowRangeSelection
+                  width={width - 20 * 2}
+                  onDateChange={_onDateChange}
                 />
-                <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
+              )}
+              {hidden && (
+                <Text style={{ marginTop: 20 }}>{t("compare.helper")}</Text>
+              )}
+            </View>
+            {isLoaded && (
+              <>
+                <View style={styles.separator} />
 
-                <ComparisonGraph data={history} />
-                <GraphLegends data={graphLegends} />
-              </View>
+                <View style={styles.contentContainer}>
+                  <BubbleText
+                    style={{ marginTop: 20 }}
+                    title={t("compare.title")}
+                  />
+                  <Text style={{ marginBottom: 20 }}>
+                    {t("compare.subtitle")}
+                  </Text>
+                  <StyledPicker
+                    onValueChange={value => _handlePickerOnChange(value)}
+                    placeholder={t("compare.select").toUpperCase()}
+                    data={personalitiesData.labels}
+                  />
+                  <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
+
+                  <ComparisonGraph data={history} />
+                  <GraphLegends data={graphLegends} />
+                </View>
+              </>
             )}
           </ScrollView>
         </Transition>
@@ -216,7 +221,13 @@ const CompareStatsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 20,
+  },
+  separator: {
+    height: 10,
+    display: "flex",
+    flex: 1,
+    backgroundColor: "#e0e0e0",
+    marginVertical: 10,
   },
   contentContainer: {
     paddingHorizontal: 20,

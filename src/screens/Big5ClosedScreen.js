@@ -152,31 +152,34 @@ const Big5ClosedScreen = ({ navigation }) => {
         </NavBar>
       </Transition>
       <Transition appear="bottom">
-        <ScrollView
-          style={{ ...styles.container }}
-          contentContainerStyle={{ paddingHorizontal: 20 }}
-        >
-          {content && (
-            <Button onPress={_goToData}>
-              <ButtonText>{t("check-data-message")}</ButtonText>
-            </Button>
-          )}
+        <ScrollView style={{ ...styles.container }}>
+          <View style={styles.contentView}>
+            {content && (
+              <Button onPress={_goToData}>
+                <ButtonText>{t("check-data-message")}</ButtonText>
+              </Button>
+            )}
 
-          <BubbleText title={t("personality")} />
-          {status && context === "text" && (
-            <View>
-              <AditionalInfoText>{`${t(
-                "test-text-based"
-              )}:`}</AditionalInfoText>
-              <AditionalInfoText>{text}</AditionalInfoText>
-            </View>
-          )}
-          <View>
+            <BubbleText
+              style={{ marginTop: 20, marginBottom: 0 }}
+              title={t("personality")}
+            />
+            {status && context === "text" && (
+              <View>
+                <AditionalInfoText>{`${t(
+                  "test-text-based"
+                )}:`}</AditionalInfoText>
+                <AditionalInfoText>{text}</AditionalInfoText>
+              </View>
+            )}
+          </View>
+          <View style={styles.contentView}>
             {sortedPersonalities.map(p => (
               <GraphBarWrapper key={p.trait_id} data={p} status={status} />
             ))}
           </View>
-          <View>
+          <View style={styles.separator} />
+          <View style={styles.contentView}>
             {status && (
               <>
                 <AditionalInfoText>
@@ -191,6 +194,7 @@ const Big5ClosedScreen = ({ navigation }) => {
               return filteredConsumptions.length ? (
                 <View key={cp.consumption_preference_category_id}>
                   <BubbleText
+                    style={{ marginTop: 20 }}
                     title={t(
                       `consumption_preferences.${cp.consumption_preference_category_id}.name`
                     )}
@@ -223,8 +227,9 @@ const Big5ClosedScreen = ({ navigation }) => {
               ) : null;
             })}
           </View>
+          <View style={styles.separator} />
           {personalitiesData && (
-            <>
+            <View style={styles.contentView}>
               <BubbleText title={t("compare.title")} />
               <Text style={{ marginBottom: 20 }}>{t("compare.subtitle")}</Text>
               <StyledPicker
@@ -239,9 +244,10 @@ const Big5ClosedScreen = ({ navigation }) => {
                   <GraphLegends data={graphLegends} />
                 </>
               )}
-            </>
+            </View>
           )}
-          <View>
+          <View style={styles.separator} />
+          <View style={styles.contentView}>
             <BubbleText title="Spotify" />
             <GetSpotifyRecommendations onPress={_onPressSpotify} />
             {status && (
@@ -260,17 +266,21 @@ const Big5ClosedScreen = ({ navigation }) => {
               </AditionalInfoText>
             )}
           </View>
-          {context !== "text" && (
-            <Button
-              onPress={_onPressNewTest}
-              style={{ marginBottom: 10, marginTop: 40 }}
-            >
-              <ButtonText>{t("new-test-based")}</ButtonText>
+          <View style={styles.separator} />
+          <View style={styles.contentView}>
+            <BubbleText style={{ marginBottom: 0 }} title="Other options" />
+            {context !== "text" && (
+              <Button
+                onPress={_onPressNewTest}
+                style={{ marginBottom: 10, marginTop: 40 }}
+              >
+                <ButtonText>{t("new-test-based")}</ButtonText>
+              </Button>
+            )}
+            <Button onPress={_onPressHome} style={{ marginVertical: 10 }}>
+              <ButtonText>{t("go-home")}</ButtonText>
             </Button>
-          )}
-          <Button onPress={_onPressHome} style={{ marginVertical: 10 }}>
-            <ButtonText>{t("go-home")}</ButtonText>
-          </Button>
+          </View>
         </ScrollView>
       </Transition>
     </SafeAreaView>
@@ -284,9 +294,19 @@ Big5ClosedScreen.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  separator: {
+    height: 10,
+    display: "flex",
+    flex: 1,
+    backgroundColor: "#e0e0e0",
+    marginVertical: 10,
+  },
   container: {
     flex: 1,
     backgroundColor: "white",
+  },
+  contentView: {
+    padding: 20,
   },
   title: {
     fontWeight: "bold",
