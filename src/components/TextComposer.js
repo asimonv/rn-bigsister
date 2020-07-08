@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, View, Keyboard } from "react-native";
 import { withTranslation } from "react-i18next";
 import Swiper from "react-native-deck-swiper";
 import _ from "lodash";
@@ -34,7 +34,8 @@ class TextComposer extends Component {
       sources.push(pinera18, pinera19, gm);
     } else if (language === "en") {
       const gm = await import("../data/texts/gm-en");
-      sources.push(gm);
+      const jebb = await import("../data/texts/je-bb");
+      sources.push(gm, jebb);
     }
 
     for (let j = 0; j < sources.length; j += 1) {
@@ -107,7 +108,7 @@ class TextComposer extends Component {
           selectedSourceType === 2 ? { flex: 1 } : {},
         ]}
       >
-        {!finished && randomCategory ? (
+        {!finished && (
           <>
             <View
               style={[
@@ -117,10 +118,12 @@ class TextComposer extends Component {
             >
               {selectedSourceType < 2 && (
                 <TextInput
+                  returnKeyLabel="Done"
+                  returnKeyType="done"
+                  onSubmitEditing={Keyboard.dismiss}
                   style={styles.textInput}
                   onChangeText={this._onChangeText}
                   placeholder={placeholder}
-                  multiline
                 />
               )}
               {phrases && selectedSourceType === 2 && (
@@ -134,7 +137,7 @@ class TextComposer extends Component {
                         >{`"...${phraseText}..."`}</Text>
                         <Text
                           style={{
-                            fontSize: 20,
+                            fontSize: 15,
                             padding: 10,
                             fontWeight: "bold",
                             textAlign: "right",
@@ -172,12 +175,11 @@ class TextComposer extends Component {
               </Button>
             </View>
           </>
-        ) : (
-          <>
-            <MessageBubble>
-              <Text style={styles.greetingsText}>{t("greetings-text")}</Text>
-            </MessageBubble>
-          </>
+        )}
+        {finished && (
+          <MessageBubble>
+            <Text style={styles.greetingsText}>{t("greetings-text")}</Text>
+          </MessageBubble>
         )}
       </View>
     );

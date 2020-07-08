@@ -131,7 +131,6 @@ class TextScreen extends React.Component {
                 async () => {
                   //  save test
                   await saveTest(this.state, context);
-                  console.log("now must fetch songs");
                 }
               );
             }
@@ -160,7 +159,6 @@ class TextScreen extends React.Component {
             contenttype: "text/plain",
             id: `${tw.id}`,
           }));
-          console.log(tweets);
           if (content.length) {
             this.setState({
               testStatus: `${t("fetching.watson")}`,
@@ -200,8 +198,6 @@ class TextScreen extends React.Component {
                   testStatus: undefined,
                 },
                 async () => {
-                  //  this.animation.play();
-                  console.log("now must fetch songs");
                   //  save test
                   await saveTest(this.state, context);
                 }
@@ -261,6 +257,13 @@ class TextScreen extends React.Component {
         }
 
         case 1: {
+          this.setState({
+            gettingResults: false,
+            gettingCategories: false,
+            testStatus: undefined,
+            randomCategory: true,
+            showRandom: false,
+          });
           break;
         }
 
@@ -354,9 +357,7 @@ class TextScreen extends React.Component {
                 info: res,
               },
               async () => {
-                //  this.animation.play();
                 await saveTest(this.state, "text");
-                console.log("now must fetch songs");
               }
             );
           }
@@ -421,11 +422,15 @@ class TextScreen extends React.Component {
     } = this.state;
     const { navigation, t } = this.props;
     const navigationContext = navigation.getParam("context");
+
     return (
       <SafeAreaView style={styles.container}>
         <KeyboardAwareScrollView
-          scrollEnabled={false}
-          contentContainerStyle={{ flex: 1 }}
+          scrollEnabled={selectedSourceType !== 2}
+          contentContainerStyle={[
+            selectedSourceType === 2 && !finished ? { flex: 1 } : {},
+            { padding: 10 },
+          ]}
         >
           <Transition appear="top">
             <NavBar style={{ marginVertical: 10 }}>
@@ -448,7 +453,7 @@ class TextScreen extends React.Component {
               />
             </NavBar>
           </Transition>
-          {navigationContext === "text" && (
+          {navigationContext === "text" && !finished && !gettingResults && (
             <Transition appear="top">
               <View style={{ marginBottom: 10 }}>
                 <StyledPicker
@@ -524,7 +529,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "red",
-    padding: 20,
     display: "flex",
     flexDirection: "column",
     alignContent: "flex-start",

@@ -1,5 +1,9 @@
 export const labels = [
-  { label: "Roberto Bolaños", value: "bolanos", legendColor: "orange" },
+  {
+    label: "Roberto Bolaños - Los detectives salvajes",
+    value: "bolanos",
+    legendColor: "orange",
+  },
   {
     label: "Vicente Huidobro - Altazor o el viaje en paracaídas",
     value: "hui_1",
@@ -11,7 +15,7 @@ export const labels = [
     legendColor: "orange",
   },
   {
-    label: "Nicanor Parra - SOLILOQUIO DEL INDIVIDUO",
+    label: "Nicanor Parra - Soliloquio del individuo",
     value: "np_1",
     legendColor: "orange",
   },

@@ -116,7 +116,7 @@ export default {
       },
     },
     "landing-message":
-      "Hello! I’m the Big Sister and I can profile and recommend you songs based on what you think or post on social networks",
+      "Hello! I’m the Big Sister and I can profile and recommend you songs based on what you think or post on social media",
     "try-me": "Try me!",
     "see-results": "See your results!",
     purchase_message: "Purchases preferences",

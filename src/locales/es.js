@@ -66,7 +66,7 @@ export default {
     "check-data-message": "Datos utilizados por Watson",
     "greetings-text": "¡Gracias por participar! ☺️",
     "landing-message":
-      "Hola, soy Big Sister y puedo perfilarte y recomendarte canciones basándose en lo que piensas o posteas en redes sociales.",
+      "Hola, soy Big Sister y puedo perfilarte y recomendarte canciones basándome en lo que piensas o posteas en redes sociales.",
     "try-me": "¡Pruébame!",
     next: "siguiente",
     helpers: {
@@ -75,7 +75,7 @@ export default {
           remove: {
             title: "Remover",
             description:
-              "Al hacer click en este icono veras las cuentas de Facebook, Twitter o Spotify en que les has brindado el permiso a Big Sister para acceder a tus datos. Puedes seleccionar una de ellas para desloguearte o cerrar sesión, cancelando el permiso para acceder a tu información para futuros tests dentro de la app.",
+              "Al hacer click en este icono verás las cuentas de Facebook, Twitter o Spotify en que les has brindado el permiso a Big Sister para acceder a tus datos. Puedes seleccionar una de ellas para desloguearte o cerrar sesión, cancelando el permiso para acceder a tu información para futuros tests dentro de la app.",
           },
           language: {
             title: "Lenguaje",
