@@ -5,7 +5,7 @@ import {
   RefreshControl,
   StyleSheet,
   Text,
-  View
+  View,
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -25,7 +25,7 @@ const viewTint = "#5352ed";
 const sourcesNames = {
   tw: "Twitter",
   fb: "Facebook",
-  text: "Text"
+  text: "Text",
 };
 
 const HistoryScreen = props => {
@@ -34,7 +34,7 @@ const HistoryScreen = props => {
   const [refreshing, setRefreshing] = useState(false);
   const {
     showActionSheetWithOptions,
-    navigation: { navigate }
+    navigation: { navigate },
   } = props;
   const { t } = useTranslation();
   const noTestsMessage = t("no-tests-message");
@@ -42,8 +42,8 @@ const HistoryScreen = props => {
   const modalTexts = [
     {
       title: t("helpers.history.buttons.options.title"),
-      description: t("helpers.history.buttons.options.description")
-    }
+      description: t("helpers.history.buttons.options.description"),
+    },
   ];
 
   const getHistory = async () => {
@@ -67,7 +67,7 @@ const HistoryScreen = props => {
     <View
       style={{
         height: 1,
-        backgroundColor: "#ecf0f1"
+        backgroundColor: "#ecf0f1",
       }}
     />
   );
@@ -82,10 +82,12 @@ const HistoryScreen = props => {
   const renderItem = item => {
     const adaptedItem = {
       title: moment(item.date).format("MMMM Do YYYY, h:mm:ssA"),
-      subtitle: `${sourcesNames[item.source]} ${
-        item.modified ? "(Modified)" : ""
-      } ${item.description ? ` - ${item.description}` : ""}`,
-      data: item
+      subtitle: `${sourcesNames[item.source]}${
+        item.modified ? " (Modified)" : ""
+      }${item.description ? ` - ${item.description}` : ""}${
+        item.language ? `${item.language === "en" ? " 🇬🇧 " : " 🇪🇸 "}` : ""
+      }`,
+      data: item,
     };
     return <ListItem onPress={_handlePress} item={adaptedItem} />;
   };
@@ -99,7 +101,7 @@ const HistoryScreen = props => {
       {
         options,
         cancelButtonIndex,
-        title: t("tests-option-title")
+        title: t("tests-option-title"),
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
@@ -119,7 +121,7 @@ const HistoryScreen = props => {
       [
         {
           text: t("cancel"),
-          style: "cancel"
+          style: "cancel",
         },
         {
           text: "OK",
@@ -129,8 +131,8 @@ const HistoryScreen = props => {
               JSON.stringify([])
             );
             setHistory(storageHistory);
-          }
-        }
+          },
+        },
       ],
       { cancelable: false }
     );
@@ -147,7 +149,7 @@ const HistoryScreen = props => {
             fontWeight: "600",
             color: "black",
             textAlign: "center",
-            padding: 5
+            padding: 5,
           }}
         >
           {noTestsMessage}
@@ -227,13 +229,13 @@ const HistoryScreen = props => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: viewTint
+    backgroundColor: viewTint,
   },
   centeredContent: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20
+    padding: 20,
   },
   title: {
     fontWeight: "bold",
@@ -243,7 +245,7 @@ const styles = StyleSheet.create({
     color: "white",
     left: 0,
     right: 0,
-    zIndex: -1
+    zIndex: -1,
   },
   list: {
     backgroundColor: "white",
@@ -255,8 +257,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.55,
     shadowRadius: 5,
     shadowColor: "#2e3131",
-    shadowOffset: { height: 0, width: 0 }
-  }
+    shadowOffset: { height: 0, width: 0 },
+  },
 });
 
 export default connectActionSheet(HistoryScreen);

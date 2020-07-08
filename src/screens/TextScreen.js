@@ -130,7 +130,7 @@ class TextScreen extends React.Component {
                 },
                 async () => {
                   //  save test
-                  await saveTest(this.state, context);
+                  await saveTest(this.state, context, language);
                 }
               );
             }
@@ -199,7 +199,7 @@ class TextScreen extends React.Component {
                 },
                 async () => {
                   //  save test
-                  await saveTest(this.state, context);
+                  await saveTest(this.state, context, language);
                 }
               );
             }
@@ -371,7 +371,7 @@ class TextScreen extends React.Component {
                 info: res,
               },
               async () => {
-                await saveTest(this.state, "text");
+                await saveTest(this.state, "text", language);
               }
             );
           }

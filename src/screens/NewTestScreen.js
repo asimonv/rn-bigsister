@@ -19,12 +19,12 @@ const viewTint = "#c0392b";
 const sourcesNames = {
   tw: "Twitter",
   fb: "Facebook",
-  text: "Text"
+  text: "Text",
 };
 
 const NewTestScreen = props => {
   const {
-    navigation: { getParam, navigate, goBack }
+    navigation: { getParam, navigate, goBack },
   } = props;
   const [showInfo, setShowInfo] = useState(false);
   const [testStatus, setTestStatus] = useState();
@@ -72,9 +72,10 @@ const NewTestScreen = props => {
             info: res,
             content: { data },
             filters: { seed_genres: reqGenres },
-            description
+            description,
           },
-          context
+          context,
+          language
         );
       } else {
         setError(true);
@@ -87,7 +88,7 @@ const NewTestScreen = props => {
         content = data.map(tw => ({
           content: tw.text,
           contenttype: "text/plain",
-          id: `${tw.id}`
+          id: `${tw.id}`,
         }));
         break;
       }
@@ -96,7 +97,7 @@ const NewTestScreen = props => {
         content = data.map(p => ({
           content: p.message,
           contenttype: "text/plain",
-          id: p.id
+          id: p.id,
         }));
         break;
       }
@@ -132,7 +133,7 @@ const NewTestScreen = props => {
       filters,
       title: sourcesNames[context],
       subtitle: now,
-      source: context
+      source: context,
     });
   };
 
@@ -196,14 +197,14 @@ const styles = StyleSheet.create({
     padding: 20,
     display: "flex",
     flexDirection: "column",
-    alignContent: "flex-start"
+    alignContent: "flex-start",
   },
   charNumText: {
     fontSize: 18,
     fontWeight: "600",
     color: viewTint,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 export default NewTestScreen;

@@ -4,7 +4,7 @@ export default {
       "From my calculations about your personality, I have also estimated your consumption preferences. These variables have values between 0 and 1, being 0 unlikely and 1 very likely to prefer a certain product. The following variables exclude values equal to 0.5 because they are considered neutral.",
     "welcome-message": "Tap my eye to recieve knowledge about yourself",
     "test-text-based":
-      "Your Personality was analyzed based on this text that you entered",
+      "Your personality was analyzed based on this text that you entered",
     "history-title": "Your History",
     "clear-history": "Clear history",
     "compare-sources": "Compare sources",
