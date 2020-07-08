@@ -115,6 +115,8 @@ export default {
           "Big Sister uses the text you enter here to give your information about yourself using the Watson Personality Traits API.",
       },
     },
+    "min-words-error":
+      "Your text doesn't have the minimum required amount of words",
     "landing-message":
       "Hello! I’m the Big Sister and I can profile and recommend you songs based on what you think or post on social media",
     "try-me": "Try me!",

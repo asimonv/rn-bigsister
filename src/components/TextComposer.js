@@ -9,6 +9,8 @@ import Button from "./Button";
 import ButtonText from "./ButtonText";
 import MessageBubble from "./MessageBubble";
 
+const MIN_WORDS = 100;
+
 class TextComposer extends Component {
   constructor(props) {
     super(props);
@@ -61,7 +63,7 @@ class TextComposer extends Component {
           .join(" ");
 
         const phrase = { source, phraseText, author };
-        if (phraseText.length >= wordsSize) {
+        if ((phraseText.match(/\s/g) || []).length >= MIN_WORDS) {
           phrases.push(phrase);
         }
       }
@@ -124,6 +126,7 @@ class TextComposer extends Component {
                   style={styles.textInput}
                   onChangeText={this._onChangeText}
                   placeholder={placeholder}
+                  multiline
                 />
               )}
               {phrases && selectedSourceType === 2 && (
@@ -225,8 +228,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     backgroundColor: "white",
-    textAlign: "center",
     fontSize: 17,
+    maxHeight: 150,
   },
   greetingsText: {
     fontSize: 18,

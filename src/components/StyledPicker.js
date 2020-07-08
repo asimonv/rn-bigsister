@@ -33,7 +33,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     textAlign: "center",
     color: "black",
-    paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     backgroundColor: "white",
@@ -45,7 +44,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "black",
     fontWeight: "800",
-    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 

@@ -65,6 +65,8 @@ export default {
     },
     "check-data-message": "Datos utilizados por Watson",
     "greetings-text": "¡Gracias por participar! ☺️",
+    "min-words-error":
+      "Tu texto no tiene la cantidad mínima de palabras requeridas",
     "landing-message":
       "Hola, soy Big Sister y puedo perfilarte y recomendarte canciones basándome en lo que piensas o posteas en redes sociales.",
     "try-me": "¡Pruébame!",

@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View, Alert } from "react-native";
 import { SafeAreaView } from "react-navigation";
 import { Transition } from "react-navigation-fluid-transitions";
 import AsyncStorage from "@react-native-community/async-storage";
@@ -316,10 +316,24 @@ class TextScreen extends React.Component {
 
   _onPressSend() {
     const {
-      t,
       i18n: { language },
+      t,
       navigation: { navigate },
+      navigation,
     } = this.props;
+    const context = navigation.getParam("context");
+    const { text } = this.state;
+    if (
+      context === "text" &&
+      (text.match(/\s/g) || []).length < RECOMMENDED_CHARS
+    ) {
+      Alert.alert(t("min-words-error"), "", [
+        { text: t("OK"), style: "cancel" },
+      ]);
+
+      return;
+    }
+
     this.setState(
       prev => ({
         gettingResults: !prev.gettingResults,
