@@ -88,7 +88,10 @@ const Big5ClosedScreen = ({ navigation }) => {
   const _onPressSpotify = async () => {
     const { navigate } = navigation;
     const limit = 50;
-    const recommendations = await getUserRecommendations({ ...filters, limit });
+    const recommendations = await getUserRecommendations(
+      { ...filters, limit },
+      t
+    );
     if (recommendations) {
       navigate("screen1", { recommendations, info, filters, title, subtitle });
     }
@@ -248,7 +251,7 @@ const Big5ClosedScreen = ({ navigation }) => {
           )}
           <View style={styles.separator} />
           <View style={styles.contentView}>
-            <BubbleText title="Spotify" />
+            <BubbleText title={t("spotify.title")} />
             <GetSpotifyRecommendations onPress={_onPressSpotify} />
             {status && (
               <AditionalInfoText>
@@ -267,17 +270,30 @@ const Big5ClosedScreen = ({ navigation }) => {
             )}
           </View>
           <View style={styles.separator} />
+          {context !== "text" && (
+            <View>
+              <View style={styles.contentView}>
+                <BubbleText title={t("new-test.title")} />
+                <Text>{t("new-test.subtitle")}</Text>
+                <Button
+                  onPress={_onPressNewTest}
+                  style={{ marginBottom: 10, marginTop: 40 }}
+                >
+                  <ButtonText>{t("new-test.button")}</ButtonText>
+                </Button>
+              </View>
+              <View style={styles.separator} />
+            </View>
+          )}
           <View style={styles.contentView}>
-            <BubbleText style={{ marginBottom: 0 }} title="Other options" />
-            {context !== "text" && (
-              <Button
-                onPress={_onPressNewTest}
-                style={{ marginBottom: 10, marginTop: 40 }}
-              >
-                <ButtonText>{t("new-test-based")}</ButtonText>
-              </Button>
-            )}
-            <Button onPress={_onPressHome} style={{ marginVertical: 10 }}>
+            <BubbleText
+              style={{ marginBottom: 0 }}
+              title={t("other-options")}
+            />
+            <Button
+              onPress={_onPressHome}
+              style={{ marginBottom: 10, marginTop: 40 }}
+            >
               <ButtonText>{t("go-home")}</ButtonText>
             </Button>
           </View>

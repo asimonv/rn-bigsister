@@ -26,32 +26,27 @@ export const clearSpotifyToken = async () => {
   await AsyncStorage.removeItem("@LittleStore:spotify_auth_code");
 };
 
-const getValidSPObj = async () => {
+const getValidSPObj = async t => {
   if (!(await hasAuthToken())) {
-    console.log("no auth token");
     await AsyncAlert(
       async () => {
         await getAuthorizationCode();
       },
       {
-        title: "No Spotify Auth Token",
-        description:
-          "A new window will be open to authenticate you to Spotify. Come back again to this screen after you get authenticated."
+        title: t("spotify.api.noToken.title"),
+        description: t("spotify.api.noToken.description"),
       }
     );
     return null;
   }
   if (await isSpotifyTokenExpired()) {
-    console.log(
-      "access token has expired, so we need to use the refresh token"
-    );
     await AsyncAlert(
       async () => {
         await refreshTokens();
       },
       {
-        title: "Spotify Token Expired",
-        description: "Big Sister will refresh your spotify access token."
+        title: t("spotify.api.expiredToken.title"),
+        description: t("spotify.api.expiredToken.description"),
       }
     );
   }
@@ -62,8 +57,8 @@ const getValidSPObj = async () => {
   return sp;
 };
 
-export const getUserRecommendations = async data => {
-  const sp = await getValidSPObj();
+export const getUserRecommendations = async (data, t) => {
+  const sp = await getValidSPObj(t);
   if (sp) {
     const res = await sp.getRecommendations(data);
     return res;
@@ -94,7 +89,7 @@ export const addTracksToPlaylist = async data => {
 
 const getSpotifyCredentials = async () => {
   return jsonRequest(`${ROOT_URL}/spotify/credentials`, {
-    headers: { "Content-Type": "application/json" }
+    headers: { "Content-Type": "application/json" },
   });
 };
 
@@ -109,7 +104,7 @@ const scopesArr = [
   "playlist-modify-public",
   "playlist-modify-private",
   "user-read-recently-played",
-  "user-top-read"
+  "user-top-read",
 ];
 const scopes = scopesArr.join(" ");
 
@@ -134,7 +129,6 @@ const getTokens = async () => {
       "@LittleStore:spotify_auth_code"
     );
     if (authorizationCode) {
-      console.log(`auth code ${authorizationCode}`);
       const credentials = await getSpotifyCredentials();
       const credsB64 = btoa(
         `${credentials.clientId}:${credentials.clientSecret}`
@@ -143,15 +137,15 @@ const getTokens = async () => {
         method: "POST",
         headers: {
           Authorization: `Basic ${credsB64}`,
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/x-www-form-urlencoded",
         },
-        body: `grant_type=authorization_code&code=${authorizationCode}&redirect_uri=${credentials.redirectURI}`
+        body: `grant_type=authorization_code&code=${authorizationCode}&redirect_uri=${credentials.redirectURI}`,
       });
       const responseJson = await response.json();
       const {
         access_token: accessToken,
         refresh_token: refreshToken,
-        expires_in: expiresIn
+        expires_in: expiresIn,
       } = responseJson;
 
       console.log(accessToken);
@@ -182,9 +176,9 @@ export const refreshTokens = async () => {
       method: "POST",
       headers: {
         Authorization: `Basic ${credsB64}`,
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `grant_type=refresh_token&refresh_token=${refreshToken}`
+      body: `grant_type=refresh_token&refresh_token=${refreshToken}`,
     });
     const responseJson = await response.json();
     if (responseJson.error) {
@@ -193,7 +187,7 @@ export const refreshTokens = async () => {
       const {
         access_token: newAccessToken,
         refresh_token: newRefreshToken,
-        expires_in: expiresIn
+        expires_in: expiresIn,
       } = responseJson;
 
       const expirationTime = new Date().getTime() + expiresIn * 1000;

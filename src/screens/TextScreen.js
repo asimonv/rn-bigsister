@@ -30,13 +30,13 @@ const viewTint = "#c0392b";
 const sourcesNames = {
   tw: "Twitter",
   fb: "Facebook",
-  text: "Text"
+  text: "Text",
 };
 
 const textSources = t => [
   { label: `${t("write-something-about")} ...`, value: 0 },
   { label: `${t("text-sources.copy.title")}`, value: 1 },
-  { label: `${t("text-sources.publicFigure.title")}`, value: 2 }
+  { label: `${t("text-sources.publicFigure.title")}`, value: 2 },
 ];
 
 class TextScreen extends React.Component {
@@ -59,8 +59,8 @@ class TextScreen extends React.Component {
         energy: 0.2,
         min_popularity: 50,
         seed_genres: ["chill"],
-        max_valence: 0.2
-      }
+        max_valence: 0.2,
+      },
     };
     this._onPressSend = this._onPressSend.bind(this);
     this._onPressCancel = this._onPressCancel.bind(this);
@@ -73,7 +73,7 @@ class TextScreen extends React.Component {
     const {
       navigation,
       t,
-      i18n: { language }
+      i18n: { language },
     } = this.props;
     const context = navigation.getParam("context");
     switch (context) {
@@ -81,29 +81,30 @@ class TextScreen extends React.Component {
         this.setState({
           gettingResults: true,
           started: true,
-          testStatus: `${t("fetching.fb")}`
+          testStatus: `${t("fetching.fb")}`,
         });
         try {
           const posts = await fetchLikes();
           const content = posts.data.map(p => ({
             content: p.message,
             contenttype: "text/plain",
-            id: p.id
+            id: p.id,
           }));
           if (content.length) {
             this.setState({
               testStatus: `${t("fetching.watson")}`,
-              content: posts
+              content: posts,
             });
             const res = await pInsights({
               contentItems: content,
-              language
+              language,
             });
             this.setState(prev => ({
               finished: !prev.finished,
               gettingResults: !prev.gettingResults,
               error: res.code && res.code !== 200,
-              testStatus: res.code && res.code !== 200 ? res.message : undefined
+              testStatus:
+                res.code && res.code !== 200 ? res.message : undefined,
             }));
 
             if (!res.code) {
@@ -125,7 +126,7 @@ class TextScreen extends React.Component {
                 {
                   filters: { seed_genres: reqGenres },
                   info: res,
-                  testStatus: undefined
+                  testStatus: undefined,
                 },
                 async () => {
                   //  save test
@@ -138,7 +139,7 @@ class TextScreen extends React.Component {
             this.setState(prev => ({
               finished: !prev.finished,
               error: true,
-              testStatus: `${t("fetching.error")}`
+              testStatus: `${t("fetching.error")}`,
             }));
           }
         } catch (e) {
@@ -149,7 +150,7 @@ class TextScreen extends React.Component {
         this.setState({
           gettingResults: true,
           started: true,
-          testStatus: `${t("fetching.tw")}`
+          testStatus: `${t("fetching.tw")}`,
         });
         try {
           const userId = await AsyncStorage.getItem("@LittleStore:twitterId");
@@ -157,23 +158,24 @@ class TextScreen extends React.Component {
           const content = tweets.data.map(tw => ({
             content: tw.text,
             contenttype: "text/plain",
-            id: `${tw.id}`
+            id: `${tw.id}`,
           }));
           console.log(tweets);
           if (content.length) {
             this.setState({
               testStatus: `${t("fetching.watson")}`,
-              content: tweets
+              content: tweets,
             });
             const res = await pInsights({
               contentItems: content,
-              language
+              language,
             });
             this.setState(prev => ({
               finished: !prev.finished,
               gettingResults: !prev.gettingResults,
               error: res.code && res.code !== 200,
-              testStatus: res.code && res.code !== 200 ? res.message : undefined
+              testStatus:
+                res.code && res.code !== 200 ? res.message : undefined,
             }));
 
             if (!res.code) {
@@ -195,7 +197,7 @@ class TextScreen extends React.Component {
                 {
                   filters: { seed_genres: reqGenres },
                   info: res,
-                  testStatus: undefined
+                  testStatus: undefined,
                 },
                 async () => {
                   //  this.animation.play();
@@ -209,7 +211,7 @@ class TextScreen extends React.Component {
             this.setState(prev => ({
               finished: !prev.finished,
               error: true,
-              testStatus: `${t("fetching.error")}`
+              testStatus: `${t("fetching.error")}`,
             }));
           }
         } catch (e) {
@@ -225,12 +227,13 @@ class TextScreen extends React.Component {
     const {
       navigation,
       t,
-      i18n: { language }
+      i18n: { language },
     } = this.props;
     if (value !== null) {
       this.setState({
         started: true,
-        selectedSourceType: value
+        text: "",
+        selectedSourceType: value,
       });
       switch (value) {
         case 0: {
@@ -238,7 +241,7 @@ class TextScreen extends React.Component {
             this.setState({
               gettingResults: true,
               testStatus: `${t("fetching.categories")}`,
-              showRandom: true
+              showRandom: true,
             });
             const categories = await textCategories(language);
             const { data } = categories;
@@ -249,11 +252,15 @@ class TextScreen extends React.Component {
               gettingResults: false,
               gettingCategories: false,
               testStatus: undefined,
-              randomCategory
+              randomCategory,
             });
           } catch (e) {
             console.log(e);
           }
+          break;
+        }
+
+        case 1: {
           break;
         }
 
@@ -263,7 +270,7 @@ class TextScreen extends React.Component {
             gettingCategories: false,
             testStatus: undefined,
             randomCategory: true,
-            showRandom: false
+            showRandom: false,
           });
           break;
       }
@@ -272,14 +279,14 @@ class TextScreen extends React.Component {
         started: false,
         selectedSourceType: value,
         randomCategory: null,
-        showRandom: false
+        showRandom: false,
       });
     }
   };
 
   _changeRandomCategory = () => {
     const {
-      categories: { data }
+      categories: { data },
     } = this.state;
     const randomCategory = data[Math.floor(Math.random() * data.length)];
     this.setState({ randomCategory });
@@ -300,16 +307,20 @@ class TextScreen extends React.Component {
     }
   };
 
+  _onSelectedText = ({ phraseText }) => {
+    this.setState(prev => ({ text: prev.text + phraseText }));
+  };
+
   _onPressSend() {
     const {
       t,
       i18n: { language },
-      navigation: { navigate }
+      navigation: { navigate },
     } = this.props;
     this.setState(
       prev => ({
         gettingResults: !prev.gettingResults,
-        testStatus: `${t("fetching.watson")}`
+        testStatus: `${t("fetching.watson")}`,
       }),
       async () => {
         try {
@@ -319,7 +330,7 @@ class TextScreen extends React.Component {
             finished: !prev.finished,
             gettingResults: !prev.gettingResults,
             error: res.code && res.code !== 200,
-            testStatus: res.code && res.code !== 200 ? res.message : undefined
+            testStatus: res.code && res.code !== 200 ? res.message : undefined,
           }));
 
           if (!res.code) {
@@ -340,7 +351,7 @@ class TextScreen extends React.Component {
             this.setState(
               {
                 filters: { seed_genres: reqGenres },
-                info: res
+                info: res,
               },
               async () => {
                 //  this.animation.play();
@@ -383,13 +394,13 @@ class TextScreen extends React.Component {
       ...this.state,
       title: sourcesNames[context],
       subtitle: now,
-      source: context
+      source: context,
     });
   }
 
   _toggleInfo() {
     this.setState(prev => ({
-      status: !prev.status
+      status: !prev.status,
     }));
   }
 
@@ -406,13 +417,16 @@ class TextScreen extends React.Component {
       started,
       randomCategory,
       selectedSourceType,
-      showRandom
+      showRandom,
     } = this.state;
     const { navigation, t } = this.props;
     const navigationContext = navigation.getParam("context");
     return (
       <SafeAreaView style={styles.container}>
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView
+          scrollEnabled={false}
+          contentContainerStyle={{ flex: 1 }}
+        >
           <Transition appear="top">
             <NavBar style={{ marginVertical: 10 }}>
               <NavButton
@@ -452,46 +466,54 @@ class TextScreen extends React.Component {
                   <ActivityIndicator size="large" color={viewTint} />
                 )}
                 {!context && !gettingResults && !gettingCategories && (
-                  <Text
-                    style={styles.charNumText}
-                  >{`${text.length}/${RECOMMENDED_CHARS}`}</Text>
+                  <Text style={styles.charNumText}>{`${
+                    (text.match(/\s/g) || []).length
+                  }/${RECOMMENDED_CHARS}`}</Text>
                 )}
               </MessageBubble>
             </Transition>
           )}
-          {(finished || (!gettingResults && !context && randomCategory)) && (
-            <Transition appear="bottom">
-              <TextComposer
-                placeholder={this._generatePlaceholder(selectedSourceType)}
-                style={styles.textComposer}
-                onPressCancel={this._onPressCancel}
-                onChangeText={x => this.setState({ text: x })}
-                onPressSend={this._onPressSend}
-                finished={finished}
-                randomCategory={randomCategory}
-              />
-            </Transition>
-          )}
-          {finished && !error && (
-            <Transition appear="bottom">
-              <Button
-                style={{ marginVertical: 10 }}
-                onPress={this._onPressInfo}
-              >
-                <ButtonText>{t("see-results")}</ButtonText>
-              </Button>
-            </Transition>
-          )}
-          {testStatus && (
-            <Transition appear="bottom">
-              <MessageBubble style={{ marginVertical: 10 }}>
-                <Text style={styles.charNumText}>{testStatus}</Text>
-              </MessageBubble>
-            </Transition>
-          )}
-          {status && (
-            <AditionalInfoText>{this._getInfoMessage()}</AditionalInfoText>
-          )}
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            {(finished || (!gettingResults && !context && randomCategory)) && (
+              <Transition appear="bottom">
+                <TextComposer
+                  placeholder={this._generatePlaceholder(selectedSourceType)}
+                  style={styles.textComposer}
+                  onPressCancel={this._onPressCancel}
+                  onChangeText={x => this.setState({ text: x })}
+                  onPressSend={this._onPressSend}
+                  onSelectedText={this._onSelectedText}
+                  finished={finished}
+                  selectedSourceType={selectedSourceType}
+                  randomCategory={randomCategory}
+                />
+              </Transition>
+            )}
+            {finished && !error && (
+              <Transition appear="bottom">
+                <Button
+                  style={{ marginVertical: 10 }}
+                  onPress={this._onPressInfo}
+                >
+                  <ButtonText>{t("see-results")}</ButtonText>
+                </Button>
+              </Transition>
+            )}
+            {testStatus && (
+              <Transition appear="bottom">
+                <MessageBubble style={{ marginVertical: 10 }}>
+                  <Text style={styles.charNumText}>{testStatus}</Text>
+                </MessageBubble>
+              </Transition>
+            )}
+            {status && (
+              <AditionalInfoText>{this._getInfoMessage()}</AditionalInfoText>
+            )}
+          </View>
         </KeyboardAwareScrollView>
       </SafeAreaView>
     );
@@ -505,10 +527,10 @@ const styles = StyleSheet.create({
     padding: 20,
     display: "flex",
     flexDirection: "column",
-    alignContent: "flex-start"
+    alignContent: "flex-start",
   },
   textComposer: {
-    flex: 0
+    flex: 1,
   },
   additionalInfo: {
     backgroundColor: "yellow",
@@ -517,14 +539,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#ecf0f1"
+    borderColor: "#ecf0f1",
   },
   charNumText: {
     fontSize: 18,
     fontWeight: "600",
     color: viewTint,
-    textAlign: "center"
-  }
+    textAlign: "center",
+  },
 });
 
 export default withTranslation()(TextScreen);

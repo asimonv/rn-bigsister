@@ -24,31 +24,44 @@ export default {
       "Por favor dame una fuente de información para analizar y poder describir tu identidad",
     "subject-opinion": "opinión sobre un tema",
     my: "Mi",
+    "other-options": "Otras opciones",
+    send: "enviar",
     results: "Resultados",
     text: "Texto",
     finish: "terminar",
     "used-data": "Datos",
-    "new-test-based": "Crear nuevo test basado en este",
     here: "aquí",
     "date-range": "Selecciona un rango de fechas",
     "compare-sources-title": "Comparar Fuentes",
     "go-home": "Ir al inicio",
     "start-test": "Comenzar test",
     personality: "Personalidad",
-    "write-something-about": "Escribe (o copia) algo sobre",
+    "write-something-about": "Escribe algo sobre",
     no: "No",
     done: "terminar",
     accounts: {
-      approved: "¡Tu cuenta ha sido enlazada con éxito!"
+      approved: "¡Tu cuenta ha sido enlazada con éxito!",
     },
     spotify: {
+      api: {
+        noToken: {
+          title: "No hay token de autenticación de Spotify",
+          description:
+            "Se abrirá una nueva ventana para autenticarte a Spotify. Vuelve de nuevo a esta ventana para autenticarte.",
+        },
+        expiredToken: {
+          title: "El token de autenticación de Spotify ha caducado",
+          description: "Big Sister actualizará tu token de acceso a Spotify.",
+        },
+      },
+      title: "Recibe recomendaciones musicales",
       more: "Más información sobre el flujo de autenticación de Spotify",
-      button: "Ver las recomendaciones músicales con Spotify",
+      button: "OBTENER RECOMENDACIONES DE SPOTIFY",
       playlist_created:
         "¡Lista de reproducción creada! Entra a Spotify para verla.",
       recommendations: "Recomendaciones",
       message:
-        "Ahora que he analizado tu identidad, puedo recomendarte canciones que creo que te pueden gustar en base a la información que me has brindado."
+        "Ahora que he analizado tus gustos musicales, puedo mostrarte canciones que creo que pueden gustarte según la información que me has brindado.",
     },
     "check-data-message": "Datos utilizados por Watson",
     "greetings-text": "¡Gracias por participar! ☺️",
@@ -62,52 +75,58 @@ export default {
           remove: {
             title: "Remover",
             description:
-              "Al hacer click en este icono veras las cuentas de Facebook, Twitter o Spotify en que les has brindado el permiso a Big Sister para acceder a tus datos. Puedes seleccionar una de ellas para desloguearte o cerrar sesión, cancelando el permiso para acceder a tu información para futuros tests dentro de la app."
+              "Al hacer click en este icono veras las cuentas de Facebook, Twitter o Spotify en que les has brindado el permiso a Big Sister para acceder a tus datos. Puedes seleccionar una de ellas para desloguearte o cerrar sesión, cancelando el permiso para acceder a tu información para futuros tests dentro de la app.",
           },
           language: {
             title: "Lenguaje",
             description:
-              "Puedes cambiar el lenguaje de la app (🇪🇸/🇬🇧) haciendo click en el icono del globo."
+              "Puedes cambiar el lenguaje de la app (🇪🇸/🇬🇧) haciendo click en el icono del globo.",
           },
           history: {
             title: "Historial",
             description:
-              "Te aparecerá la pantalla “Tu Historial” en donde podrás ver todos los tests realizados ordenados por fecha. Al clickear en alguno de ellos, podrás ver nuevamente los resultados de personalidad y preferencias de consumo."
-          }
-        }
+              "Te aparecerá la pantalla “Tu Historial” en donde podrás ver todos los tests realizados ordenados por fecha. Al clickear en alguno de ellos, podrás ver nuevamente los resultados de personalidad y preferencias de consumo.",
+          },
+        },
       },
       history: {
         buttons: {
           options: {
             title: "Opciones",
             description:
-              "Este es el botón de opciones. Aquí podrás interactuar con el historial de tus tests"
-          }
-        }
+              "Este es el botón de opciones. Aquí podrás interactuar con el historial de tus tests",
+          },
+        },
       },
       "new-test": {
-        placeholder: "Describe este nuevo test (ej: lo que modificaste)"
-      }
+        placeholder: "Describe este nuevo test (ej: lo que modificaste)",
+      },
     },
     compare: {
-      select: "Selecciona una figura pública",
-      title: "Compárate con una figura pública",
+      select: "Selecciona una figura pública o autor",
+      title: "Compárate con una figura pública or autor",
       click: "Toca una caracteristica para obtener más información sobre ella",
       helper:
         "Presiona el boton de arriba para elegir un rango de fechas y comparar los resultados de los tests que hiciste dentro de esas fechas",
       subtitle:
-        "Además de conocer distintos atributos de personalidad, puedes compararte con una figura pública y ver en qué se diferencian"
+        "¿Alguna vez te has preguntado qué tan similar eres a Gabriela Mistral o a Sebastián Piñera? Puede seleccionar figuras públicas y autores famosos para comparar tus resultados de  personalidad.",
+    },
+    "new-test": {
+      title: "Modifica tus datos",
+      subtitle:
+        "Puedes comprobar la información que he analizado y modificar o borrar algunos fragmentos de texto para ver cómo cambian los resultados de personalidad.",
+      button: "Crear nuevo test basado en este",
     },
     "text-sources": {
       picker: "Selecciona una fuente de texto",
       copy: {
         title: "Copiar/pegar un texto",
-        placeholder: "Pega un texto"
+        placeholder: "Pega un texto",
       },
       publicFigure: {
         title: "Usar el texto de una figura pública",
-        placeholder: "Pega un texto de una figura pública"
-      }
+        placeholder: "Pega un texto de una figura pública",
+      },
     },
     consumption_preferences: {
       consumption_preferences_shopping: {
@@ -135,7 +154,7 @@ export default {
         consumption_preferences_spur_of_moment:
           "Es probable que se dé algún capricho en el momento de hacer compras",
         consumption_preferences_credit_card_payment:
-          "Es probable que prefiera usar tarjetas de crédito para sus compras"
+          "Es probable que prefiera usar tarjetas de crédito para sus compras",
       },
       consumption_preferences_health_and_activity: {
         name: "Preferencias de salud y actividad",
@@ -144,17 +163,17 @@ export default {
         consumption_preferences_gym_membership:
           "Es probable que tenga una membresía de gimnasio",
         consumption_preferences_outdoor:
-          "Es probable que le gusten las actividades al aire libre"
+          "Es probable que le gusten las actividades al aire libre",
       },
       consumption_preferences_environmental_concern: {
         name: "Preferencias en materia de medio ambiente",
         consumption_preferences_concerned_environment:
-          "Es probable que se preocupe por el medio ambiente"
+          "Es probable que se preocupe por el medio ambiente",
       },
       consumption_preferences_entrepreneurship: {
         name: "Preferencias de emprendimiento",
         consumption_preferences_start_business:
-          "Es probable que considere iniciar un negocio en los próximos años"
+          "Es probable que considere iniciar un negocio en los próximos años",
       },
       consumption_preferences_movie: {
         name: "Preferencias de películas",
@@ -177,7 +196,7 @@ export default {
         consumption_preferences_movie_action:
           "Es probable que le gusten las películas de acción",
         consumption_preferences_movie_documentary:
-          "Es probable que le gusten los documentales"
+          "Es probable que le gusten los documentales",
       },
       consumption_preferences_music: {
         name: "Preferencias de música",
@@ -198,7 +217,7 @@ export default {
         consumption_preferences_music_rock:
           "Es probable que le guste la música rock",
         consumption_preferences_music_classical:
-          "Es probable que le guste la música clásica"
+          "Es probable que le guste la música clásica",
       },
       consumption_preferences_reading: {
         name: "Preferencias de lectura y aprendizaje",
@@ -211,13 +230,13 @@ export default {
         consumption_preferences_books_financial_investing:
           "Es probable que lea libros de inversión financiera",
         consumption_preferences_books_autobiographies:
-          "Es probable que lea libros autobiográficos"
+          "Es probable que lea libros autobiográficos",
       },
       consumption_preferences_volunteering: {
         name: "Preferencias de voluntariado",
         consumption_preferences_volunteer:
-          "Es probable que participe en iniciativas de voluntariado para causas sociales"
-      }
+          "Es probable que participe en iniciativas de voluntariado para causas sociales",
+      },
     },
     purchase_message: "Preferencias de consumo",
     test_calculation_message:
@@ -234,8 +253,8 @@ export default {
         tw:
           "Big Sister solicita tus tweets a través de su API. Luego procesa esa información con Watson Personality Insights API para obtener tu perfil de personalidad y preferencias de consumo.",
         text:
-          "Big Sister procesa el texto que has ingresado para obtener tu perfil de personalidad y preferencias de consumo usando la API de Watson Personality Insights."
-      }
+          "Big Sister procesa el texto que has ingresado para obtener tu perfil de personalidad y preferencias de consumo usando la API de Watson Personality Insights.",
+      },
     },
     "see-results": "Mirar mis resultados",
     big5_openness: {
@@ -243,35 +262,35 @@ export default {
       leftIntervalText: "Conservador o tradicional",
       rightIntervalText: "Liberales y artísticos/as",
       description:
-        "Un número alto indica una persona curiosa, imaginativa, sensible a la belleza y abierta a probar nuevas cosas. Mientras que un número bajo señala que la persona tiende a disfrutar de las rutinas, preferir los hechos concretos frente a la fantasía, lo ambiguo o abstracto."
+        "Un número alto indica una persona curiosa, imaginativa, sensible a la belleza y abierta a probar nuevas cosas. Mientras que un número bajo señala que la persona tiende a disfrutar de las rutinas, preferir los hechos concretos frente a la fantasía, lo ambiguo o abstracto.",
     },
     big5_agreeableness: {
       title: "Amabilidad",
       leftIntervalText: "Competitivo/a",
       rightIntervalText: "Colaborativo/a",
       description:
-        "Un número alto indica una persona más altruista, modesta, empática y que tiende a confiar en los demás. Mientras que un número bajo señala que la persona es más orgullosa, confrontacional o escéptica de los motivos de los otros."
+        "Un número alto indica una persona más altruista, modesta, empática y que tiende a confiar en los demás. Mientras que un número bajo señala que la persona es más orgullosa, confrontacional o escéptica de los motivos de los otros.",
     },
     big5_extraversion: {
       title: "Extroversión",
       leftIntervalText: "Contemplativo/a",
       rightIntervalText: "Involucrado/a con el mundo",
       description:
-        "Un número alto indican una persona alegre con mucha energía, altamente sociable o que le es fácil hacer amigos. Mientras que un número bajo señala que la persona es más reservada, calmada e independiente, que valora tener tiempo para sí misma. Esto no significa que sean personas tímidas o antisociales, sino que disfrutan el contacto social, pero de distinta manera."
+        "Un número alto indican una persona alegre con mucha energía, altamente sociable o que le es fácil hacer amigos. Mientras que un número bajo señala que la persona es más reservada, calmada e independiente, que valora tener tiempo para sí misma. Esto no significa que sean personas tímidas o antisociales, sino que disfrutan el contacto social, pero de distinta manera.",
     },
     big5_conscientiousness: {
       title: "Responsabilidad",
       leftIntervalText: "Impulsivo/a",
       rightIntervalText: "Organizado/a",
       description:
-        "Un número alto indica una persona más autodisciplinada, obediente, orientada a logros y con un sentido fuerte del deber. Mientras que un número bajo señala que la persona es más despreocupada y desestructurada y es probable que prefiera más lo espontáneo que lo planeado."
+        "Un número alto indica una persona más autodisciplinada, obediente, orientada a logros y con un sentido fuerte del deber. Mientras que un número bajo señala que la persona es más despreocupada y desestructurada y es probable que prefiera más lo espontáneo que lo planeado.",
     },
     big5_neuroticism: {
       title: "Rango Emocional",
       leftIntervalText: "Relajado/a",
       rightIntervalText: "Fácilmente estresado o emocional",
       description:
-        "Un número alto indica una persona ansiosa, que se enfada con facilidad o que tiende a preocuparse y estresarse en situaciones inesperadas. Mientras que un número bajo señala que la persona es más calmada y segura de sí misma."
-    }
-  }
+        "Un número alto indica una persona ansiosa, que se enfada con facilidad o que tiende a preocuparse y estresarse en situaciones inesperadas. Mientras que un número bajo señala que la persona es más calmada y segura de sí misma.",
+    },
+  },
 };

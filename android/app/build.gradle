@@ -131,7 +131,7 @@ android {
         applicationId "com.andre.rnbigsister"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 13
+        versionCode 15
         versionName "1.0"
         resConfigs "en", "es"
     }
@@ -203,6 +203,7 @@ dependencies {
     implementation project(':react-native-fbsdk')
     implementation project(':lottie-react-native')
     implementation project(':@react-native-community_async-storage')
+    implementation project(':react-native-view-overflow')
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
 

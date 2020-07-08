@@ -7,14 +7,14 @@ const StyledPicker = ({ placeholder, onValueChange, data }) => {
     <RNPickerSelect
       placeholder={{
         label: placeholder,
-        value: null
+        value: null,
       }}
       style={{
         placeholder: {
-          color: "black"
+          color: "black",
         },
         inputIOS: styles.inputIOS,
-        inputAndroid: styles.inputAndroid
+        inputAndroid: styles.inputAndroid,
       }}
       onValueChange={value => onValueChange(value)}
       items={data}
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     textAlign: "center",
     color: "black",
-    paddingRight: 30 // to ensure the text is never behind the icon
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     backgroundColor: "white",
@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "black",
     fontWeight: "800",
-    paddingRight: 30 // to ensure the text is never behind the icon
-  }
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
 });
 
 export default StyledPicker;

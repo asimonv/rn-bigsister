@@ -30,35 +30,42 @@ export default {
     text: "Text",
     "used-data": "Data",
     no: "Not",
+    "other-options": "Other options",
     done: "done",
     "date-range": "Select a range of dates",
     here: "here",
     next: "next",
+    send: "send",
     finish: "finish",
     "go-home": "Go Home",
     "start-test": "Start test",
-    "new-test-based": "Make new test based on this one",
     "greetings-text": "Thank you for participating! ☺️",
-    "write-something-about": "Write (or copy) something about",
+    "write-something-about": "Write something about",
     "text-sources": {
       picker: "Select a text source",
       copy: {
         title: "Copy/paste a text",
-        placeholder: "Paste something"
+        placeholder: "Paste something",
       },
       publicFigure: {
         title: "Use a text from a public figure",
-        placeholder: "Paste something from a public figure"
-      }
+        placeholder: "Paste something from a public figure",
+      },
+    },
+    "new-test": {
+      title: "Modify your data",
+      subtitle:
+        "You can check the information I have analyzed and modify or delete some fragments of text to see how the personality results change.",
+      button: "Make new test based on this one",
     },
     compare: {
       select: "Tap to select a public figure",
-      title: "Compare yourself with a public figure",
+      title: "Compare yourself with a public figure or author",
       click: "Tap a feature to get more details about it",
       helper:
         "Press the button above to select a range of dates so you can compare tests results that you did between those dates",
       subtitle:
-        "In addition to knowing different personality insights, you can also compare yourselft with a public figure and check the differences between"
+        "Have you ever wondered how similar you are to Queen Elizabeth II or Sir Arthur Conan Doyle? You can select famous authors and public figures to compare your personality results with theirs.",
     },
     helpers: {
       home: {
@@ -66,32 +73,32 @@ export default {
           language: {
             title: "Language",
             description:
-              "You can change the language (🇪🇸/🇬🇧) by clicking on the globe icon."
+              "You can change the language (🇪🇸/🇬🇧) by clicking on the globe icon.",
           },
           history: {
             title: "History",
             description:
-              'Once you have performed several tests using different data sources or at different times, you can go to the Eye screen and click on this icon. "Your history" screen will open with all your results, differentiated by date and information source. By clicking on one of them, you can see your results in detail again. Returning to the “Your history” screen, by clicking on the three points and then in the option “Compare Sources”, you will be asked to select a range of dates.'
+              'Once you have performed several tests using different data sources or at different times, you can go to the Eye screen and click on this icon. "Your history" screen will open with all your results, differentiated by date and information source. By clicking on one of them, you can see your results in detail again. Returning to the “Your history” screen, by clicking on the three points and then in the option “Compare Sources”, you will be asked to select a range of dates.',
           },
           remove: {
             title: "Remove",
             description:
-              "By clicking on this button you can see your Facebook, Twitter or Spotify accounts that you have given your permission to access your data. There you can choose one to log it out, cancelling the permission to access your information for future tests."
-          }
-        }
+              "By clicking on this button you can see your Facebook, Twitter or Spotify accounts that you have given your permission to access your data. There you can choose one to log it out, cancelling the permission to access your information for future tests.",
+          },
+        },
       },
       history: {
         buttons: {
           options: {
             title: "Options",
             description:
-              "This is the option button. Tapping on it you will see options to interact with your tests."
-          }
-        }
+              "This is the option button. Tapping on it you will see options to interact with your tests.",
+          },
+        },
       },
       "new-test": {
-        placeholder: "Describe this new test (ex: what you modified)"
-      }
+        placeholder: "Describe this new test (ex: what you modified)",
+      },
     },
     fetching: {
       fb: "Getting your Facebook posts",
@@ -105,8 +112,8 @@ export default {
         tw:
           "Big Sister uses the Twitter API + the Watson Personality Traits API to show you information about yourself",
         text:
-          "Big Sister uses the text you enter here to give your information about yourself using the Watson Personality Traits API."
-      }
+          "Big Sister uses the text you enter here to give your information about yourself using the Watson Personality Traits API.",
+      },
     },
     "landing-message":
       "Hello! I’m the Big Sister and I can profile and recommend you songs based on what you think or post on social networks",
@@ -141,24 +148,24 @@ export default {
         consumption_preferences_spur_of_moment:
           "Likely to indulge in spur of the moment purchases",
         consumption_preferences_credit_card_payment:
-          "Likely to prefer using credit cards for shopping"
+          "Likely to prefer using credit cards for shopping",
       },
       consumption_preferences_health_and_activity: {
         name: "Health & Activity Preferences",
         consumption_preferences_eat_out: "Likely to eat out frequently",
         consumption_preferences_gym_membership:
           "Likely to have a gym membership",
-        consumption_preferences_outdoor: "Likely to like outdoor activities"
+        consumption_preferences_outdoor: "Likely to like outdoor activities",
       },
       consumption_preferences_environmental_concern: {
         name: "Environmental Concern Preferences",
         consumption_preferences_concerned_environment:
-          "Likely to be concerned about the environment"
+          "Likely to be concerned about the environment",
       },
       consumption_preferences_entrepreneurship: {
         name: "Entrepreneurship Preferences",
         consumption_preferences_start_business:
-          "Likely to consider starting a business in next few years"
+          "Likely to consider starting a business in next few years",
       },
       consumption_preferences_movie: {
         name: "Movie Preferences",
@@ -175,7 +182,7 @@ export default {
         consumption_preferences_movie_drama: "Likely to like drama movies",
         consumption_preferences_movie_action: "Likely to like action movies",
         consumption_preferences_movie_documentary:
-          "Likely to like documentary movies"
+          "Likely to like documentary movies",
       },
       consumption_preferences_music: {
         name: "Music Preferences",
@@ -190,7 +197,7 @@ export default {
         consumption_preferences_music_latin: "Likely to like Latin music",
         consumption_preferences_music_rock: "Likely to like rock music",
         consumption_preferences_music_classical:
-          "Likely to like classical music"
+          "Likely to like classical music",
       },
       consumption_preferences_reading: {
         name: "Reading Preferences",
@@ -202,24 +209,36 @@ export default {
         consumption_preferences_books_financial_investing:
           "Likely to read financial investment books",
         consumption_preferences_books_autobiographies:
-          "Likely to read autobiographical books"
+          "Likely to read autobiographical books",
       },
       consumption_preferences_volunteering: {
         name: "Volunteering Preferences",
         consumption_preferences_volunteer:
-          "Likely to volunteer for social causes"
-      }
+          "Likely to volunteer for social causes",
+      },
     },
     accounts: {
-      approved: "Your account has been succesfully linked!"
+      approved: "Your account has been succesfully linked!",
     },
     spotify: {
+      api: {
+        noToken: {
+          title: "No Spotify Auth Token",
+          desciption:
+            "A new window will be open to authenticate you to Spotify. Come back again to this screen after you get authenticated.",
+        },
+        expiredToken: {
+          title: "Spotify Token Expired",
+          description: "Big Sister will refresh your spotify access token.",
+        },
+      },
+      title: "Receive musical recommendations",
       more: "More information about the Spotify authentication flow",
       button: "Get Spotify recommendations",
       playlist_created: "Playlist created! Go to Spotify to check it.",
       recommendations: "Recommendations",
       message:
-        "Now that I have analyzed your identity, it's time to show you the songs that I think you might like according to the information you provided"
+        "Now that I have analyzed your identity, it's time to show you the songs that I think you might like according to the information you provided.",
     },
     "check-data-message": "What Watson used",
     big5_openness: {
@@ -227,35 +246,35 @@ export default {
       leftIntervalText: "Conservative + traditional",
       rightIntervalText: "Liberal + artistic",
       description:
-        "Openness to experience. Higher: Intellectually curious, emotionally-aware, sensitive to beauty and willing to try new things. Lower: Preferring the plain, straightforward, and obvious over the complex, ambiguous, and subtle."
+        "Openness to experience. Higher: Intellectually curious, emotionally-aware, sensitive to beauty and willing to try new things. Lower: Preferring the plain, straightforward, and obvious over the complex, ambiguous, and subtle.",
     },
     big5_agreeableness: {
       title: "Agreeableness",
       leftIntervalText: "Competitive",
       rightIntervalText: "Team working + trusting",
       description:
-        "Higher: Value getting along with others. More optimistic view of human nature. Lower: Value self interests over others. More skeptical of others’ motives."
+        "Higher: Value getting along with others. More optimistic view of human nature. Lower: Value self interests over others. More skeptical of others’ motives.",
     },
     big5_extraversion: {
       title: "Extraversion",
       leftIntervalText: "Contemplative",
       rightIntervalText: "Engaged w/ outside 🌎",
       description:
-        "Higher: More energetic and pronounced engagement with the external world. Likes high group visibility, talking and being assertive. Lower: Needs less stimulation, often more independent of social worlds. This is not the same as being shy, un-friendly, or antisocial."
+        "Higher: More energetic and pronounced engagement with the external world. Likes high group visibility, talking and being assertive. Lower: Needs less stimulation, often more independent of social worlds. This is not the same as being shy, un-friendly, or antisocial.",
     },
     big5_conscientiousness: {
       title: "Conscientiousness",
       leftIntervalText: "Impulsive + spontaneous",
       rightIntervalText: "Organized + hard working",
       description:
-        "Higher: More self-disciplined, dutiful, or aiming for achievement against measures or outside expectations. Lower: More likely to prefer the spontaneous over the planned."
+        "Higher: More self-disciplined, dutiful, or aiming for achievement against measures or outside expectations. Lower: More likely to prefer the spontaneous over the planned.",
     },
     big5_neuroticism: {
       title: "Neurotism",
       leftIntervalText: "Laid back + relaxed",
       rightIntervalText: "Easily stressed + emotional",
       description:
-        "Higher: More likely to have negative emotions or get upset. Perhaps having a hard time. Lower: More calm and less likely to get upset. Not necessarily an indicator of being a positive or happy person."
-    }
-  }
+        "Higher: More likely to have negative emotions or get upset. Perhaps having a hard time. Lower: More calm and less likely to get upset. Not necessarily an indicator of being a positive or happy person.",
+    },
+  },
 };
