@@ -53,7 +53,7 @@ class TextComposer extends Component {
 
         const maxIndexWords = words.length;
 
-        const wordsSize = 300;
+        const wordsSize = 200;
         const randWords = Math.floor(
           Math.random() * (maxIndexWords - wordsSize)
         );
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
     fontStyle: "italic",
     padding: 10,
     textAlign: "center",
-    fontSize: 8,
+    fontSize: 9,
     backgroundColor: "transparent",
   },
   textInputWrapper: {

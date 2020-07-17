@@ -535,7 +535,7 @@ Muy buenas noches y muchas gracias.
 const data = {
   text,
   source: "Cuenta Pública 2019",
-  author: "Sebatián Piñera",
+  author: "Sebastián Piñera",
 };
 
 export default data;

@@ -44,7 +44,7 @@ export default {
       approved: "¡Tu cuenta ha sido enlazada con éxito!",
     },
     "swipe-text-info":
-      "Desliza texto hacia la derecha para elegirlo y hacia la izquierda para descartarlo",
+      "Crea un texto juntando fragmentos de autores o figuras públicas. Desliza el fragmento a la derecha para elegirlo y hacia la izquierda para descartarlo. Puedes juntar cuantos fragmentos quieras.",
     spotify: {
       api: {
         noToken: {
@@ -129,7 +129,7 @@ export default {
         placeholder: "Pega un texto",
       },
       publicFigure: {
-        title: "Usar el texto de una figura pública",
+        title: "Generador de textos tipo Frankenstein",
         placeholder: "Pega un texto de una figura pública",
       },
     },

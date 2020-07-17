@@ -42,7 +42,8 @@ export default {
     "start-test": "Start test",
     "greetings-text": "Thank you for participating! ☺️",
     "write-something-about": "Write something about",
-    "swipe-text-info": "Swipe right to pick text and left to dismiss it",
+    "swipe-text-info":
+      "Build a text combining fragments of book authors or public figures. Swipe right to choose a fragment and to the left to dismiss it. You can choose as many fragments as you like",
     "text-sources": {
       picker: "Select a text source",
       copy: {
@@ -50,7 +51,7 @@ export default {
         placeholder: "Paste something",
       },
       publicFigure: {
-        title: "Use a text from a public figure",
+        title: "Frankenstein-like text generator",
         placeholder: "Paste something from a public figure",
       },
     },
