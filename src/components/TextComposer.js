@@ -110,12 +110,19 @@ class TextComposer extends Component {
           selectedSourceType === 2 ? { flex: 1 } : {},
         ]}
       >
+        {selectedSourceType === 2 && !finished && (
+          <MessageBubble style={{ marginBottom: 10 }}>
+            <Text>{t("swipe-text-info")}</Text>
+          </MessageBubble>
+        )}
         {!finished && (
           <>
             <View
               style={[
                 styles.textInputWrapper,
-                selectedSourceType === 2 ? { flex: 1 } : {},
+                selectedSourceType === 2
+                  ? { flex: 1, flexDirection: "row" }
+                  : {},
               ]}
             >
               {selectedSourceType < 2 && (

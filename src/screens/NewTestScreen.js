@@ -12,7 +12,7 @@ import ButtonText from "../components/ButtonText";
 import AditionalInfoText from "../components/AditionalInfoText";
 import pInsights from "../services/watson";
 import genres from "../data/genre-seeds";
-import saveTest from "../utils/saving";
+import { saveTest } from "../utils/saving";
 import TextComposerSkeleton from "../components/TextComposerSkeleton";
 
 const viewTint = "#c0392b";
@@ -36,7 +36,8 @@ const NewTestScreen = props => {
   const [description, setDescription] = useState("");
   const context = getParam("context");
   const data = getParam("data");
-  const { t, language } = useTranslation();
+  const language = getParam("language");
+  const { t } = useTranslation();
 
   useEffect(() => {
     const abortController = new AbortController();

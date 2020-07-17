@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Text,
   View,
-  StatusBar
+  StatusBar,
 } from "react-native";
 import { connectActionSheet } from "@expo/react-native-action-sheet";
 import { Transition } from "react-navigation-fluid-transitions";
@@ -26,7 +26,7 @@ const renderSeparator = () => (
   <View
     style={{
       height: 1,
-      backgroundColor: "#ecf0f1"
+      backgroundColor: "#ecf0f1",
     }}
   />
 );
@@ -48,13 +48,18 @@ const _keyExtractor = item => item.id;
 
 const AnalyzedDataScreen = props => {
   // eslint-disable-next-line react/prop-types
-  const { navigation, showActionSheetWithOptions } = props;
+  const {
+    navigation,
+    navigation: { getParam, navigate },
+    showActionSheetWithOptions,
+  } = props;
   const { t } = useTranslation();
-  const editing = navigation.getParam("editing");
+  const editing = getParam("editing");
   const [edit, setEdit] = useState(editing);
-  const [content, setContent] = useState(navigation.getParam("content"));
+  const [content] = useState(getParam("content"));
   const [selected, setSelected] = useState(new Map());
-  const context = navigation.getParam("context");
+  const context = getParam("context");
+  const language = getParam("language");
 
   useEffect(() => {
     StatusBar.setBarStyle("light-content", true);
@@ -78,14 +83,14 @@ const AnalyzedDataScreen = props => {
         listItem = {
           title: item.message,
           subtitle: item.created_time,
-          id: item.id
+          id: item.id,
         };
         break;
       case "tw":
         listItem = {
           title: item.text,
           subtitle: item.created_at,
-          id: item.id
+          id: item.id,
         };
         break;
       default:
@@ -105,7 +110,7 @@ const AnalyzedDataScreen = props => {
 
   const _handleOnPressDone = () => {
     const newData = content.filter(x => !selected.get(x.id));
-    navigation.navigate("NewTestScreen", { data: newData, context });
+    navigate("NewTestScreen", { data: newData, context, language });
   };
 
   const _onOpenActionSheet = async () => {
@@ -117,7 +122,7 @@ const AnalyzedDataScreen = props => {
       {
         options,
         cancelButtonIndex,
-        title: t("data-option-title")
+        title: t("data-option-title"),
       },
       async buttonIndex => {
         // Do something here depending on the button index selected
@@ -185,7 +190,7 @@ const AnalyzedDataScreen = props => {
                 backgroundColor: "white",
                 paddingVertical: 10,
                 borderTopWidth: 1,
-                paddingHorizontal: 10
+                paddingHorizontal: 10,
               }}
             >
               <Button
@@ -212,7 +217,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "white",
     textAlign: "center",
-    padding: 5
+    padding: 5,
   },
   list: {
     backgroundColor: "white",
@@ -224,19 +229,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.55,
     shadowRadius: 5,
     shadowColor: "#2e3131",
-    shadowOffset: { height: 0, width: 0 }
+    shadowOffset: { height: 0, width: 0 },
   },
   scrollContainer: {
-    flex: 1
+    flex: 1,
   },
   header: {
     fontSize: 20,
     color: "white",
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   headerWrapper: {
     paddingHorizontal: 10,
-    paddingVertical: 5
+    paddingVertical: 5,
   },
   title: {
     fontWeight: "bold",
@@ -246,13 +251,13 @@ const styles = StyleSheet.create({
     color: "white",
     left: 0,
     right: 0,
-    zIndex: -1
+    zIndex: -1,
   },
   container: {
     flex: 1,
     justifyContent: "flex-start",
-    backgroundColor: "white"
-  }
+    backgroundColor: "white",
+  },
 });
 
 export default connectActionSheet(AnalyzedDataScreen);

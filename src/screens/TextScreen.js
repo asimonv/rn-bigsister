@@ -22,7 +22,7 @@ import fetchTweets from "../services/twitter";
 import textCategories from "../services/options";
 import genres from "../data/genre-seeds";
 
-import saveTest from "../utils/saving";
+import { saveTest } from "../utils/saving";
 
 const RECOMMENDED_CHARS = 280;
 const viewTint = "#c0392b";
@@ -401,7 +401,10 @@ class TextScreen extends React.Component {
   }
 
   _onPressInfo() {
-    const { navigation } = this.props;
+    const {
+      navigation,
+      i18n: { language },
+    } = this.props;
     const { navigate } = navigation;
     const now = moment().format("MMMM Do YYYY, h:mm:ssA");
     const context = navigation.getParam("context");
@@ -410,6 +413,7 @@ class TextScreen extends React.Component {
       title: sourcesNames[context],
       subtitle: now,
       source: context,
+      language,
     });
   }
 

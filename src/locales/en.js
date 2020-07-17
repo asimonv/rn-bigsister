@@ -30,6 +30,7 @@ export default {
     text: "Text",
     "used-data": "Data",
     no: "Not",
+    modified: "Modified",
     "other-options": "Other options",
     done: "done",
     "date-range": "Select a range of dates",
@@ -41,6 +42,7 @@ export default {
     "start-test": "Start test",
     "greetings-text": "Thank you for participating! ☺️",
     "write-something-about": "Write something about",
+    "swipe-text-info": "Swipe right to pick text and left to dismiss it",
     "text-sources": {
       picker: "Select a text source",
       copy: {

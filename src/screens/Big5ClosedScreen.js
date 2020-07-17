@@ -3,7 +3,6 @@ import {
   Linking,
   SafeAreaView,
   ScrollView,
-  Spinner,
   StatusBar,
   StyleSheet,
   Text,
@@ -47,6 +46,7 @@ const Big5ClosedScreen = ({ navigation }) => {
   const title = getParam("title");
   const subtitle = getParam("subtitle");
   const context = getParam("source");
+  const language = getParam("language");
   const text = getParam("text");
   const { personality, consumption_preferences } = info;
   const sortedPersonalities = personality.sort(
@@ -77,7 +77,11 @@ const Big5ClosedScreen = ({ navigation }) => {
 
   const _goToData = () => {
     const { navigate } = navigation;
-    navigate("AnalyzedDataScreen", { content: [...content.data], context });
+    navigate("AnalyzedDataScreen", {
+      content: [...content.data],
+      context,
+      language,
+    });
   };
 
   const _onPressHome = () => {
@@ -103,6 +107,7 @@ const Big5ClosedScreen = ({ navigation }) => {
       content: [...content.data],
       context,
       editing: true,
+      language,
     });
   };
 

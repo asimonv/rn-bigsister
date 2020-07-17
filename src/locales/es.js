@@ -38,10 +38,13 @@ export default {
     personality: "Personalidad",
     "write-something-about": "Escribe algo sobre",
     no: "No",
+    modified: "Modificado",
     done: "terminar",
     accounts: {
       approved: "¡Tu cuenta ha sido enlazada con éxito!",
     },
+    "swipe-text-info":
+      "Desliza texto hacia la derecha para elegirlo y hacia la izquierda para descartarlo",
     spotify: {
       api: {
         noToken: {

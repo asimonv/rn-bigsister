@@ -19,8 +19,82 @@ export const labels = [
     value: "np_1",
     legendColor: "orange",
   },
+  {
+    label: "Sebastián Piñera - Cuenta Pública 2018",
+    value: "sp_2018",
+    legendColor: "orange",
+  },
+  {
+    label: "Sebastián Piñera - Cuenta Pública 2019",
+    value: "sp_2019",
+    legendColor: "orange",
+  },
 ];
 export const data = {
+  sp_2018: [
+    {
+      trait_id: "big5_openness",
+      name: "Apertura a experiencias",
+      percentile: 0.84,
+      detailText: "(84%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_conscientiousness",
+      name: "Responsabilidad",
+      percentile: 0.95,
+      detailText: "(95%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_extraversion",
+      name: "Extroversión",
+      percentile: 1,
+      detailText: "(100%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_agreeableness",
+      name: "Amabilidad",
+      percentile: 0.67,
+      detailText: "(67%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_neuroticism",
+      name: "Rango emocional",
+      percentile: 0.43,
+      detailText: "(43%) Sebastián Piñera",
+    },
+  ],
+  sp_2019: [
+    {
+      trait_id: "big5_openness",
+      name: "Apertura a experiencias",
+      percentile: 0.78,
+      detailText: "(78%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_conscientiousness",
+      name: "Responsabilidad",
+      percentile: 0.95,
+      detailText: "(95%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_extraversion",
+      name: "Extroversión",
+      percentile: 1,
+      detailText: "(100%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_agreeableness",
+      name: "Amabilidad",
+      percentile: 0.68,
+      detailText: "(68%) Sebastián Piñera",
+    },
+    {
+      trait_id: "big5_neuroticism",
+      name: "Rango emocional",
+      percentile: 0.41,
+      detailText: "(41%) Sebastián Piñera",
+    },
+  ],
   np_1: [
     {
       trait_id: "big5_openness",

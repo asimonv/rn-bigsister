@@ -19,6 +19,7 @@ import NavButton from "../components/NavButton";
 import MessageBubble from "../components/MessageBubble";
 import ModalHelper from "../components/ModalHelper";
 import BackgroundView from "../components/BackgroundView";
+import { getTests, clearTests } from "../utils/saving";
 
 const viewTint = "#5352ed";
 
@@ -47,9 +48,8 @@ const HistoryScreen = props => {
   ];
 
   const getHistory = async () => {
-    const storageHistory = await AsyncStorage.getItem("@LittleStore:history");
-    const parsedHistory = JSON.parse(storageHistory)?.reverse();
-    setHistory(parsedHistory);
+    const storageHistory = await getTests();
+    setHistory(storageHistory);
   };
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const HistoryScreen = props => {
     const adaptedItem = {
       title: moment(item.date).format("MMMM Do YYYY, h:mm:ssA"),
       subtitle: `${sourcesNames[item.source]}${
-        item.modified ? " (Modified)" : ""
+        item.modified ? ` (${t("modified")}) ` : ""
       }${item.description ? ` - ${item.description}` : ""}${
         item.language ? `${item.language === "en" ? " 🇬🇧 " : " 🇪🇸 "}` : ""
       }`,
@@ -126,11 +126,8 @@ const HistoryScreen = props => {
         {
           text: "OK",
           onPress: async () => {
-            const storageHistory = await AsyncStorage.setItem(
-              "@LittleStore:history",
-              JSON.stringify([])
-            );
-            setHistory(storageHistory);
+            await clearTests();
+            setHistory([]);
           },
         },
       ],
