@@ -33,11 +33,16 @@ class TextComposer extends Component {
       const gm = await import("../data/texts/gm");
       const pinera18 = await import("../data/texts/pinera");
       const pinera19 = await import("../data/texts/pinera-19");
-      sources.push(pinera18, pinera19, gm);
+      const np = await import("../data/texts/np-es");
+      const vgh = await import("../data/texts/vgh");
+      sources.push(pinera18, pinera19, gm, np, vgh);
     } else if (language === "en") {
       const gm = await import("../data/texts/gm-en");
       const jebb = await import("../data/texts/je-bb");
-      sources.push(gm, jebb);
+      const np = await import("../data/texts/np-en");
+      const queens = await import("../data/texts/queens");
+      const sherlock = await import("../data/texts/sherlock");
+      sources.push(gm, jebb, np, queens, sherlock);
     }
 
     for (let j = 0; j < sources.length; j += 1) {
@@ -53,14 +58,15 @@ class TextComposer extends Component {
 
         const maxIndexWords = words.length;
 
-        const wordsSize = 200;
+        const wordsSize = 170;
         const randWords = Math.floor(
           Math.random() * (maxIndexWords - wordsSize)
         );
 
-        const phraseText = words
+        let phraseText = words
           .slice(randWords, randWords + wordsSize)
           .join(" ");
+        phraseText = phraseText.replace(/\r?\n|\r/g, " ");
 
         const phrase = { source, phraseText, author };
         if ((phraseText.match(/\s/g) || []).length >= MIN_WORDS) {
@@ -218,14 +224,15 @@ const styles = StyleSheet.create({
     borderColor: "black",
     backgroundColor: "white",
     display: "flex",
-    justifyContent: "space-evenly",
+    justifyContent: "space-between",
   },
   text: {
     fontStyle: "italic",
     padding: 10,
     textAlign: "center",
-    fontSize: 9,
+    fontSize: 10,
     backgroundColor: "transparent",
+    maxHeight: 280,
   },
   textInputWrapper: {
     padding: 10,

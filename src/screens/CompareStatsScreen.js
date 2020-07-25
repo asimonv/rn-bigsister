@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
-  Dimensions,
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
   Text,
   View,
+  ActivityIndicator,
 } from "react-native";
 import { Transition } from "react-navigation-fluid-transitions";
 import moment from "moment";
+import Icon from "react-native-vector-icons/Feather";
 import { useTranslation } from "react-i18next";
 import _ from "lodash";
-import CalendarPicker from "react-native-calendar-picker";
 import NavBar from "../components/NavBar";
 import NavButton from "../components/NavButton";
-import Button from "../components/Button";
-import ButtonText from "../components/ButtonText";
 import ComparisonGraph from "../components/ComparisonGraph";
 import GraphLegends from "../components/GraphLegends";
 import BubbleText from "../components/BubbleText";
@@ -24,24 +22,27 @@ import StyledPicker from "../components/StyledPicker";
 
 import personalityInfo from "../data/personality";
 import dataSources from "../data/data-sources";
+import ListItem from "../components/ListItem";
 
 const viewTint = "#5352ed";
 
+const sourcesNames = {
+  tw: "Twitter",
+  fb: "Facebook",
+  text: "Text",
+};
+
 const CompareStatsScreen = ({ navigation }) => {
-  const [startDate, setStartDate] = useState();
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [endDate, setEndDate] = useState();
-  const [hidden, setHidden] = useState(true);
+  const [hidden] = useState(true);
+  const [selected, setSelected] = useState(new Map());
   const [history, setHistory] = useState();
   const [graphLegends, setGraphLegends] = useState(dataSources);
   const [personalitiesData, setPersonalitiesData] = useState();
+  const [selectedPersonality, setSelectedPersonality] = useState();
   const { t, i18n } = useTranslation();
-  const { width } = Dimensions.get("window");
   const originalHistory = navigation.getParam("history");
 
   useEffect(() => {
-    setHistory(originalHistory);
-
     async function loadPersonalities() {
       let data;
       if (i18n.language === "es") {
@@ -50,8 +51,9 @@ const CompareStatsScreen = ({ navigation }) => {
         data = await import("../data/popular-en");
       }
       setPersonalitiesData(data);
+      filterHistory(originalHistory);
+      setGraphLegends(dataSources);
     }
-
     loadPersonalities();
 
     StatusBar.setBarStyle("dark-content", true);
@@ -60,22 +62,46 @@ const CompareStatsScreen = ({ navigation }) => {
     };
   }, []);
 
+  const onSelect = useCallback(
+    id => {
+      const newSelected = new Map(selected);
+      newSelected.set(id, !selected.get(id));
+
+      setSelected(newSelected);
+    },
+    [selected]
+  );
+
   useEffect(() => {
-    if (endDate) {
-      filterHistory(originalHistory);
-      setIsLoaded(true);
+    filterHistory(originalHistory);
+    if (personalitiesData) {
+      const { data } = personalitiesData;
+
+      if (selectedPersonality !== undefined) {
+        const joinedTests = joinTests(
+          originalHistory.filter(x => !selected.get(x.date))
+        );
+        const injectedPersonalityTests = Array.prototype.concat(
+          data[selectedPersonality].map(x => ({ ...x, source: "manual" })),
+          joinedTests
+        );
+        const groupedData = _.groupBy(
+          injectedPersonalityTests,
+          x => x.trait_id
+        );
+        const points = Object.keys(groupedData).map(k => ({
+          title: k,
+          leftText: personalityInfo(t)[k].leftIntervalText,
+          rightText: personalityInfo(t)[k].rightIntervalText,
+          points: groupedData[k],
+        }));
+        setHistory(points);
+      }
     }
-  }, [endDate]);
+  }, [selected]);
 
   const joinTests = userHistory => {
-    const filteredData = userHistory.filter(x => {
-      const formatedDate = moment(x.date);
-      return (
-        formatedDate.isSameOrBefore(endDate) &&
-        formatedDate.isSameOrAfter(startDate)
-      );
-    });
-
+    const filteredData = userHistory.filter(x => !selected.get(x.date));
     const formatedData = _.chain(filteredData)
       .map(x => [
         ...x.info.personality.map(y => ({
@@ -108,28 +134,43 @@ const CompareStatsScreen = ({ navigation }) => {
     setHistory(points);
   };
 
-  const _onDateChange = (date, type) => {
-    switch (type) {
-      case "END_DATE":
-        setEndDate(date.format("LL").toString());
-        setHidden(!hidden);
-        break;
-      default:
-        setStartDate(date.format("LL").toString());
-        break;
-    }
+  const _handlePress = item => {
+    const { title, subtitle, data } = item;
+    navigation.navigate("Big5ClosedScreen", { ...data, title, subtitle });
   };
 
-  const _onPressButtonDatePicker = () => {
-    setHidden(!hidden);
+  const renderItem = item => {
+    const adaptedItem = {
+      id: item.date,
+      title: moment(item.date).format("MMMM Do YYYY, h:mm:ssA"),
+      subtitle: `${sourcesNames[item.source]}${
+        item.modified ? ` (${t("modified")}) ` : ""
+      }${item.description ? ` - ${item.description}` : ""}${
+        item.language ? `${item.language === "en" ? " 🇬🇧 " : " 🇪🇸 "}` : ""
+      }`,
+      data: item,
+    };
+    return (
+      <ListItem
+        id={adaptedItem.id}
+        editing
+        onPressDelete={onSelect}
+        selected={!!selected.get(adaptedItem.id)}
+        onPress={_handlePress}
+        item={adaptedItem}
+      />
+    );
   };
 
   const _handlePickerOnChange = value => {
     const { labels, data } = personalitiesData;
 
     if (value) {
+      setSelectedPersonality(value);
       const newLegend = labels.find(x => x.value === value);
-      const joinedTests = joinTests(originalHistory);
+      const joinedTests = joinTests(
+        originalHistory.filter(x => !selected.get(x.date))
+      );
       const injectedPersonalityTests = Array.prototype.concat(
         data[value].map(x => ({ ...x, source: "manual" })),
         joinedTests
@@ -169,45 +210,56 @@ const CompareStatsScreen = ({ navigation }) => {
         <Transition appear="bottom" disappear="bottom">
           <ScrollView style={{ flex: 1 }}>
             <View style={styles.contentContainer}>
-              <Button onPress={_onPressButtonDatePicker}>
-                <ButtonText>
-                  {startDate && endDate
-                    ? `${startDate} - ${endDate}`
-                    : t("date-range")}
-                </ButtonText>
-              </Button>
-              {!hidden && (
-                <CalendarPicker
-                  allowRangeSelection
-                  width={width - 20 * 2}
-                  onDateChange={_onDateChange}
-                />
-              )}
               {hidden && (
-                <Text style={{ marginTop: 20 }}>{t("compare.helper")}</Text>
+                <Text style={{ marginVertical: 20 }}>
+                  {t("compare.helper")}
+                </Text>
               )}
             </View>
-            {isLoaded && (
+            <View
+              style={{
+                borderWidth: 1,
+                borderColor: "lightgray",
+                margin: 15,
+                borderRadius: 5,
+              }}
+            >
+              {originalHistory.map(x => renderItem(x))}
+            </View>
+            <View style={styles.contentContainer}>
+              <Icon
+                name="arrow-down"
+                size={40}
+                color="black"
+                style={{ textAlign: "center", marginVertical: 30 }}
+              />
+              <Text>{t("compare.click")}</Text>
+              {history && <ComparisonGraph data={history} />}
+              <GraphLegends data={graphLegends} />
+            </View>
+            {!personalitiesData ? (
+              <ActivityIndicator />
+            ) : (
               <>
-                <View style={styles.separator} />
-
-                <View style={styles.contentContainer}>
-                  <BubbleText
-                    style={{ marginTop: 20 }}
-                    title={t("compare.title")}
-                  />
+                <Icon
+                  name="arrow-up"
+                  size={40}
+                  color="black"
+                  style={{ textAlign: "center", marginVertical: 30 }}
+                />
+                <View style={[styles.contentContainer, { marginBottom: 20 }]}>
+                  <BubbleText title={t("compare.title")} />
                   <Text style={{ marginBottom: 20 }}>
                     {t("compare.subtitle")}
+                  </Text>
+                  <Text style={{ marginBottom: 20, fontWeight: "bold" }}>
+                    {t("compare.selectGraph")}
                   </Text>
                   <StyledPicker
                     onValueChange={value => _handlePickerOnChange(value)}
                     placeholder={t("compare.select").toUpperCase()}
                     data={personalitiesData.labels}
                   />
-                  <Text style={{ marginTop: 20 }}>{t("compare.click")}</Text>
-
-                  <ComparisonGraph data={history} />
-                  <GraphLegends data={graphLegends} />
                 </View>
               </>
             )}

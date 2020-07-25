@@ -7,7 +7,7 @@ export default {
       "Tu personalidad fue analizada en base a este texto que ingresaste",
     "history-title": "Tu Historial",
     "clear-history": "Limpiar historial",
-    "compare-sources": "Comparar fuentes",
+    "compare-sources": "Comparar tests",
     cancel: "Cancelar",
     "tests-option-title": "¿Qué deseas hacer con tus tests?",
     "modify-test-helper-message":
@@ -32,7 +32,7 @@ export default {
     "used-data": "Datos",
     here: "aquí",
     "date-range": "Selecciona un rango de fechas",
-    "compare-sources-title": "Comparar Fuentes",
+    "compare-sources-title": "Comparar Tests",
     "go-home": "Ir al inicio",
     "start-test": "Comenzar test",
     personality: "Personalidad",
@@ -108,13 +108,16 @@ export default {
       },
     },
     compare: {
-      select: "Selecciona una figura pública o autor",
-      title: "Compárate con una figura pública or autor",
+      select: "Selecciona una figura pública",
+      title: "Compárate con una figura pública o autor",
       click: "Toca una caracteristica para obtener más información sobre ella",
+
       helper:
-        "Presiona el boton de arriba para elegir un rango de fechas y comparar los resultados de los tests que hiciste dentro de esas fechas",
+        "Selecciona algunos de tus tests pasados para comparar sus campos. Los resultados aparecerán en el gráfico de abajo.",
       subtitle:
-        "¿Alguna vez te has preguntado qué tan similar eres a Gabriela Mistral o a Sebastián Piñera? Puede seleccionar figuras públicas y autores famosos para comparar tus resultados de  personalidad.",
+        "¿Alguna vez te has preguntado qué tan similar eres a Gabriela Mistral o a Sebastián Piñera?",
+      selectGraph:
+        "Puede seleccionar figuras públicas y autores famosos para comparar con tus resultados de personalidad en el gráfico de arriba.",
     },
     "new-test": {
       title: "Modifica tus datos",

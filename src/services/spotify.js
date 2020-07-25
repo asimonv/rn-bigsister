@@ -11,7 +11,10 @@ export const isSpotifyTokenExpired = async () => {
   const tokenExpirationTime = await AsyncStorage.getItem(
     "@LittleStore:expirationTime"
   );
-  return !tokenExpirationTime || new Date().getTime() > tokenExpirationTime;
+  return (
+    !tokenExpirationTime ||
+    new Date().getTime() > new Date(parseInt(tokenExpirationTime, 10))
+  );
 };
 
 export const hasAuthToken = async () => {
@@ -148,11 +151,9 @@ const getTokens = async () => {
         expires_in: expiresIn,
       } = responseJson;
 
-      console.log(accessToken);
-
       const expirationTime = new Date().getTime() + expiresIn * 1000;
       await AsyncStorage.setItem("@LittleStore:accessToken", accessToken);
-      await AsyncStorage.setItem("@LittleStore:freshToken", refreshToken);
+      await AsyncStorage.setItem("@LittleStore:refreshToken", refreshToken);
       await AsyncStorage.setItem(
         "@LittleStore:expirationTime",
         expirationTime.toString()
@@ -198,7 +199,10 @@ export const refreshTokens = async () => {
           newRefreshToken
         );
       }
-      await AsyncStorage.setItem("@LittleStore:expirationTime", expirationTime);
+      await AsyncStorage.setItem(
+        "@LittleStore:expirationTime",
+        expirationTime.toString()
+      );
     }
   } catch (err) {
     console.error(err);

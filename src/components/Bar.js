@@ -1,7 +1,7 @@
-import React from 'react';
-import { ViewPropTypes } from 'react-native';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import React from "react";
+import { ViewPropTypes } from "react-native";
+import PropTypes from "prop-types";
+import styled from "styled-components";
 
 const BarContainer = styled.TouchableOpacity`
   border-radius: 5px;
@@ -13,8 +13,9 @@ const BarContainer = styled.TouchableOpacity`
 
 const InnerBar = styled.View`
   align-self: flex-start;
-  min-width: 30%;
-  width: ${props => (props.percentage ? `${parseInt(props.percentage * 100, 10)}%` : '100%')};
+  min-width: 15%;
+  width: ${props =>
+    props.percentage ? `${parseInt(props.percentage * 100, 10)}%` : "100%"};
   background-color: ${props => props.backgroundColor};
 `;
 

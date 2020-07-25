@@ -7,9 +7,9 @@ export default {
       "Your personality was analyzed based on this text that you entered",
     "history-title": "Your History",
     "clear-history": "Clear history",
-    "compare-sources": "Compare sources",
+    "compare-sources": "Compare tests",
     cancel: "Cancel",
-    "compare-sources-title": "Compare Sources",
+    "compare-sources-title": "Compare Tests",
     "tests-option-title": "What do you want to do with your tests?",
     "data-option-title": "What do you want to do your data?",
     "modifying-test": "Modifying test",
@@ -66,9 +66,11 @@ export default {
       title: "Compare yourself with a public figure or author",
       click: "Tap a feature to get more details about it",
       helper:
-        "Press the button above to select a range of dates so you can compare tests results that you did between those dates",
+        "Select some of your previous test to compare their results, which will appear at the graph below.",
       subtitle:
-        "Have you ever wondered how similar you are to Queen Elizabeth II or Sir Arthur Conan Doyle? You can select famous authors and public figures to compare your personality results with theirs.",
+        "Have you ever wondered how similar you are to Queen Elizabeth II or Sir Arthur Conan Doyle?",
+      selectGraph:
+        "You can select famous authors and public figures to compare your personality results with theirs at the graph above.",
     },
     helpers: {
       home: {

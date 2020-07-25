@@ -5,7 +5,7 @@ export const labels = [
     legendColor: "orange",
   },
   {
-    label: "Nicanor Parra - THE INDIVIDUAL'S SOLILOQUY",
+    label: "Nicanor Parra - The Individual's Soliloquy",
     value: "np_1",
     legendColor: "orange",
   },
